@@ -1,6 +1,7 @@
 import React, {Component,PropTypes} from 'react';
 import { Link, IndexLink } from 'react-router';
 import {stack as Menu} from 'react-burger-menu';
+import Nosotros from './nosotros.js'
 import './App.css';
 
 class SideBar extends React.Component {
@@ -8,7 +9,7 @@ class SideBar extends React.Component {
         return (
           <Menu right width='100%'>
           <a id="home" className="menu-item" href="/">Home</a>
-          <a id="about" className="menu-item" href="/about">About</a>
+          <a id="about" className="menu-item" href="Nosotros">Nosotros</a>
           <a id="contact" className="menu-item" href="/contact">Contact</a>
           <a onClick={ this.showSettings } className="menu-item--small" href="">Settings</a>
         </Menu>

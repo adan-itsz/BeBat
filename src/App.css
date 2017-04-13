@@ -38,6 +38,7 @@ nav {
 }
 #encabezado{
   position: relative;
+  overflow: hidden;
 }
 #logo{
   z-index: 2;
@@ -64,9 +65,16 @@ nav {
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: #656202;
   padding: 2.5em 1.5em 0;
-  font-size: 1.15em;
+  opacity: .8;
+  font-size: 3em;
+  text-decoration: none;
+  top:20%;
+  bottom: 20%;
+  left: 50%;
+  overflow: hidden;
+
 }
 
 /* Morph shape necessary with bubble or elastic */
@@ -76,8 +84,9 @@ nav {
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #b8b7ad;
+  color: #blue;
   padding: 0.8em;
+
 }
 
 /* Styling of overlay */

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+#nos{
+  width: 100%;
+  top:20%;
+
+}
+h1{
+  padding: 5px;
+  font-family: 'PT Sans', sans-serif;
+  color: #2C2C2C;
+  font-size: 30px;
+  text-align: center;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+p{
+  padding: 10px;
+  font-family: 'PT Sans', sans-serif;
+  color: #696969;
+  font-size: 18px;
+  text-align: justify;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+img{
+  width: 100%;
+  text-align: center;
+}
