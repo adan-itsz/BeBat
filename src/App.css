@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans|Roboto');
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css);
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 #app {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #4d4d4d;
@@ -42,7 +44,7 @@ nav {
   width: 100%;
   z-index: 1;
 }
-button{
+#comienza{
   color: #fff;
    background: #044A62;
    border: solid 0px #fff;
@@ -58,13 +60,16 @@ button{
    right: 39%;
    opacity: .8;
 }
-button:hover{
+#comienza:hover{
   background: #044A62;
   background: #01779E;
 }
-@media (max-width: 500px) {
-  button{
+@media (max-width: 600px) {
+  #comienza{
     display: none;
+  }
+  #ingresar{
+    display:none;
   }
 }
 
@@ -147,4 +152,51 @@ button:hover{
   height: 400px;
   background-color: #3C3B3B;
 
+}
+#ingresar{
+  position: absolute;
+   height: 5%;
+   width: 10%;
+
+   padding:1% 1%;
+   font-weight: 700;
+   font-size: 1em;
+   letter-spacing: 2px;
+   color: #F0EFEF;
+   border: 2px #F0EFEF solid;
+   border-radius: 4px;
+   text-transform: uppercase;
+   outline: 0;
+   overflow:hidden;
+   background: none;
+   z-index: 1;
+   cursor: pointer;
+   transition:         0.08s ease-in;
+   -o-transition:      0.08s ease-in;
+   -ms-transition:     0.08s ease-in;
+   -moz-transition:    0.08s ease-in;
+   -webkit-transition: 0.08s ease-in;
+   top: 3%;
+   left: 85%;
+
+}
+#ingresar:hover {
+  color: black;
+}
+
+#ingresar:before {
+  content: "";
+  position: absolute;
+  background: #F0EFEF;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: -1;
+  -webkit-transition: top 0.09s ease-in;
+}
+
+#ingresar:hover:before {
+  top: 0;
+  bottom: 0;
 }
