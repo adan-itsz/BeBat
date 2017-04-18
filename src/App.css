@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans|Roboto');
+@import url('http://fonts.googleapis.com/css?family=Lato:300,400,700');
+
 #app {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #4d4d4d;
@@ -41,13 +43,13 @@ nav {
 #portada{
   height: 100%;
   width: 100%;
-  z-index: 1;
+
 }
 #comienza{
   color: #fff;
    background: #044A62;
    border: solid 0px #fff;
-   z-index: 2;
+
    position:absolute;;
    font-size: 1.8em;
    font-family: 'Roboto',sans-serif;
@@ -76,7 +78,7 @@ nav {
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: #010413;
-  z-index: 3;
+
   position: absolute;
 
 }
@@ -85,7 +87,7 @@ nav {
   overflow: hidden;
 }
 #logo{
-  z-index: 0;
+
   position: absolute;
   width: 30%;
   top: 3%;
@@ -170,7 +172,7 @@ nav {
    outline: 0;
    overflow:hidden;
    background: none;
-   z-index: 1;
+
    cursor: pointer;
    transition:         0.08s ease-in;
    -o-transition:      0.08s ease-in;
@@ -193,7 +195,7 @@ nav {
   left: 0;
   right: 0;
   top: 100%;
-  z-index: -1;
+
   -webkit-transition: top 0.09s ease-in;
 }
 

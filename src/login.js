@@ -16,7 +16,7 @@ class Login extends React.Component {
       <div className="modal-content">
         <div className="modal-header">
           <button type="button" className="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span className="sr-only">Close</span></button>
-          <h4 className="modal-title" id="myModalLabel">Login</h4>
+          <h4 className="modal-title" id="myModalLabel">Ingresar</h4>
         </div>
 
         <div className="modal-body">
@@ -24,7 +24,7 @@ class Login extends React.Component {
                      <div class="form-group">
 
                        <div class="col-sm-10">
-                           <input type="email" 
+                           <input type="email"
                            id="inputEmail3" placeholder="Email"/>
                        </div>
                      </div>
@@ -37,13 +37,13 @@ class Login extends React.Component {
                      <div class="form-group">
                        <div className="icn">
 
-                         <p id="icono"><span className="icon icon--info">?</span><a href="#">Forgot Password</a></p>
+                         <p id="icono"><span className="icon icon--info">?</span><a id= "olvidar"href="#">Olvidaste tu password?</a></p>
 
                        </div>
                      </div>
                      <div class="form-group">
                        <div class="col-sm-offset-2 col-sm-10">
-                         <button id="sign" type="submit" class="btn btn-default">Sign in</button>
+                         <button id="sign" type="submit" class="btn btn-default">Entrar</button>
                        </div>
                      </div>
                    </form>
@@ -52,7 +52,7 @@ class Login extends React.Component {
 
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary">Register</button>
+          <button type="button" className="btn btn-primary">Registrar</button>
         </div>
 
       </div>
