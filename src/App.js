@@ -1,10 +1,13 @@
 import React, { Component,PropTypes } from 'react';
+import { Grid, Navbar, Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
 import SideBar from './nav.js';
 import Nosotros from './nosotros.js'
 import hablemos from './hablemos.png';
 import Login from './login.js';
 import Servicios from './servicios.js';
+import Registro from './registrarse.js'
+
 
 class App extends React.Component {
     render() {
@@ -29,6 +32,9 @@ class App extends React.Component {
           </div>
           <div id="seccion-funciona">
             <Servicios/>
+          </div>
+          <div id="seccion-registro">
+            <Registro />
           </div>
         </div>
 

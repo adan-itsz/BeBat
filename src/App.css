@@ -156,6 +156,13 @@ nav {
   background-color: #3C3B3B;
 
 }
+#registro{
+  padding: 0;
+  padding-top: 100px;
+  width: 100%;
+  height: 400px;
+  background-color: Gainsboro;
+}
 #ingresar{
   position: absolute;
    height: 5%;
