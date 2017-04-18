@@ -17,17 +17,16 @@ class App extends React.Component {
                   <SideBar />
                   {this.props.children}
               </div>
-
+                <Login/>
 
               <button id='comienza'type="button" onclick="location.href=#seccion-funciona">Comienza ahora</button>
             <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
             <img id="logo" src="codeJams-tinto.png"/>
-                <Login/>
+
           </div>
           <div id="seccion-nosotros">
               <Nosotros />
           </div>
-
           <div id="seccion-funciona">
             <Servicios/>
           </div>

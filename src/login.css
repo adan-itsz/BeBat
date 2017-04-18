@@ -1,6 +1,7 @@
 .redborder {
     border:2px solid #f96145;
     border-radius:2px;
+
 }
 
 .hidden {
@@ -17,6 +18,9 @@
 
 .row {
     padding: 20px 0px;
+}
+.close{
+  color: #F5F5FA;
 }
 
 .bigicon {
@@ -81,11 +85,76 @@ h2 {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
-.modal-container {
+.modal-content{
+z-index: 3;
+width: 50%;
+}
+.modal__body {
+  background-color: #fff;
+  padding: 1.5em;
   position: relative;
+}
+.modal-body ::before{
+  background-color: #fff;
+ content: '';
+ height: 0.5em;
+ left: 50%;
+ margin-left: -0.25em;
+ margin-top: -0.25em;
+ position: absolute;
+ top: 0;
+ transform: rotate(45deg);
+ width: 0.5em;
+ border-top-left-radius:.2;
+}
+
+#sign{
+  margin-left: 40%;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+  transition: color 0.3s;
+  margin-left: -10%;
+  font-size: 60%;
 
 }
 
-.modal-container .modal, .modal-container .modal-backdrop {
-  position: absolute;
+a:hover {
+  color: #0655FF;
+}
+.icon {
+  background-color: #C6C8CD;
+  border-radius: 50%;
+
+}
+.icon--info {
+  display: inline-block;
+  height: 1.25em;
+  line-height: 1.25em;
+  margin-right: 0.625em;
+  text-align: center;
+  vertical-align: middle;
+  width: 1.25em;
+  margin-right: 10%;
+  font-size: 60%;
+
+}
+.modal-header {
+  background-color: #32323E;
+  border-top-left-radius:.5em;
+  border-top-right-radius: .5em;
+  border-bottom-left-radius: .5em;
+  border-bottom-right-radius: .5em;
+
+  color: #fff;
+  padding: 1.5em;
+  text-align: center;
+  text-transform: uppercase;
+}
+#icono{
+  margin-left: -20%;
+  margin-top: -10%;
+
 }
