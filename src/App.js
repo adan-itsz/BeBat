@@ -21,11 +21,9 @@ class App extends React.Component {
                   {this.props.children}
               </div>
                 <Login/>
-
               <button id='comienza'type="button" onclick="location.href=#seccion-funciona">Comienza ahora</button>
             <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
             <img id="logo" src="codeJams-tinto.png"/>
-
           </div>
           <div id="seccion-nosotros">
               <Nosotros />
@@ -36,6 +34,7 @@ class App extends React.Component {
           <div id="seccion-registro">
             <Registro />
           </div>
+
         </div>
 
         );

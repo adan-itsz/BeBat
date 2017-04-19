@@ -1,26 +1,31 @@
 
 #regis{
 	background:#13232f;
-	height:220%;
+	height:100%;
 	width:34%;
 	margin:10% auto;
 	box-shadow:0 0px 9px 1px #333;
-	margin-top:3%;
 	opacity: 0.9;
 	font-family: 'Roboto',sans-serif;
+	margin-bottom: 0;
+	margin-top: 5%;
 }
-@media (max-width: 600px) {
+
+#regis form{
+
+}
+@media (max-width: 900px) {
 	#regis{
-		 width:60%;
+		 width:80%;
   }
 	#cue{
 		left: 10%;
 	}
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
 	#regis{
-		 width:60%;
+		 width:100%;
   }
 }
 
@@ -31,7 +36,10 @@
 }
 #registro img{
 	position: absolute;
-	height:100%;
+	height:90%;
+	width: 100%;
+	padding: 0%;
+	margin: 0%;
 
 }
 #tituloRegistro{
@@ -53,9 +61,8 @@
 	color:#fff;
 }
 #btnaceptar{
-	margin-left: 30%;
+	margin-left: 25%;
 	margin-bottom: 5%;
-
 	background-color: #044A62;
   color: #fff;
 	width: 50%;
@@ -64,12 +71,17 @@
   margin-top: 10px;
 
 }
+#btnaceptar:hover{
+	background-color: #fff;
+	color: #044A62;
+
+}
 #h{
 	color:#f4f4f4;
 	text-align:center;
 	padding:9%;
 	font-size:150%;
-	font-family:tahoma;
+	font-family:tahoma,"Roboto";
 	background:#044A62;
 }
 .radio label,.checkbox label{
