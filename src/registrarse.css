@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans|Roboto');
+
 #regis{
 	background:#13232f;
 	height:220%;
@@ -13,7 +13,11 @@
 	#regis{
 		 width:60%;
   }
+	#cue{
+		left: 10%;
+	}
 }
+
 @media (max-width: 900px) {
 	#regis{
 		 width:60%;
@@ -21,13 +25,12 @@
 }
 
 #registro{
-	padding: 0;
+
 	margin: 0;
 	position: relative;
 }
 #registro img{
 	position: absolute;
-
 	height:100%;
 
 }
@@ -49,7 +52,7 @@
 	background-color: transparent;
 	color:#fff;
 }
-.btn-default{
+#btnaceptar{
 	margin-left: 30%;
 	margin-bottom: 5%;
 
@@ -111,7 +114,28 @@ input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{
 	text-align:right;
 	padding-right:50px;
 }
-#terminos{
+#res{
 	width: 100%;
-	margin-left: 20%;
+	margin-left: 30%;
+	position: relative;
+	padding-top: 10%;
+}
+#check{
+position: absolute;
+margin-left: -5%;
+}
+#cue{
+	margin-left: 37%;
+	text-decoration: underline;
+
+}
+#checkLabel{
+	color: #5CC6EA;
+	font-weight: bold;
+}
+#terminos{
+	text-decoration: underline;
+}
+#regis a:hover{
+	color: #5CC6EA;
 }
