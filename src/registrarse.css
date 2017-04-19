@@ -1,45 +1,111 @@
-.wrapper {
-	margin-top: 80px;
-  margin-bottom: 80px;
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Roboto');
+#regis{
+	background:#13232f;
+	height:220%;
+	width:34%;
+	margin:10% auto;
+	box-shadow:0 0px 9px 1px #333;
+	margin-top:3%;
+	opacity: 0.9;
+	font-family: 'Roboto',sans-serif;
+}
+@media (max-width: 600px) {
+	#regis{
+		 width:60%;
+  }
+}
+@media (max-width: 900px) {
+	#regis{
+		 width:60%;
+  }
+}
+#registro{
+	padding: 0;
+	margin: 0;
+	position: relative;
+}
+#registro img{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	height: 90%;
+	width: 100%;
+
+}
+#tituloRegistro{
+	color:#fff;
+	position: relative;
+	padding-top: 35px;
+	margin:0;
+	font-size: 4em;
+
+}
+#regis #cuenta{
+	text-decoration: underline;
+	color: #83C0FD;
+	margin-left: 35%;
 }
 
-.form-signin {
-  max-width: 380px;
-  padding: 15px 35px 45px;
-  margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid rgba(0,0,0,0.1);
+#regis a:hover{
+	background-color: transparent;
+	color:#fff;
+}
+.btn-default{
+	margin-left: 7%;
+	margin-top: 0%;
+	margin-bottom: 5%;
+	padding-left: 35%;
+	padding-right: 35%;
+	background-color: #044A62;
+  color: #fff;
+}
+#h{
+	color:#f4f4f4;
+	text-align:center;
+	padding:9%;
+	font-size:3em;
+	font-family:tahoma;
+	background:#044A62;
+}
+.radio label,.checkbox label{
+	color:#fff;
+	margin-left: 25%;
+	padding-top: 2%;
+}
+.checkbox input[type="checkbox"]{
+	margin-left: -9%;
+	margin-top:1%;
+}
 
-  .form-signin-heading,
-	.checkbox {
-	  margin-bottom: 30px;
-	}
+ input[type=email],input[type=password],input[type=text]{
 
-	.checkbox {
-	  font-weight: normal;
-	}
 
-	.form-control {
-	  position: relative;
-	  font-size: 16px;
-	  height: auto;
-	  padding: 10px;
-		@include box-sizing(border-box);
+display:block;
+width:70%;
+margin:5% auto;
+border:2px solid #ccc;
+border-radius:5px;
+padding:1.5%;
+background:none;
+color:#fff;
 
-		&:focus {
-		  z-index: 2;
-		}
-	}
+}
+input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{
+	margin:10px;
+	display:block;
+	width:70%;
+	margin:5% auto;
+	border:2px solid #83C0FD;
+	border-radius:5px;
+	padding:1.5%;
+	background:#222;
+	outline:none;
+}
 
-	input[type="text"] {
-	  margin-bottom: -1px;
-	  border-bottom-left-radius: 0;
-	  border-bottom-right-radius: 0;
-	}
-
-	input[type="password"] {
-	  margin-bottom: 20px;
-	  border-top-left-radius: 0;
-	  border-top-right-radius: 0;
-	}
+#regis p{
+	font-size:14px;
+	font-family:arial;
+	color:#1ab188;
+	text-align:right;
+	padding-right:50px;
 }
