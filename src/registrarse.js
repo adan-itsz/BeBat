@@ -22,14 +22,15 @@ class Registro extends React.Component {
              <input type="text" placeholder="RFC " />
              <input type="text" placeholder="Telefono " />
              <a id="cuenta"href="#">¿Ya tienes una cuenta?</a>
-             <div id="terminos">
-               <Checkbox readOnly>
-                 Acepto<a href="#"> términos y condiciones</a>
+
+               <Checkbox readOnly >
+                 Acepto
                </Checkbox>
-             </div>
+               <a id="terminos"  href="#"> términos y condiciones</a>
+             
 
 
-             <Button type="submit" bsSize="large">Aceptar</Button>
+             <Button id="btnaceptar" type="submit" bsSize="large">Aceptar</Button>
             </form>
           </div>
          </div>
