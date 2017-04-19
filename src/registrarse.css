@@ -11,9 +11,10 @@
 	margin-top: 5%;
 }
 
-#regis form{
-
+form{
+	margin-top:20% !important;
 }
+
 @media (max-width: 900px) {
 	#regis{
 		 width:80%;
@@ -36,7 +37,7 @@
 }
 #registro img{
 	position: absolute;
-	height:90%;
+	height:100%;
 	width: 100%;
 	padding: 0%;
 	margin: 0%;
@@ -128,7 +129,7 @@ input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{
 }
 #res{
 	width: 100%;
-	margin-left: 30%;
+	margin-left: 15%;
 	position: relative;
 	padding-top: 10%;
 }
@@ -144,6 +145,8 @@ margin-left: -5%;
 #checkLabel{
 	color: #5CC6EA;
 	font-weight: bold;
+	margin-left: 13%;
+	padding-top: 7%;
 }
 #terminos{
 	text-decoration: underline;
