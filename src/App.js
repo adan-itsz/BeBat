@@ -73,7 +73,7 @@ class App extends React.Component {
                   {this.props.children}
               </div>
                 <Login ingreso={this.ingresar.bind(this)}/>
-              <button id='comienza'type="button" >Comienza ahora</button>
+              <button id='comienza'type="button" href="#seccion-registro">Comienza ahora</button>
             <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
             <img id="logo" src="codeJams-tinto.png"/>
           </div>
