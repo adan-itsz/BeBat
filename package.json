@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "firebase": "^3.8.0",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.8",
     "react-burger-menu": "^1.10.14",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-icons": "^2.2.3"
   },
   "scripts": {
     "start": "react-scripts start",

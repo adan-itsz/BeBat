@@ -13,10 +13,9 @@ class Registro extends React.Component {
 
         return (
         <div id="registro">
-          <img src="https://source.unsplash.com/QnjkbXywIyY/2100x1400"/>
+         <div id="image">
           <h1 id="tituloRegistro"><Glyphicon glyph="chevron-right" />Registrate!</h1>
           <div id="regis">
-
             <Form onSubmit={this.props.registrarUsuario} method="post">
               <h3 id="h">INGRESA TUS DATOS</h3>
              <input type="text" name="nombre" placeholder="Nombre(s) *" required />
@@ -34,6 +33,7 @@ class Registro extends React.Component {
                </Form>
           </div>
             <div id="espacio">espacio</div>
+          </div>
          </div>
         );
     }
