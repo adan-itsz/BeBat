@@ -12,7 +12,9 @@
     "react-bootstrap": "^0.30.8",
     "react-burger-menu": "^1.10.14",
     "react-dom": "^15.5.4",
-    "react-icons": "^2.2.3"
+    "react-icons": "^2.2.3",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

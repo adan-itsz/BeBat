@@ -1,5 +1,6 @@
 import React, { Component,PropTypes } from 'react';
 import { Grid, Navbar, Jumbotron, Button } from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 import './App.css';
 import SideBar from './nav.js';
 import Nosotros from './nosotros.js'
@@ -8,6 +9,7 @@ import Login from './login.js';
 import Servicios from './servicios.js';
 import Registro from './registrarse.js'
 import * as firebase from 'firebase';
+import AppStart from './index.js';
 
 var config = {
   apiKey: "AIzaSyCoUdVIu_yMekq4UxPuEW7jY4pNqTLXt90",
@@ -43,6 +45,7 @@ class App extends React.Component {
         });
   }
 
+
   ingresar(event){
     event.preventDefault();
     firebase.auth().signInWithEmailAndPassword(event.target.email.value,event.target.pass.value).catch(function(error) {
@@ -61,9 +64,15 @@ class App extends React.Component {
                 console.log(error);
 
 });
-    window.locationf="http://www.google.com";
-  }
 
+firebase.auth().onAuthStateChanged(function(user){
+  if(user){
+    browserHistory.push('/Nosotros');
+  } else {
+
+  }
+  });
+}
     render() {
         return (
           <div>
@@ -73,7 +82,7 @@ class App extends React.Component {
                   {this.props.children}
               </div>
                 <Login ingreso={this.ingresar.bind(this)}/>
-              <button id='comienza'type="button" href="#seccion-registro">Comienza ahora</button>
+              <button  id='comienza'type="button" href="#seccion-registro"  >Comienza ahora</button>
             <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
             <img id="logo" src="codeJams-tinto.png"/>
           </div>
@@ -88,6 +97,8 @@ class App extends React.Component {
           </div>
 
         </div>
+
+
 
         );
     }
