@@ -3,11 +3,11 @@
   width:100%;
 }
 
-#tileOne{
+div #tileOne{
   background-image: url('https://source.unsplash.com/dUV3oohJzE8');
 }
 
-#tileTwo{
+div #tileTwo{
   background-image: url('https://source.unsplash.com/kZvmEpyfiJs');
 }
 

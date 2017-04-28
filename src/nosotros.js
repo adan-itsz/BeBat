@@ -18,6 +18,7 @@ class Nosotros extends React.Component {
            </p>
            <img src='https://proximi.io/wp-content/uploads/2016/02/kuva_etusivulle.png'/>
           </div>
+          
         );
     }
 }

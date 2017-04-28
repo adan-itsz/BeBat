@@ -5,38 +5,38 @@ import Broadcast from 'react-icons/lib/go/broadcast'
 import Rigth from 'react-icons/lib/ti/chevron-right-outline'
 import Left from 'react-icons/lib/ti/chevron-left-outline'
 
-function Cambio(props){
-  return(
-    <h2>Hey!{props.name}</h2>
-  );
-}
+
 
 class PrimeraImagen extends React.Component{
   constructor(props){
     super(props);
     this.state ={
-      showComponent:false
+      showComponent:false,
+      name:'tileOne'
     }
     this.onClickLink = this.onClickLink.bind(this);
   }
   onClickLink(){
-    this.setState({showComponent:!this.state.showComponent});
+    this.setState({
+      showComponent:!this.state.showComponent,
+      name:'tileBack'
+    });
   }
 
   render(){
+    let isClicked = this.state.showComponent;
     let tile = null;
-    if(this.state.showComponent === true){
+    if(isClicked){
       tile = <OtroLado />
-    }else{
-      tile =<SegundaImagen />
     }
-    return(
-      <div>
-        <div className="tile" id="tileOne">
+    else{
+      tile =
           <div className="textWrapper">
             <a onClick={this.onClickLink} ><div className="btnservice">Ipsum</div></a>
           </div>
-        </div>
+    }
+    return(
+      <div className="tile" id={this.state.name}>
         {tile}
       </div>
     );
@@ -44,12 +44,35 @@ class PrimeraImagen extends React.Component{
 }
 
 class SegundaImagen extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      showComponent: false,
+      name: 'tileTwo'
+    }
+    this.onClickLink = this.onClickLink.bind(this);
+  }
+  onClickLink(){
+    this.setState({
+      showComponent:!this.state.showComponent,
+      name: 'tileBack'
+    });
+  }
   render(){
+    let isClicked = this.state.showComponent;
+    let tile = null;
+    if(isClicked){
+      tile = <OtroLado />
+    }else {
+      tile =
+        <div className="textWrapper">
+          <a onClick={this.onClickLink}><div className="btnservice">Ipsum</div></a>
+        </div>
+
+    }
     return(
-      <div className="tile" id="tileTwo">
-      <div className="textWrapper">
-        <a href="#"><div className="btnservice">Ipsum</div></a>
-      </div>
+      <div className ="tile" id={this.state.name}>
+        {tile}
       </div>
     );
   }
@@ -58,7 +81,6 @@ class SegundaImagen extends React.Component{
 class OtroLado extends React.Component{
   render(){
     return(
-      <div className="tile" id="tileBack">
         <div className="textWrapper">
         <div id ="puntos">
           <Broadcast id="broadcast-icon" />
@@ -68,19 +90,22 @@ class OtroLado extends React.Component{
            <p><Rigth />Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         </div>
         </div>
-      </div>
     )
   }
 }
 
 class Servicios extends React.Component {
-
-
+    constructor(props){
+      super(props);
+    }
     render() {
+      let tileOne = <PrimeraImagen />
+      let tileTwo = <SegundaImagen />
         return (
         		<div id="servi">
               <div className="imageGrid">
-                <PrimeraImagen />
+                {tileOne}
+                {tileTwo}
               </div>
         		</div>
         );
