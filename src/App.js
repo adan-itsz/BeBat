@@ -8,6 +8,7 @@ import hablemos from './hablemos.png';
 import Login from './login.js';
 import Servicios from './servicios.js';
 import Registro from './registrarse.js'
+import Contacto from './contacto.js';
 import * as firebase from 'firebase';
 import AppStart from './index.js';
 
@@ -94,7 +95,9 @@ firebase.auth().onAuthStateChanged(function(user){
           <div id="seccion-registro">
             <Registro registrarUsuario={this.addUser.bind(this)} />
           </div>
-
+          <div id="seccion-contacto">
+            <Contacto />
+          </div>
         </div>
 
 

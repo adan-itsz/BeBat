@@ -12,6 +12,8 @@
 }
 #image{
 	background-image: url('https://source.unsplash.com/QnjkbXywIyY/1600x1200');
+	background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 @media (max-width: 900px) {
