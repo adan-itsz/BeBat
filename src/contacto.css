@@ -17,60 +17,72 @@
 .footer {
   padding: 20px 0;
   text-align: center;
+  background: #2f2929;
 }
 
 .social {
   display: inline-block;
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   margin: 0 10px;
-  line-height: 70px;
+  line-height: 49px;
   font-family: Entypo;
-  font-size: 35px;
+  font-size: 24px;
   text-align: center;
-  color: #bbb;
+  color: #222;
   border-radius: 50%;
-  background: #eee;
+  background: #fff;
   overflow: hidden;
   transition: color .3s;
 }
 
 .social:hover {
-  color: #59d;
+  color: #044A62;
   cursor: pointer;
 }
 
+.dirtel h1,h2{
+  font-size: 15px;
+  color: #fff;
+}
+
+.dirtel{
+  display: -webkit-inline-box;
+}
+
+.sub-footer {
+    background: #044A62;
+}
+
+ul.contact {
+    margin: 0;
+    list-style: none;
+    color: white;
+    display: inline-flex;
+
+}
+
+.contact li {
+    margin: 10px 10px;
+}
+.copyrigth{
+  color: #fff;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+    font-size: 5px;
+}
+
+.dirtel a {
+  text-decoration: none;
+}
+.dirtel a:hover{
+  color:  #044A62;
+  background: transparent;
+}
+
 .social {
-  box-shadow: rgb(210, 210, 210) 1px 1px,
-    rgb(210, 210, 210) 2px 2px,
-    rgb(211, 211, 211) 3px 3px,
-    rgb(211, 211, 211) 4px 4px,
-    rgb(211, 211, 211) 5px 5px,
-    rgb(212, 212, 212) 6px 6px,
-    rgb(212, 212, 212) 7px 7px,
-    rgb(212, 212, 212) 8px 8px,
-    rgb(213, 213, 213) 9px 9px,
-    rgb(213, 213, 213) 10px 10px,
-    rgb(214, 214, 214) 11px 11px,
-    rgb(214, 214, 214) 12px 12px,
-    rgb(214, 214, 214) 13px 13px,
-    rgb(215, 215, 215) 14px 14px,
-    rgb(215, 215, 215) 15px 15px,
-    rgb(215, 215, 215) 16px 16px,
-    rgb(216, 216, 216) 17px 17px,
-    rgb(216, 216, 216) 18px 18px,
-    rgb(216, 216, 216) 19px 19px,
-    rgb(217, 217, 217) 20px 20px,
-    rgb(217, 217, 217) 21px 21px,
-    rgb(218, 218, 218) 22px 22px,
-    rgb(218, 218, 218) 23px 23px,
-    rgb(218, 218, 218) 24px 24px,
-    rgb(219, 219, 219) 25px 25px,
-    rgb(219, 219, 219) 26px 26px,
-    rgb(219, 219, 219) 27px 27px,
-    rgb(220, 220, 220) 28px 28px,
-    rgb(220, 220, 220) 29px 29px,
-    rgb(221, 221, 221) 30px 30px;
    text-shadow: rgb(226, 226, 226) 1px 1px,
     rgb(227, 227, 227) 2px 2px,
     rgb(227, 227, 227) 3px 3px,
