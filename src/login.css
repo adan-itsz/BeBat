@@ -168,3 +168,12 @@ left: 30%;
   margin-top: -10%;
 
 }
+#inputPassword3{
+  width: 100%;
+  margin-bottom: 17px;
+  padding: 15px;
+  background-color: #ECF4F4;
+  border-radius: 2px;
+  border: none;
+  color:black;
+}
