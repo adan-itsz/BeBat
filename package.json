@@ -10,6 +10,7 @@
     "firebase": "^3.8.0",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.8",
+    "react-bootstrap-carousel": "^1.2.0",
     "react-burger-menu": "^1.10.14",
     "react-dom": "^15.5.4",
     "react-icons": "^2.2.3",
