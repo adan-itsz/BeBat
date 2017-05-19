@@ -60,15 +60,16 @@ handleOnChange (event) {
       <progress value={this.state.uploadStatus} max="100">
         {this.state.uploadStatus}%
       </progress>
-      <div id='gallery'>
-      <ul className="listaPromos">
 
-            {this.state.arreglo.map(listaImgs=>{
-              return (<Promo p={listaImgs.url}/>);})
-            }
-    </ul>
-      </div>
         <input id="inputSubir" type='file' onChange={this.handleOnChange.bind(this)}/>
+        <div id='gallery'>
+        <ul className="listaPromos">
+
+              {this.state.arreglo.map(listaImgs=>{
+                return (<Promo p={listaImgs.url}/>);})
+              }
+      </ul>
+        </div>
       </div>
     );
   }

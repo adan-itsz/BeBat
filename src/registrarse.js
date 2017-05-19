@@ -8,7 +8,7 @@ import { ref, firebaseAuth } from './constants.js'
 class Registro extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
-    firebaseAuth().createUserWithEmailAndPassword(event.target.correo.value, event.target.clave.value).catch(function(error) {
+    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value).catch(function(error) {
 
        var errorCode = error.code;
        var errorMessage = error.message;
@@ -38,8 +38,8 @@ class Registro extends React.Component {
              <input type="text" name="nombre" placeholder="Nombre(s) *" required />
              <input type="text" name="apellidoPaterno" placeholder="Apellido Paterno *" required/>
              <input type="text" name="apellidoMaterno" placeholder="Apellido Materno *" required/>
-             <input type="email" name="correo" placeholder="Correo *" required/>
-             <input type="password"name="clave" placeholder="Contraseña *"  pattern=".{6,}"title="Debe contar con un mínimo de 6 caracteres" required/>
+             <input type="email" name="correo" ref={(email) => this.email = email}  placeholder="Correo *" required/>
+             <input type="password"name="clave" placeholder="Contraseña *" ref={(pw) => this.pw = pw}  pattern=".{6,}"title="Debe contar con un mínimo de 6 caracteres" required/>
              <input type="text" placeholder="RFC " />
              <input type="text" placeholder="Telefono " />
 
