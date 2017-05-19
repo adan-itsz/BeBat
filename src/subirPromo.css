@@ -1,6 +1,6 @@
 #gallery img{
 
-  width: 30%;
+  width: 333px;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
@@ -10,14 +10,25 @@
 
 }
 #gallery{
-  width: 80%;
+  width: 98em;
   text-align: center;
+  background-color: black;
 }
 #galery #listaImagenes li{
-  padding: 0;
+  padding: 5%;
   text-decoration: none;
 }
 
 ul#listaImagenes {
     list-style: none;
+}
+
+ul.listaPromos {
+    display: inline-flex;
+}
+
+input#inputSubir {
+    width: 23%;
+    margin: 0;
+    border: 0;
 }
