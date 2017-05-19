@@ -45,9 +45,22 @@
   font-size: 15px;
   color: #fff;
 }
+.dirtel h2{
+  color: white;
+  font-size: 15px;
+}
+
+.dirtel a{
+  color:white;
+}
+
+.dirtel a:hover{
+  text-decoration: none;
+}
 
 .dirtel{
   display: -webkit-inline-box;
+  color:white;
 }
 
 .sub-footer {
