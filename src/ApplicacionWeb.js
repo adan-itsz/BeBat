@@ -5,7 +5,8 @@ import PromoActiva from './promoActiva.js';
 import SubirPromo from './subirPromo.js';
 import HistorialPromos from './historial.js';
 import Analitics from './analitics.js';
-import './AppWeb.css';
+import './ApplicacionWeb.css';
+
 
 class ApplicacionWeb extends Component {
   render() {
@@ -46,13 +47,5 @@ export default ApplicacionWeb;
 const Home = ()=> (
  <div>
    <Analitics texto='holassd'/>
- </div>
-)
-
-//About
-const About = ()=>(
- <div>
-   <h1>About</h1>
-   <p>This is about</p>
  </div>
 )
