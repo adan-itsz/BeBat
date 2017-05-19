@@ -1,0 +1,30 @@
+.principal{
+
+}
+.principal img{
+padding: .5%;
+}
+#carousel-main{
+  z-index: 2;
+  position: relative;
+width: 100%;
+}
+
+.itemCaroucel{
+    background-color: #272727;
+    width: 100%;
+}
+@media (max-width: 600px) {
+  #barraLateral{
+    width: 40%;
+    height: 100%;
+  }
+}
+.carousel-main .itemCaroucel img{
+  padding: 0;
+  margin: 0;
+}
+
+h1{
+  font-size: 50%;
+}

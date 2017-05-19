@@ -1,0 +1,23 @@
+#gallery img{
+
+  width: 30%;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+#gallery img:hover{
+
+    filter: grayscale(0%);
+
+}
+#gallery{
+  width: 80%;
+  text-align: center;
+}
+#galery #listaImagenes li{
+  padding: 0;
+  text-decoration: none;
+}
+
+ul#listaImagenes {
+    list-style: none;
+}
