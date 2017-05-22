@@ -32,10 +32,20 @@ class SubirPromo extends Component {
       }
      }
 
+
 handleOnChange (event) {
-      const file = event.target.files[0]
-      const storageRef = firebase.storage().ref(`pictures/${file.name}`)
-      const task = storageRef.put(file)
+
+  var user = firebase.auth().currentUser;
+
+if (user) {
+alert(user.email);
+} else {
+  // No user is signed in.
+}
+
+    const file = event.target.files[0]
+    const storageRef = firebase.storage().ref(`${user.email}/${file.name}`)
+    const task = storageRef.put(file)
 
          task.on('state_changed', snapshot => {
             let per = (snapshot.bytesTransferred / snapshot.totalBytes) * 100

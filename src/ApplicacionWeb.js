@@ -16,18 +16,18 @@ class ApplicacionWeb extends Component {
         <div className="contenedor">
         <div id="barraLateral">
          <ul id='lista'>
-           <li><Link to="/">Promocion actual</Link></li>
-           <li><Link to="/subir-promo">Subir Promocion</Link></li>
-           <li><Link to="/historial-promos">Historial promociones</Link></li>
-           <li><Link to="/analitics">Analitics</Link></li>
+           <li><Link to="/AppWeb">Promocion actual</Link></li>
+           <li><Link to="/AppWeb/subir-promo">Subir Promocion</Link></li>
+           <li><Link to="/AppWeb/historial-promos">Historial promociones</Link></li>
+           <li><Link to="/AppWeb/analitics">Analitics</Link></li>
 
          </ul>
       </div>
          <div className="contenidoComponente">
-        <Route exact path="/" component={PromoActiva} />
-        <Route path="/subir-promo" component={SubirPromo} />
-        <Route path="/historial-promos" component={HistorialPromos} />
-        <Route path="/analitics" component={Analitics} />
+        <Route exact path="/AppWeb" component={PromoActiva} />
+        <Route path="/AppWeb/subir-promo" component={SubirPromo} />
+        <Route path="/AppWeb/historial-promos" component={HistorialPromos} />
+        <Route path="/AppWeb/analitics" component={Analitics} />
           </div>
             </div>
           </Router>

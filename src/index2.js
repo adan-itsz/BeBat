@@ -68,7 +68,7 @@ export default class App2 extends Component {
                 <Route path='/' exact component={App} />
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                 <PrivateRoute authed={this.state.authed} path='/AppWeb' component={AppWeb} />
-                <Route render={() => <h3>No Existe la direccion</h3>} />
+                <Route render={() => <h3>Uups! algo paso mal :D</h3>} />
               </Switch>
 
       </BrowserRouter>
