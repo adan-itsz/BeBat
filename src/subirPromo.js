@@ -17,31 +17,26 @@ class SubirPromo extends Component {
     this.state={
       uploadStatus:0,
       contador:0,
-       arreglo:[]
+       arreglo:[],
+
+
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
   }
   agregarImagenes(a){
-
-    alert(a)
        if(a!=null && this.state.contador <= 5){
          this.setState({
+
              picture: a,
              contador: this.state.contador +=1,
-           arreglo:this.state.arreglo.concat([{url:this.state.picture}])});
+           arreglo:this.state.arreglo.concat([{url:this.state.imagePreviewUrl}])});
       }
-     }
+    }
 
 
-handleOnChange (event) {
-
+subeSlide(){
   var user = firebase.auth().currentUser;
-
-if (user) {
-alert(user.email);
-} else {
-  // No user is signed in.
-}
+  this.state.arreglo.map(listaAAgregar=>{
 
     const file = event.target.files[0]
     const storageRef = firebase.storage().ref(`${user.email}/${file.name}`)
@@ -56,31 +51,37 @@ alert(user.email);
             this.setState({
                message : `Alert!, ${error.message}`
             })
-         }, () => {
-            this.setState({
-               message : 'File Uploaded!',
-               picture : task.snapshot.downloadURL
-            }),
-        	this.agregarImagenes(this.state.picture)
-		 })
+         })
+   })
+}
+handleOnChange (event) {
+  event.preventDefault();
+  let reader = new FileReader();
+ let file = event.target.files[0];
+
+ reader.onloadend = () => {
+   this.setState({
+     file: file,
+     imagePreviewUrl: reader.result
+   });
+ }
+
+ reader.readAsDataURL(file)
+
    }
   render() {
+
     return (
       <div>
-      <progress value={this.state.uploadStatus} max="100">
-        {this.state.uploadStatus}%
-      </progress>
+     <progress value={this.state.uploadStatus} max="100">
+       {this.state.uploadStatus}%
+     </progress>
 
-        <input id="inputSubir" type='file' onChange={this.handleOnChange.bind(this)}/>
-        <div id='gallery'>
-        <ul className="listaPromos">
-
-              {this.state.arreglo.map(listaImgs=>{
-                return (<Promo p={listaImgs.url}/>);})
-              }
-      </ul>
-        </div>
-      </div>
+       <input id="inputSubir" type='file' onChange={this.handleOnChange.bind(this)}/>
+       <div id='gallery'>
+      <img src={this.state.imagePreviewUrl}/>
+       </div>
+     </div>
     );
   }
 
