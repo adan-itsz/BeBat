@@ -9,9 +9,9 @@
 .contenedor{
   position: absolute;
   display:block;
-  background-color: #E1E0E0;
-  width: 90%;
-  height: 80%;
+  background-color: white;
+  width: 100%;
+  height: 91%;
 
 
 }
@@ -27,16 +27,13 @@
 }
 .contenedor #lista li{
   width: 100%;
-  padding: 25% 0 25% 0;
-  border: 1px solid white;
-
 }
 .contenedor #lista{
   list-style: none;
-  background-color: #868686;
+  background-color: #221F1F;
   padding: 0;
   margin:0;
-    height: 100%;
+  margin-top: 20em;
 }
 #barraLateral{
   float: left;
@@ -44,6 +41,7 @@
   width: 20%;
   height: 100%;
   z-index:1;
+  background-color: #221F1F;
 }
 @media (max-width: 600px) {
   #barraLateral{
@@ -55,4 +53,34 @@
   width: 85%;
   padding: 2%;
 
+}
+
+p.navOptions {
+    color: white;
+    text-align: right;
+    padding: 0;
+}
+
+span.logoActual {
+    display: inline-flex;
+    margin-left: 40%;
+}
+span.logoSubir {
+    display: inline-flex;
+    margin-left: 45%;
+}
+span.logoHistorial {
+    display: inline-flex;
+    margin-left: 63%;
+}
+span.logoAnalitics {
+    display: inline-flex;
+    margin-left: 63%;
+}
+#lista li {
+    padding-top: 5%;
+    padding-bottom: 3%;
+}
+#lista li a:hover{
+  background-color: transparent;
 }

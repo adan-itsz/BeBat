@@ -26,7 +26,7 @@ class App extends React.Component {
                   <SideBar />
                   {this.props.children}
               </div>
-              
+
               <Link to="/AppWeb" id='ingresar' href="#myModal" >Ingresar</Link>
             <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
             <img id="logo" src="codeJams-tinto.png"/>
