@@ -1,0 +1,10 @@
+{
+  "slides":{
+	"usuario":{
+    	"nombreUsuario":"usuario",
+    	"slideActual":[],
+    	"historial":[],
+    	"contador":0
+  		}
+	}
+}
