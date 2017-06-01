@@ -54,16 +54,19 @@ class SubirPromo extends Component {
      var refDB=ref.child(correoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
       HistorialSlidesDB.set({
-        historial:`${this.state.arreglo}`
+        historial:`${this.state.arrayStorage}`
       });
    refDB.set({
-        slideActual:`${this.state.arreglo}`,
+        slideActual:`${this.state.arrayStorage}`,
         contador:3
       });
     }
 
 
 subeSlide(){
+  var array2=this.state.arreglo;
+  var cantidad=array2.length;
+  var contador=0;
   this.state.arreglo.map(listaAAgregar=>{
     var user = firebase.auth().currentUser;
     const file = listaAAgregar.a
@@ -80,14 +83,17 @@ subeSlide(){
              })
           },
           () => {
+            contador++;
             this.setState({
-               picture : task.snapshot.downloadURL,
-              // arrayStorage:this.state.arrayStorage.concat([{url:this.state.picture}])
-            })}
- 		 )
-   });
-   this.subirDB();
+             arrayStorage:this.state.arrayStorage.concat([{url:task.snapshot.downloadURL}])
+            })
+            if(contador>=cantidad){
+            this.subirDB();
+          }
+          },
+ 		 );
 
+   })
 }
 
 
