@@ -5,7 +5,7 @@ import './subirPromo.css';
 import { ref } from './constants.js'
 
 const database = firebase.database();
-
+var a=["ho","k","jop"];
 class Promo extends Component{
   render(){
     return(
@@ -85,7 +85,7 @@ subeSlide(){
           () => {
             contador++;
             this.setState({
-             arrayStorage:this.state.arrayStorage.concat([{url:task.snapshot.downloadURL}])
+             arrayStorage:this.state.arrayStorage+"~"+task.snapshot.downloadURL
             })
             if(contador>=cantidad){
             this.subirDB();
