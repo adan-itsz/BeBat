@@ -3,8 +3,13 @@ import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 import * as firebase from 'firebase'
 import './subirPromo.css';
 import { ref } from './constants.js'
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import LinearProgress from 'material-ui/LinearProgress';
+import TextField from 'material-ui/TextField';
 
 const database = firebase.database();
+
 
 class Promo extends Component{
   render(){
@@ -113,25 +118,46 @@ handleOnChange (event) {
 
   render() {
 
+    const style = {
+      margin: 12,
+  };
+
+
     return (
+      <MuiThemeProvider>
       <div>
-     <progress value={this.state.uploadStatus} max="100">
+      <div id='gallery'>
+      <ul className="listaPromos">
+             {this.state.arrayPreview.map(listaImgs=>{
+               return (<Promo p={listaImgs.url}/>);})
+             }
+     </ul>
+      </div>
+     {/*<progress value={this.state.uploadStatus} max="100">
        {this.state.uploadStatus}%
-     </progress>
-
-       <input id="inputSubir" type='file' onChange={this.handleOnChange.bind(this)}/>
-        <button onClick={() => this.subeSlide()}>cargar</button>
-        <input id='nombre_slide' type='text' name="nombre_slide" ref={(nombre_slide) => this.nombre_slide = nombre_slide} required/>
-
-
-       <div id='gallery'>
-       <ul className="listaPromos">
-              {this.state.arrayPreview.map(listaImgs=>{
-                return (<Promo p={listaImgs.url}/>);})
-              }
-      </ul>
+     </progress>*/}
+      <LinearProgress mode="determinate" value={this.state.uploadStatus} />
+      <label className='custom-file-upload'>
+        <input type='file' onChange={this.handleOnChange.bind(this)}/>
+        SUBIR IMAGEN
+      </label>
+       {/*<button onClick={() => this.subeSlide()}>cargar</button>*/}
+       <div id='slide-datos'>
+       <div id='slide-nombre'>
+         <p>Nombre del Slide</p>
+         <input id='nombre_slide' type='text' name="nombre_slide" ref={(nombre_slide) => this.nombre_slide = nombre_slide} required/>
        </div>
+       <div id='slide-notas'>
+         <p>Notas</p>
+         {/*<input id='notas-slide' type='text' />*/}
+         <div id='text-field'>
+           <TextField hintText="" multiLine={true} rows={2} rowsMax={4}/>
+         </div>
+       </div>
+       </div>
+       <RaisedButton label="Cargar" primary={true} style={style} onClick={() => this.subeSlide()} />
      </div>
+     </MuiThemeProvider>
     );
   }
 

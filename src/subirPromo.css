@@ -27,12 +27,68 @@ ul.listaPromos {
     display: inline-flex;
 }
 
-input#inputSubir {
-    width: 23%;
-    margin: 0;
-    border: 0;
+
+input[type="file"] {
+    display: none;
 }
+.custom-file-upload {
+  display: inline-block;
+  top: 0;
+  left: 0;
+  padding: .5em .7em;
+  color: white;
+  background: rgb(100,200,200);
+}
+
+.custom-file-upload:hover{
+  display: inline-block;
+  top: 0;
+  left: 0;
+  padding: .5em .7em;
+  color: white;
+  text-emphasis: none;
+  background:#7EE8D6;
+}
+
 
 .specialLink:active{
   background-color: blue;
+}
+
+div#slide-datos input[type='text']{
+    padding: .5%;
+    margin: 0;
+    display:block;
+    color:black;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+div#slide-datos input[type='text']:focus{
+    padding: .5%;
+    margin: 0;
+    color:black;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: #00A0AE;
+    background-color: white;
+    display:block;
+}
+
+div#slide-datos p {
+    margin: 0;
+    padding: 10px;
+}
+
+div#slide-datos{
+  margin-left: 10%;
+  margin-right: 65%;
+}
+
+div#slide-notas input[type='text'] {
+}
+div#text-field {
+    margin-left: -23%;
 }

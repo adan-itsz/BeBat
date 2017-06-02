@@ -88,7 +88,7 @@
 	margin-top:1%;
 }
 
- input[type=email],input[type=password],input[type=text]{
+ #regis input[type=email],input[type=password],input[type=text]{
 
 
 display:block;
@@ -101,7 +101,7 @@ background:none;
 color:#fff;
 
 }
-input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{
+#regis input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{
 	margin:10px;
 	display:block;
 	width:70%;
