@@ -18,73 +18,45 @@ class CaroucelArray extends Component{
   }
 }
 class PromoActiva extends Component {
-  constructor(props) {
-        super(props)
-          this.separarCadena=this.separarCadena.bind(this);
+      constructor(){
+        super()
+          this.state={
+            arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"]
+          }
+        }
+          componentWillMount(){
           var recibirArray;
         var user = firebase.auth().currentUser;
         var refDB=ref.child("adan1995a@gmail-com"+"/SlideActual");
         refDB.on('value', snapshot=> {
           recibirArray=snapshot.val().slideActual;
-          alert(recibirArray);
-        //  this.separarCadena(this.recibirArray);
         var StringN="";
         var ArrayFg=[];
         for (var i = 0; i < recibirArray.length; i++) {
-          if(recibirArray[i] =='~'){
-
-            for (var j = i+1; j < recibirArray.length; j++) {
-              if(recibirArray[j]!='~'){
-                StringN += recibirArray.substring(j,j+1);
-              }
-              else if (recibirArray[j]=='~') {
-                ArrayFg.push(StringN);
-                StringN="";
-
+            if(recibirArray[i] =='~'){
+              for (var j = i; j < recibirArray.length; j++) {
+                if(recibirArray[j]!='~'){
+                  StringN += recibirArray.substring(j,j+1);
+                }
+                else if (recibirArray[j]=='~'&&j!=0||recibirArray[j+1]===null&&j!=0) {
+                  ArrayFg.push(StringN);
+                  StringN="";
+                }
               }
             }
-
           }
-        }
         this.setState({
-          arrayActual:this.ArrayFg
+          arrayActual:ArrayFg
         })
         }  );
+      }
 
 
-
-
-
-    }
 
 
     onSelect= (active,direction)=>{
         console.log(`active=${active} && direction=${direction}`);
     }
-
-    separarCadena(a){
-      var StringN;
-      var ArrayFg;
-      for (var i = 0; i < a.length; i++) {
-        if(a[i] =='~'){
-
-          for (var j = i; j < a.length; j++) {
-            if(a[j]!='~'){
-              StringN += a.substring(j,j+1);
-            }
-            else if (a[j]=='~') {
-              ArrayFg.push(StringN);
-
-            }
-          }
-
-        }
-      }
-      this.setState({
-        arrayActual:this.ArrayFg
-      })
-    }
-
     render() {
 
       return(
