@@ -5,6 +5,7 @@ import App from './App'
 import AppWeb from './AppWeb'
 import Nosotros from './nosotros.js'
 import Login from './login'
+import View from './View.js'
 
 import * as firebase from 'firebase';
 import './login.css';
@@ -66,6 +67,8 @@ export default class App2 extends Component {
 
                   <Switch>
                 <Route path='/' exact component={App} />
+                <Route path='/View' component={View} />
+
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
                 <PrivateRoute authed={this.state.authed} path='/AppWeb' component={AppWeb} />
                 <Route render={() => <h3>Uups! algo paso mal :D</h3>} />

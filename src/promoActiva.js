@@ -17,6 +17,7 @@ class CaroucelArray extends Component{
     );
   }
 }
+
 class PromoActiva extends Component {
       constructor(){
         super()
@@ -24,10 +25,16 @@ class PromoActiva extends Component {
             arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"]
           }
         }
+        recortarCadenas(correo){
+          var remplazo=correo.split('.').join('-');
+          return remplazo;
+        }
           componentWillMount(){
           var recibirArray;
         var user = firebase.auth().currentUser;
-        var refDB=ref.child("adan1995a@gmail-com"+"/SlideActual");
+        var remplazo=`${user.email}`.split('.').join('-');
+
+        var refDB=ref.child(remplazo+"/SlideActual");
         refDB.on('value', snapshot=> {
           recibirArray=snapshot.val().slideActual;
         var StringN="";
