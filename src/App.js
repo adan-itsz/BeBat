@@ -11,6 +11,7 @@ import Servicios from './servicios.js';
 import Registro from './registrarse.js'
 import Contacto from './contacto.js';
 import * as firebase from 'firebase';
+import ReactVideo from 'react.video';
 
 
   var ban=true;
@@ -28,8 +29,17 @@ class App extends React.Component {
               </div>
 
               <Link to="/AppWeb" id='ingresar' href="#myModal" >Ingresar</Link>
-            <img id="portada"src="https://jumpingtalent.universia.es/wp-content/uploads/2017/02/office-writing.jpg"/>
-            <img id="logo" src="codeJams-tinto.png"/>
+
+            <ReactVideo ref={'VideoComp'}
+              cls={'portada'}
+              height={'100%'} width={'100%'}
+              controls={false}
+              muted={true}
+              src={'bebat-web-2.mp4'}
+              autoPlay={true}
+              loop={true}
+            >
+              </ReactVideo>
           </div>
           <div id="seccion-nosotros">
               <Nosotros />
