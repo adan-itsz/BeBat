@@ -7,10 +7,7 @@ class AppWeb extends React.Component {
     render() {
         return (
           <div id="servi">
-          <a onClick={() => this.handleItemClick(firebaseAuth().signOut() )} href="/">Salir</a>
-              <h1>estas en la App</h1>
-    <ApplicacionWeb/>
-
+              <ApplicacionWeb/>
           </div>
         );
     }
