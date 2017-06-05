@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LinearProgress from 'material-ui/LinearProgress';
 import TextField from 'material-ui/TextField';
 
+var d = new Date();
 const database = firebase.database();
 
 class Promo extends Component{
@@ -26,12 +27,12 @@ class SubirPromo extends Component {
       contador:0,
        arreglo:[],
        arrayPreview:[],
-       arrayStorage:[]
-
-
+       arrayStorage:[],
+       date:""
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
+
   }
 
   recortarCadenas(correo){
@@ -52,17 +53,23 @@ class SubirPromo extends Component {
 
     subirDB(){
       var user = firebase.auth().currentUser;
+      var nombreSlide=this.nombre_slide.value;
+      var notas=this.refs.notas.getValue();
       var correoUsuario=this.recortarCadenas(`${user.email}`);
-      alert(correoUsuario);
       var refDBHistorial=ref.child(correoUsuario+"/Historial");
      var refDB=ref.child(correoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
       HistorialSlidesDB.set({
-        historial:`${this.state.arrayStorage}`
+        historial:`${this.state.arrayStorage}`,
+        notas:notas,
+        nombreSlide:nombreSlide,
+        fecha:this.state.date
       });
    refDB.set({
         slideActual:`${this.state.arrayStorage}`,
-        contador:3
+        notas:notas,
+        nombreSlide:nombreSlide,
+        fecha:this.state.date,
       });
     }
 
@@ -103,6 +110,7 @@ subeSlide(){
 
 handleOnChange (event) {
   event.preventDefault();
+  let fecha=d.getDate() + "/" + (parseInt(d.getMonth())+parseInt(1))+ "/" +d.getFullYear();
   let reader = new FileReader();
  let file = event.target.files[0];
  reader.onloadend = () => {
@@ -113,7 +121,12 @@ handleOnChange (event) {
     this.agregarImagenes(file);
  }
  reader.readAsDataURL(file)
+ this.setState({
+   date:fecha
+ });
    }
+
+
 
   render() {
 
@@ -140,7 +153,6 @@ handleOnChange (event) {
         <input type='file' onChange={this.handleOnChange.bind(this)}/>
         SUBIR IMAGEN
       </label>
-       {/*<button onClick={() => this.subeSlide()}>cargar</button>*/}
        <div id='slide-datos'>
        <div id='slide-nombre'>
          <p>Nombre del Slide</p>
@@ -148,9 +160,8 @@ handleOnChange (event) {
        </div>
        <div id='slide-notas'>
          <p>Notas</p>
-         {/*<input id='notas-slide' type='text' />*/}
          <div id='text-field'>
-           <TextField hintText="" multiLine={true} rows={2} rowsMax={4}/>
+           <TextField ref='notas' hintText="" multiLine={true} rows={2} rowsMax={4}/>
          </div>
        </div>
        </div>
