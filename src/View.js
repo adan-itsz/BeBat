@@ -10,6 +10,7 @@ import * as firebase from 'firebase'
 
 
 class View extends Component {
+
     render() {
       return(
         <Router>

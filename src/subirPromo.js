@@ -13,8 +13,9 @@ const database = firebase.database();
 
 class Promo extends Component{
   render(){
+    var id = this.props.id;
     return(
-      <li> <img src={this.props.p}/></li>
+      <li><button onClick={()=>this.props.funEliminar(id)}>x</button><img src={this.props.p}/></li>
     );
   }
 }
@@ -48,6 +49,16 @@ class SubirPromo extends Component {
           arrayPreview:this.state.arrayPreview.concat([{url:this.state.imagePreviewUrl}]),
           arreglo:this.state.arreglo.concat([{a}])});
       }
+    }
+    eliminarImg(index){
+      var array=this.state.arrayPreview;
+      var arregloFile=this.state.arreglo;
+      array.splice(index,1);
+      arregloFile.splice(index,1);
+      this.setState({
+        arrayPreview:array,
+        arreglo:arregloFile,
+      })
     }
 
 
@@ -140,8 +151,8 @@ handleOnChange (event) {
       <div>
       <div id='gallery'>
       <ul className="listaPromos">
-             {this.state.arrayPreview.map(listaImgs=>{
-               return (<Promo p={listaImgs.url}/>);})
+             {this.state.arrayPreview.map((listaImgs,i)=>{
+               return (<Promo key={i} id={i} funEliminar={this.eliminarImg.bind(this)} p={listaImgs.url}/>);})
              }
      </ul>
       </div>
