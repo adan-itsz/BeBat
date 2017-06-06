@@ -20,9 +20,10 @@ import { ref } from './constants.js'
 
     return (
       <TableRow >
+        <TableRowColumn>{this.props.nombre}</TableRowColumn>
         <TableRowColumn>{this.props.fecha}</TableRowColumn>
-        <TableRowColumn>{this.props.fecha}</TableRowColumn>
-        <TableRowColumn>Employed</TableRowColumn>
+        <TableRowColumn>{this.props.obs}</TableRowColumn>
+
       </TableRow>
     );
   }
@@ -34,18 +35,20 @@ class HistorialPromos extends Component{
     this.state = {
       selected: [1],
       arregloHistorial:[],
-      fecha:''
+
     };
   }
     componentWillMount(){
       var user = firebase.auth().currentUser;
       var remplazo=`${user.email}`.split('.').join('-');
       var refHistorial=ref.child(remplazo+"/Historial");
-      refHistorial.on('value',data =>  {
+      refHistorial.on('child_added',data =>  {
+        let dato=data.val();
+        let listaHitorial={ nombre: dato.nombreSlide, fecha: dato.fecha, notas:dato.notas};
+    this.setState({
+        arregloHistorial:[listaHitorial].concat(this.state.arregloHistorial)
+    });
 
-        this.setState({
-        fecha:data.val().fecha
-        })
       });
     }
 
@@ -68,12 +71,12 @@ class HistorialPromos extends Component{
              <TableRow>
                <TableHeaderColumn>Nombre </TableHeaderColumn>
                <TableHeaderColumn>Fecha</TableHeaderColumn>
-               <TableHeaderColumn>Status</TableHeaderColumn>
+               <TableHeaderColumn>Notas</TableHeaderColumn>
              </TableRow>
            </TableHeader>
            <TableBody>
            {this.state.arregloHistorial.map(lista=>{
-             return (<TablaElemento nombre={lista.fecha} fecha={lista.fecha}/>);})
+             return (<TablaElemento nombre={lista.nombre} fecha={lista.fecha} obs={lista.notas}/>);})
            }
            </TableBody>
          </Table>
