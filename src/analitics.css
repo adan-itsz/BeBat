@@ -1,0 +1,22 @@
+#navegador li { margin: 0px 5px;
+  padding: 0.1em 1em 0.5em 1em;
+  background-color: #9933cc;
+ width: 12%;
+float: left;
+list-style-type: none;
+position: relative;  }
+
+ #subseccion1 {
+   position: absolute; top: 100%;
+  left: 0px;
+  background-color: #41338b;
+  font:normal 0.8em arial;
+  padding: 0.2em 0.5em ; }
+#subseccion1 {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  background-color: #41338b;
+  font:normal 0.8em arial;
+  padding: 0.2em 0.5em ;
+  display: none; }

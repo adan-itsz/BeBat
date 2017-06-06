@@ -34,7 +34,7 @@ class HistorialPromos extends Component{
     super()
     this.state = {
       selected: [1],
-      arregloHistorial:[],
+      arregloHistorial:["hola"],
 
     };
   }
