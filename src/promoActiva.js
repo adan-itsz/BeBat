@@ -41,11 +41,11 @@ class PromoActiva extends Component {
         var ArrayFg=[];
         for (var i = 0; i < recibirArray.length; i++) {
             if(recibirArray[i] =='~'){
-              for (var j = i; j < recibirArray.length; j++) {
+              for (var j = i+1; j < recibirArray.length; j++) {
                 if(recibirArray[j]!='~'){
                   StringN += recibirArray.substring(j,j+1);
                 }
-                else if (recibirArray[j]=='~'&&j!=0||recibirArray[j+1]===null&&j!=0) {
+                else if (recibirArray[j]=='~'||recibirArray[j+1]===null&&j!=0) {
                   ArrayFg.push(StringN);
                   StringN="";
                 }
