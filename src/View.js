@@ -91,7 +91,6 @@ render() {
       </React_Bootstrap_Carousel>
     </div>
     </div>
-    <h1>Tu slide actual</h1>
     </div>
   )
 }
