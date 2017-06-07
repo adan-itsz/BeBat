@@ -15,7 +15,7 @@ class Promo extends Component{
   render(){
     var id = this.props.id;
     return(
-      <li><button onClick={()=>this.props.funEliminar(id)}>x</button><img src={this.props.p}/></li>
+      <li><div className="imagenSubir"><img src={this.props.p}/>< button className="buttonSubir" button onClick={()=>this.props.funEliminar(id)}>Eliminar</button></div></li>
     );
   }
 }

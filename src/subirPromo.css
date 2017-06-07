@@ -25,6 +25,7 @@ ul#listaImagenes {
 
 ul.listaPromos {
     display: inline-flex;
+    list-style: none;
 }
 
 
@@ -91,4 +92,23 @@ div#slide-notas input[type='text'] {
 }
 div#text-field {
     margin-left: -23%;
+}
+button.buttonSubir{
+  color: white;
+  background: rgb(100,200,200);
+  border: none;
+  padding-bottom: 19.5px;
+}
+
+button.buttonSubir:hover{
+  color: white;
+  background:#7EE8D6;
+  border: none;
+  padding-bottom: 19.5px;
+}
+
+.imagenSubir {
+    background-color: ghostwhite;
+    display: table-caption;
+    margin-left: 1%;
 }
