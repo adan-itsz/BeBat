@@ -12,16 +12,25 @@ import Registro from './registrarse.js'
 import Contacto from './contacto.js';
 import * as firebase from 'firebase';
 import ReactVideo from 'react.video';
+import Typing from 'react-typing-animation'
+import logo from './logobebatwhite.png'
 
+const AnimatedTypingComponent = () => (
+  <Typing loop={true} className="type">
+    <span>BeBat</span>
+    <Typing.Reset count={1} delay={800} />
+    <span>Más Clientes.</span>
+    <Typing.Reset count={1} delay={800} />
+    <span>Más Alcance.</span>
+    <Typing.Reset count={1} delay={800} />
+  </Typing>
+);
 
   var ban=true;
 class App extends React.Component {
-
-
-
     render() {
         return (
-          <div>
+          <div id="portada">
             <div id="encabezado">
               <div className="container-fluid">
                   <SideBar />
@@ -29,7 +38,10 @@ class App extends React.Component {
               </div>
 
               <Link to="/AppWeb" id='ingresar' href="#myModal" >Ingresar</Link>
-
+              <div id="logobe">
+                 <img src={logo}/>
+              </div>
+            <AnimatedTypingComponent />
             <ReactVideo ref={'VideoComp'}
               cls={'portada'}
               height={'100%'} width={'100%'}
@@ -39,7 +51,7 @@ class App extends React.Component {
               autoPlay={true}
               loop={true}
             >
-              </ReactVideo>
+            </ReactVideo>
           </div>
           <div id="seccion-nosotros">
               <Nosotros />

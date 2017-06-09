@@ -40,11 +40,7 @@ nav {
 
 }
 
-#portada{
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-}
+
 #comienza{
   color: #fff;
    background: #044A62;
@@ -77,7 +73,7 @@ nav {
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #010413;
+  background: white;
 
   position: absolute;
 
@@ -189,6 +185,11 @@ nav {
    left: 85%;
 
 }
+
+.anim{
+
+}
+
 #ingresar:hover {
   color: black;
 }
@@ -208,4 +209,25 @@ nav {
 #ingresar:hover:before {
   top: 0;
   bottom: 0;
+}
+
+.type {
+  POSITION: absolute;
+  margin-left: 29%;
+  margin-top: 25%;
+  font-size: 8em;
+  font-family: inherit;
+}
+
+.type span {
+  color: white;
+  text-align: center;
+}
+
+div#logobe img {
+  position: absolute;
+width: 11%;
+margin-top: -4%;
+margin-left: 43%;
+opacity: 0.7;
 }
