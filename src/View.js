@@ -38,37 +38,53 @@ class Child extends Component {
     super()
       this.state={
         arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"],
-        user:`${match.params.id}`
+        user:`${match.params.id}`,
+        count:0
       }
 
     }
+
       componentWillMount(){
-        var recibirArray;
+        var referenciaContador=ref.child(`${this.state.user}`+"/views");
+        var valor=0;
+         referenciaContador.on('value',snapshot=>{
+          valor=snapshot.val().visitas;
+          var valorNumerico=parseInt(valor+1);
+          if(valor==null){
+            valor=0;
+          }
+          this.setState({
+            count:valorNumerico
+          });
+        });
 
-     var refDB=ref.child(this.state.user+"/SlideActual");
-     refDB.on('value', snapshot=> {
-       recibirArray=snapshot.val().slideActual;
-     var StringN="";
-     var ArrayFg=[];
-     for (var i = 0; i < recibirArray.length; i++) {
-         if(recibirArray[i] =='~'){
-           for (var j = i+1; j <= recibirArray.length; j++) {
-             if(recibirArray[j]!='~'){
-               StringN += recibirArray.substring(j,j+1);
-             }
-             else if (recibirArray[j]=='~'||recibirArray[j+1]===null&&j!=0) {
-               ArrayFg.push(StringN);
-               StringN="";
+      var recibirArray;
+    var refDB=ref.child(this.state.user+"/SlideActual");
+    refDB.on('value', snapshot=> {
+      recibirArray=snapshot.val().slideActual;
+    var StringN="";
+    var ArrayFg=[];
+    for (var i = 0; i < recibirArray.length; i++) {
+        if(recibirArray[i] =='~'){
+          for (var j = i; j < recibirArray.length; j++) {
+            if(recibirArray[j]!='~'){
+              StringN += recibirArray.substring(j,j+1);
+            }
+            else if (recibirArray[j]=='~'&&j!=0||recibirArray[j+1]===null&&j!=0) {
+              ArrayFg.push(StringN);
+              StringN="";
+            }
+          }
+        }
+      }
+      referenciaContador.set({
+        visitas:this.state.count
+      });
 
-             }
-           }
-         }
-
-       }
-     this.setState({
-       arrayActual:ArrayFg
-     })
-     }  );
+    this.setState({
+      arrayActual:ArrayFg
+    })
+    }  );
   }
 
 
@@ -100,5 +116,5 @@ render() {
 }
 
 
-
+//"auth != null"
 export default View;
