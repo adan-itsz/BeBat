@@ -71,6 +71,8 @@ nav {
   }
 }
 
+
+
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: white;
@@ -226,8 +228,35 @@ nav {
 
 div#logobe img {
   position: absolute;
-width: 11%;
-margin-top: -4%;
-margin-left: 43%;
-opacity: 0.7;
+  width: 11%;
+  margin-top: -4%;
+  margin-left: 43%;
+  opacity: 0.7;
+}
+
+@media (max-width: 1200px) {
+.type{
+    margin-left: 8%;
+  }
+}
+
+@media (max-width: 900px) {
+.type{
+    margin-left: 15%;
+    font-size: 6em;
+  }
+}
+
+@media (max-width: 700px) {
+.type{
+    margin-left: 15%;
+    font-size: 4em;
+  }
+}
+
+@media (max-width: 450px) {
+.type{
+    margin-left: 15%;
+    font-size: 2.5em;
+  }
 }
