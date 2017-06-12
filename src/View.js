@@ -39,24 +39,61 @@ class Child extends Component {
       this.state={
         arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"],
         user:`${match.params.id}`,
-        count:0
+        count:0,
+        diaCount:0,
+        mesCount:0,
+        anoCount:0
+
       }
 
     }
 
       componentWillMount(){
+        var date = new Date();
+
+
+
         var referenciaContador=ref.child(`${this.state.user}`+"/views");
+        var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
+        var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
+        var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
+
+
+
+
         var valor=0;
+        var dia=0;
+        var mes=0;
+        var ano=0;
          referenciaContador.on('value',snapshot=>{
           valor=snapshot.val().visitas;
+          dia=snapshot.val().dia;
+          mes=snapshot.val().mes;
+          ano=snapshot.val().ano;
+
+
           var valorNumerico=parseInt(valor+1);
+
           if(valor==null){
             valor=0;
           }
+          if(dia==null){
+            dia=date.getDate();
+              mes=date.getMonth();
+            ano=date.getFullYear();
+          }
+
+
           this.setState({
-            count:valorNumerico
+            count:valorNumerico,
+            diaCount:dia,
+            mesCount:mes,
+            anoCount:ano
           });
         });
+
+
+
 
       var recibirArray;
     var refDB=ref.child(this.state.user+"/SlideActual");
@@ -77,9 +114,42 @@ class Child extends Component {
           }
         }
       }
+
+      if(dia==0){   //por el metodo asyncrono la primera vez no guarda el valor en los states asi que hacemos set, fuera del metodo asyncrono
       referenciaContador.set({
-        visitas:this.state.count
+     visitas:1,
+        dia:date.getDate(),
+        mes:date.getMonth(),
+        ano:date.getFullYear()
       });
+    }
+      else{ //en caso de que no sea 0 se hace un set normal, con el valor de los states
+        referenciaContador.set({
+       visitas:this.state.count,//este set es el de las visitas de cada dia
+          dia:this.state.diaCount,
+          mes:this.state.mesCount,
+          ano:this.state.anoCount
+        });
+
+      }
+
+      if(this.state.diaCount!=date.getDate()){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
+        var HistorialCountDia=referenciaContadorDia.push();
+        HistorialCountDia.set({
+          visitasDia:this.state.count,
+          dia:this.state.diaCount,
+          mes:this.state.mesCount,
+          ano:this.state.anoCount
+        });
+
+        referenciaContador.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
+       visitas:1,
+          dia:date.getDate(),
+          mes:date.getMonth(),
+          ano:date.getFullYear()
+        });
+
+      }
 
     this.setState({
       arrayActual:ArrayFg
