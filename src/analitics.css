@@ -20,3 +20,32 @@ position: relative;  }
   font:normal 0.8em arial;
   padding: 0.2em 0.5em ;
   display: none; }
+
+a.time {
+  color: white;
+  text-decoration: none;
+}
+
+a.time:hover {
+  color: lightblue;
+  background-color: transparent;
+  text-decoration:none;
+}
+
+  ul#analitics-time {
+    list-style: none;
+    background-color: darkturquoise;
+    padding: 0;
+    display: -webkit-inline-box;
+    width: 100%;
+}
+
+
+div#analitics {
+    width: 54em;
+    margin-left: 30%;
+}
+ul#analitics-time li{
+  border: thick solid white;
+  width: 34%;
+}

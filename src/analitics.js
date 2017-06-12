@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MetricsGraphics from 'react-metrics-graphics';
 import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
-
+import './analitics.css';
 import {Line} from 'react-chartjs-2';
 
 const dataano = {
@@ -90,17 +90,19 @@ const datasemana = {
 class dist extends Component{
     render(){
         return(
-          <div>
-
-         <li><Link to="/AppWeb/analitics/año" >Año</Link></li>
-         <li><Link to="/AppWeb/analitics/mes" >Mes</Link></li>
-         <li><Link to="/AppWeb/analitics/semana">Semana</Link></li>
-
-
+          <div id="analitics">
+            <div id="grafica">
                <Route exact path="/AppWeb/analitics" component={dataano1}/>
                <Route path="/AppWeb/analitics/año" component={dataano1}/>
                <Route path="/AppWeb/analitics/mes" component={datames1}/>
                <Route path="/AppWeb/analitics/semana" component={datasemana1}/>
+            </div>
+              <h2>Filtrar por: </h2>
+               <ul id="analitics-time">
+                 <li><Link to="/AppWeb/analitics/año" className="time">Año</Link></li>
+                 <li><Link to="/AppWeb/analitics/mes" className="time">Mes</Link></li>
+                 <li><Link to="/AppWeb/analitics/semana" className="time">Semana</Link></li>
+               </ul>
         </div>
 
         )
@@ -113,7 +115,7 @@ class dataano1 extends Component{
  render() {
    return (
      <div>
-       <h2>Visitas a Slide publico</h2>
+       <h2>Visitas</h2>
        <Line data={dataano} width={500}
  height={300} />
 </div>
@@ -125,7 +127,7 @@ class datames1 extends Component{
  render() {
    return (
      <div>
-       <h2>Visitas a Slide publico</h2>
+       <h2>Visitas</h2>
        <Line data={datames} width={500}
  height={300} />
 </div>
@@ -137,7 +139,7 @@ class datasemana1 extends Component{
  render() {
    return (
      <div>
-       <h2>Visitas a Slide publico</h2>
+       <h2>Visitas</h2>
        <Line data={datasemana} width={500}
  height={300} />
 </div>

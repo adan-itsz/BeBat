@@ -15,7 +15,7 @@
 
 
 }
-.contenedor ul li a{
+.contenedor ul#lista li a{
   text-decoration: none;
   color: white;
   margin: 5%;
