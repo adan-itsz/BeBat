@@ -6,6 +6,7 @@ import {Line} from 'react-chartjs-2';
 import * as firebase from 'firebase';
 import { ref } from './constants.js';
 var ban=0;
+var ban2=0;
 const dataano = {
   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
   datasets: [
@@ -165,6 +166,13 @@ componentWillMount(){
   });
   refDBTiempoReal.on('value',datos=>{
     var valu=datos.val().visitas;
+    if(ban2>0){
+      this.state.valores.pop();
+
+    }
+    else{
+      ban2++;
+    }
     this.setState({
       valores:this.state.valores.concat(valu)
     })

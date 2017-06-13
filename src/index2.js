@@ -44,7 +44,6 @@ export default class App2 extends Component {
 
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        alert("Se autentifico")
         this.setState({
           authed: true,
           loading: false,
