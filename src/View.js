@@ -79,7 +79,7 @@ class Child extends Component {
           }
           if(dia==null){
             dia=date.getDate();
-              mes=date.getMonth();
+            mes=date.getMonth();
             ano=date.getFullYear();
           }
 

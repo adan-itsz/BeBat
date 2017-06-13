@@ -3,7 +3,9 @@ import MetricsGraphics from 'react-metrics-graphics';
 import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 import './analitics.css';
 import {Line} from 'react-chartjs-2';
-
+import * as firebase from 'firebase';
+import { ref } from './constants.js';
+var ban=0;
 const dataano = {
   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
   datasets: [
@@ -31,7 +33,15 @@ const dataano = {
     }
   ]
 };
-
+function datosPorDia(dia, array){
+  var inicio=30-dia;
+  var datos=array;
+  if(ban<2){
+  for(var i=1;i<dia;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+      datos.unshift(0);
+  }
+  ban++;
+}
 const datames = {
   labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
   datasets: [
@@ -55,10 +65,12 @@ const datames = {
       pointRadius: 1,
       pointHitRadius: 10,
 
-      data: [65, 59, 80, 81, 56, 55, 40,65, 59, 80, 81, 56, 55, 40,20,50,120,12,50,30,60,70,25,26,29,52,35,63,12,40,]
+      data:datos
     }
   ]
 };
+return datames;
+}
 const datasemana = {
   labels: ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'],
   datasets: [
@@ -88,6 +100,10 @@ const datasemana = {
 };
 
 class dist extends Component{
+  constructor(){
+    super()
+    ban=0;
+  }
     render(){
         return(
           <div id="analitics">
@@ -123,12 +139,42 @@ class dataano1 extends Component{
  }
 }
 class datames1 extends Component{
+  constructor(){
+    super()
 
+    this.state={
+      diaInicio:1,
+      valores:[]
+    }
+    ban=0;
+  }
+
+componentWillMount(){
+  var user = firebase.auth().currentUser;
+  var inicio=0;
+  var remplazo=`${user.email}`.split('.').join('-');
+  var refDB=ref.child(remplazo+"/visitasDia");
+  var refDBTiempoReal=ref.child(remplazo+"/views");
+  refDB.on('child_added', snapshot=> {
+    let obj=snapshot.val();
+    inicio=obj.dia;
+    this.setState({
+      valores:this.state.valores.concat(obj.visitasDia),
+      diaInicio:inicio
+    })
+  });
+  refDBTiempoReal.on('value',datos=>{
+    var valu=datos.val().visitas;
+    this.setState({
+      valores:this.state.valores.concat(valu)
+    })
+  })
+}
  render() {
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={datames} width={500}
+       <Line data={datosPorDia(this.state.diaInicio,this.state.valores)} width={500}
  height={300} />
 </div>
    );
