@@ -2,7 +2,7 @@
 #nos{
   width: 100%;
   top:20%;
-
+  background-color: white;
 }
 h1{
   padding: 4px;
@@ -27,4 +27,37 @@ img{
   width: 100%;
   text-align: center;
   padding-bottom: 10%;
+}
+
+img#nosotros-celular {
+    width: 40%;
+    padding: 0;
+    float: left;
+}
+
+div#nosotros-content {
+    display: inline-block;
+}
+
+p.nosotros-parrafo {
+    padding: 0;
+    margin-left: 39%;
+    margin-right: 14%;
+    margin-top: 7%;
+    font-size: 2em;
+    color: black;
+}
+
+div#nos h1 {
+    font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+    font-size: 7em;
+    margin-top: -1%;
+    padding: 0;
+    margin-bottom: 0;
+    padding-top: 5%;
+    color: black;
+}
+
+span.nosotros-color {
+    color: cadetblue;
 }
