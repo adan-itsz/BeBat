@@ -42,16 +42,11 @@ class App extends React.Component {
                  <img src={logo}/>
               </div>
             <AnimatedTypingComponent />
-            <ReactVideo ref={'VideoComp'}
-              cls={'portada'}
-              height={'100%'} width={'100%'}
-              controls={false}
-              muted={true}
-              src={'bebat-web-2.mp4'}
-              autoPlay={true}
-              loop={true}
-            >
-            </ReactVideo>
+            <div class="video-container">
+                 <video id="background-video" autoPlay loop muted>
+                        <source src="bebat-web-2.mp4" type="video/mp4; "/>
+                    </video>
+                </div>
           </div>
           <div id="seccion-nosotros">
               <Nosotros />
