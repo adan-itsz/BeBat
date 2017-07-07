@@ -41,9 +41,9 @@ export default class App2 extends Component {
     loading: true,
   }
   componentDidMount () {
-
+  
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+      if (user && firebase.auth().currentUser.emailVerified) {
         this.setState({
           authed: true,
           loading: false,

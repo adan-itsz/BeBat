@@ -14,6 +14,7 @@ class Login extends React.Component {
        if (errorCode === 'auth/wrong-password') {
 
                alert('contraseña incorrecta');
+
            }
        else if(errorCode==='auth/user-not-found'){
              alert('Usuario inexistente');
@@ -22,7 +23,10 @@ class Login extends React.Component {
                    alert(errorMessage);
                  }
                  console.log(error);
+                 this.setState({
+                   contador: this.state.contador +=1,
 
+                 })
  });
  }
 

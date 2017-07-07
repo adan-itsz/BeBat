@@ -8,23 +8,30 @@ import { ref, firebaseAuth } from './constants.js'
 class Registro extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
-    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value).catch(function(error) {
+    firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
+    .then(function(user) {
+        user.sendEmailVerification()
+    }).then(function () {
+        alert("Confirme su correo para poder logearse");
+    }).catch(function (error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password') {
 
-       var errorCode = error.code;
-       var errorMessage = error.message;
-       if (errorCode === 'auth/wrong-password') {
+              alert('Wrong password.');
+          }
 
-               alert('Wrong password.');
-           }
+      else if(errorCode=='auth/email-already-in-use'){
+        alert("esa cuenta de correo ya esta en uso");
+      }
+      else {
+              alert(errorMessage);
+            }
+            console.log(error);
+          });
 
-       else if(errorCode=='auth/email-already-in-use'){
-         alert("esa cuenta de correo ya esta en uso");
-       }
-       else {
-               alert(errorMessage);
-             }
-             console.log(error);
-           });
+
+
   }
     render() {
 
