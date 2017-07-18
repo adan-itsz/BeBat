@@ -6,6 +6,7 @@ import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
 import {React_Bootstrap_Carousel} from 'react-bootstrap-carousel';
 import { ref } from './constants.js'
 import * as firebase from 'firebase'
+import GoogleLogin from 'react-google-login';
 
 
 
@@ -157,7 +158,10 @@ class Child extends Component {
     }  );
   }
 
+  onSuccess(response) {
+        alert('Logged in as: ' + response.profileObj.family_name);
 
+      }
 
 
 onSelect= (active,direction)=>{
@@ -178,6 +182,12 @@ render() {
         return (<CaroucelArray url={listaImgs}/>);})
       }
       </React_Bootstrap_Carousel>
+      <GoogleLogin
+  clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
+  buttonText="Entrar con Google"
+  onSuccess={this.onSuccess}
+  onFailure={this.onSuccess}
+/>
     </div>
     </div>
     </div>
