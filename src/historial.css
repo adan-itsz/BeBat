@@ -1,0 +1,18 @@
+div#historial {
+    width: 67em;
+    margin-left: 15.5%;
+    text-align: left;
+}
+
+#historial .carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: currentColor;
+}
+
+.itemHistorial img {
+  width: 350px !important;
+  padding: 2%;
+  margin-left: 30%;
+}
