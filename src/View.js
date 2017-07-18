@@ -7,7 +7,8 @@ import {React_Bootstrap_Carousel} from 'react-bootstrap-carousel';
 import { ref } from './constants.js'
 import * as firebase from 'firebase'
 import GoogleLogin from 'react-google-login';
-
+import FacebookLogin from 'react-facebook-login'
+import graph from 'fb-react-sdk'
 
 
 class View extends Component {
@@ -167,6 +168,10 @@ class Child extends Component {
 onSelect= (active,direction)=>{
     console.log(`active=${active} && direction=${direction}`);
 }
+
+responseFacebook = (response) => {
+ console.log(response);
+}
 render() {
 
   return(
@@ -182,6 +187,12 @@ render() {
         return (<CaroucelArray url={listaImgs}/>);})
       }
       </React_Bootstrap_Carousel>
+      <FacebookLogin
+        appId="352012855216333"
+        autoLoad={true}
+        fields="name,email,picture"
+        callback={this.responseFacebook}
+      />
       <GoogleLogin
   clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
   buttonText="Entrar con Google"
