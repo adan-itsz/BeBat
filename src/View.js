@@ -105,7 +105,7 @@ class Child extends Component {
     var ArrayFg=[];
     for (var i = 0; i < recibirArray.length; i++) {
         if(recibirArray[i] =='~'){
-          for (var j = i; j < recibirArray.length; j++) {
+          for (var j = i+1; j < recibirArray.length; j++) {
             if(recibirArray[j]!='~'){
               StringN += recibirArray.substring(j,j+1);
             }
@@ -161,7 +161,6 @@ class Child extends Component {
 
   onSuccess(response) {
         alert('Logged in as: ' + response.profileObj.family_name);
-
       }
 
 
@@ -171,6 +170,21 @@ onSelect= (active,direction)=>{
 
 handleResponse = (data) => {
    console.log(data);
+   var email=data.profile.email;
+   var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
+   var users=refUsuarios.push();
+   users.set({
+     nombre:data.profile.name,
+     genero: data.profile.gender,
+     id:data.profile.id,
+     email:data.profile.email,
+   });
+   alert("lissto");
+
+
+   graph.get("/me", function(err, res) {
+     console.log(res); // { id: '4', name: 'Mark Zuckerberg'... }
+   });
  }
 
  handleError = (error) => {

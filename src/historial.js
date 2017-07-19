@@ -30,7 +30,7 @@ class PromoSlide extends Component {
     var ArrayFg = [];
     for (var i = 0; i < recibirArray.length; i++) {
         if(recibirArray[i] =='~'){
-          for (var j = i; j < recibirArray.length; j++) {
+          for (var j = i+1; j < recibirArray.length; j++) {
             if(recibirArray[j]!='~'){
               StringN += recibirArray.substring(j,j+1);
             }
