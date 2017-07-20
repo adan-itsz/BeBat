@@ -29,7 +29,7 @@ ul.listaPromos {
 }
 
 
-input[type="file"] {
+.custom-file-upload input[type="file"] {
     display: none;
 }
 .custom-file-upload {
@@ -39,6 +39,7 @@ input[type="file"] {
   padding: .5em .7em;
   color: white;
   background: rgb(100,200,200);
+  font-weight: none;
 }
 
 .custom-file-upload:hover{
@@ -49,6 +50,8 @@ input[type="file"] {
   color: white;
   text-emphasis: none;
   background:#7EE8D6;
+  cursor: pointer;
+  font-weight: none;
 }
 
 

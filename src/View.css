@@ -1,0 +1,43 @@
+#view-title{
+  font-size: 1.5em;
+  color:white;
+  padding-top:1%;
+  padding-bottom:1%;
+  margin-bottom: 0;
+}
+
+#view{
+  font-family: 'Roboto',sans-serif;
+  text-align: center;
+  height: 100%;
+  background-color:#231F20;
+}
+
+#view-title-exclusiva{
+  color:#AD974F
+}
+
+#view-title-promocion{
+
+  color:#EAEAEA;
+}
+
+#view-buttons{
+  margin-left:7%
+}
+
+.image-gallery-image img {
+  padding:0;
+}
+
+p.social-button-text {
+    padding: 0;
+    color: white;
+    font-size: 100%;
+    text-align: center;
+    margin:0;
+}
+
+div#facebook-button{
+  width: 100%;
+}

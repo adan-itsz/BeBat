@@ -10,6 +10,21 @@ import GoogleLogin from 'react-google-login';
 import FacebookProvider, { Login } from 'react-facebook';
 import graph from 'fb-react-sdk'
 
+import { Button } from 'react-bootstrap';
+import GoArrowRight from 'react-icons/lib/go/arrow-right';
+import GoArrowLeft from 'react-icons/lib/go/arrow-left';
+import Facebook from 'react-icons/lib/fa/facebook-official'
+import Google from 'react-icons/lib/fa/google'
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+
+
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
+
+
+import './View.css'
 
 class View extends Component {
 
@@ -25,15 +40,60 @@ class View extends Component {
 }
 
 var arreglo=[];
-class CaroucelArray extends Component{
-  render(){
-    return(
-      <div className="itemCaroucel">
-        <img src={this.props.url}/>
-      </div>
-    );
-  }
+
+const styleImg = {
+  width: '100%',
+  height: '100%',
+  maxHeight: '100%',
+  margin: '0',
+  padding: '0',
+  border: '0',
 }
+
+const arrows = {
+  height: '100%',
+  fontSize: '2em'
+};
+
+const socialIcon ={
+  fontSize:'1.8em',
+  paddingBottom:'0%',
+}
+
+const socialButtonFacebook = {
+  borderRadius:'0px',
+  width:'95%',
+  backgroundColor:'#337ab7',
+  color: 'white',
+  marginBottom:'2%',
+  paddingTop: '2%',
+  paddingBottom: '2%',
+}
+
+const socialButtonGoogle = {
+  borderRadius:'0px',
+  width:'95%',
+  backgroundColor:'rgb(209, 72, 54)',
+  marginBottom: '2%',
+  color:'white',
+  fontWeight:'none',
+  border:'none'
+}
+
+const styleCarousel = {
+  height:'100%',
+  backgroundColor: 'none'
+}
+ const googleLoginComponent = {
+  backgroundColor:'rgb(209, 72, 54)',
+  marginBottom: '1.9%',
+  fontWeight:'none',
+  border:'none',
+  fontSize: '130%',
+  marginLeft: '0%',
+  marginTop: '1.9%',
+  color:'white'
+ }
 
 class Child extends Component {
   constructor({match}){
@@ -81,7 +141,7 @@ class Child extends Component {
           }
           if(dia==null){
             dia=date.getDate();
-            mes=date.getMonth();
+            mes=date.getMonth()+1;
             ano=date.getFullYear();
           }
 
@@ -121,7 +181,7 @@ class Child extends Component {
       referenciaContador.set({
      visitas:1,
         dia:date.getDate(),
-        mes:date.getMonth(),
+        mes:date.getMonth()+1,
         ano:date.getFullYear()
       });
     }
@@ -147,7 +207,7 @@ class Child extends Component {
         referenciaContador.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
        visitas:1,
           dia:date.getDate(),
-          mes:date.getMonth(),
+          mes:date.getMonth()+1,
           ano:date.getFullYear()
         });
 
@@ -169,7 +229,6 @@ class Child extends Component {
     });
 
       }
-
 
 onSelect= (active,direction)=>{
     console.log(`active=${active} && direction=${direction}`);
@@ -197,37 +256,56 @@ handleResponse = (data) => {
    this.setState({ error });
  }
 render() {
-
+  const images = [
+    {
+      original:this.state.arrayActual[0],
+    },
+    {
+      original: this.state.arrayActual[1],
+    },
+    {
+      original: this.state.arrayActual[2]
+    }
+  ]
   return(
-    <div>
-    <div id="carousel-main">
-    <div style={{ margin:20}}>
-      <React_Bootstrap_Carousel
-        animation={true}
-        onSelect={this.onSelect}
-        className="carousel-fade"
-      >
-      {this.state.arrayActual.map(listaImgs=>{
-        return (<CaroucelArray url={listaImgs}/>);})
-      }
-      </React_Bootstrap_Carousel>
-      <FacebookProvider appId="253083618527049">
-        <Login
-          scope="email"
-          onResponse={this.handleResponse}
-          onError={this.handleError}
-        >
-          <span>Login via Facebook</span>
-        </Login>
-      </FacebookProvider>
-      <GoogleLogin
-  clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
-  buttonText="Entrar con Google"
-  onSuccess={this.onSuccess}
-  onFailure={this.onSuccess}
-/>
-    </div>
-    </div>
+    <div id='view'>
+      <ImageGallery
+        style={styleCarousel}
+        items={images}
+        slideInterval={5000}
+        showThumbnails={false}
+        showBullets={true}
+        autoPlay={true}
+        showPlayButton={false}
+        showFullscreenButton={false}
+        onImageLoad={this.handleImageLoad}/>
+        <div id='view-buttons'>
+          <h2 id='view-title'>¡OBTÉN UNA <span id='view-title-promocion'>PROMOCIÓN</span> <span id='view-title-exclusiva'>EXCLUSIVA</span>!</h2>
+          <br/>
+          <div id='facebok-button'>
+            <FacebookProvider appId="253083618527049">
+            <Login
+              scope="email"
+              onResponse={this.handleResponse}
+              onError={this.handleError}
+            >
+              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" block>
+                <p className='social-button-text'><Facebook size={23} style={socialIcon}/> Ingresa con Facebook </p>
+              </Button>
+            </Login>
+            </FacebookProvider>
+          </div>
+          <div id='google-button' style={socialButtonGoogle}>
+            <Google style={socialIcon}/>
+            <GoogleLogin
+              clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
+              buttonText={"Ingresa con Google"}
+              onSuccess={this.onSuccess}
+              onFailure={this.onSuccess}
+              style={googleLoginComponent}
+            />
+        </div>
+      </div>
     </div>
   )
 }
