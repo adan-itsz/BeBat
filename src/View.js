@@ -160,7 +160,14 @@ class Child extends Component {
   }
 
   onSuccess(response) {
-        alert('Logged in as: ' + response.profileObj.family_name);
+    var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
+    var users=refUsuarios.push();
+    users.set({
+      nombre:response.profileObj.name,
+      id:response.profileObj.googleId,
+      email:response.profileObj.email,
+    });
+
       }
 
 
@@ -170,7 +177,6 @@ onSelect= (active,direction)=>{
 
 handleResponse = (data) => {
    console.log(data);
-   var email=data.profile.email;
    var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
    var users=refUsuarios.push();
    users.set({

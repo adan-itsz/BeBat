@@ -30,6 +30,12 @@ class Login extends React.Component {
  });
  }
 
+ Recuperar(){
+  firebaseAuth.sendPasswordResetEmail(this.email.value).then(function() {
+}, function(error) {
+});
+ }
+
     render() {
 
         return (
@@ -53,7 +59,7 @@ class Login extends React.Component {
            <input  name='pass' id="inputPassword3" placeholder="Password" type="password" ref={(pw) => this.pw = pw} required/>
          </div>
          <div className="icn">
-                        <p id="icono"><span className="icon icon--info">?</span><a id= "olvidar"href="/Recuperar">Olvidaste tu password?</a></p>
+                        <p id="icono"><span className="icon icon--info">?</span><a id= "olvidar" onClick={this.Recuperar} >Olvidaste tu password?</a></p>
                       </div>
 
          <button type="submit" id="btnLogin" className="btn btn-primary">Login</button>
