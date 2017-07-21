@@ -176,8 +176,24 @@ onSelect= (active,direction)=>{
 }
 
 handleResponse = (data) => {
+  var self=this;
    console.log(data);
-   var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
+   var h,m;
+    var refGenero=ref.child(`${this.state.user}`+"/usuarios/genero");
+    var promise= new Promise(
+      function(resolve,reject){
+    refGenero.on('value',snapshot=>{
+
+      resolve(
+        h=snapshot.exists() ? snapshot.val().hombre:0,
+        m=snapshot.exists()? snapshot.val().mujer:0
+      )
+    });
+  }
+  )
+  promise.then(
+    function(){
+   var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
    var users=refUsuarios.push();
    users.set({
      nombre:data.profile.name,
@@ -185,8 +201,18 @@ handleResponse = (data) => {
      id:data.profile.id,
      email:data.profile.email,
    });
+   if(data.profile.gender=='male'){
+     h+=1;
+   }
+   if(data.profile.gender=='female'){
+     m+=1;
+   }
+   refGenero.set({
+     hombre:h,
+     mujer:m
+   })
    alert("lissto");
-
+ })
 
    graph.get("/me", function(err, res) {
      console.log(res); // { id: '4', name: 'Mark Zuckerberg'... }

@@ -3,6 +3,7 @@ import MetricsGraphics from 'react-metrics-graphics';
 import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 import './analitics.css';
 import {Line} from 'react-chartjs-2';
+import { Chart } from 'react-google-charts';
 import * as firebase from 'firebase';
 import { ref } from './constants.js';
 var ban=0;
@@ -104,6 +105,40 @@ class dist extends Component{
   constructor(){
     super()
     ban=0;
+    this.state={
+      hombres:0,
+      mujeres:0
+    }
+
+  }
+  componentWillMount(){
+    var user = firebase.auth().currentUser;
+    var self=this;
+      var remplazo=`${user.email}`.split('.').join('-');
+      var refDB=ref.child(remplazo+"/usuarios/genero");
+      var hombres;
+      var mujeres;
+      var promise= new Promise(
+        function(resolve,reject){
+      refDB.on("value", snapshot=>{
+            resolve(
+              hombres=snapshot.val().hombre,
+              mujeres=snapshot.val().mujer
+            )
+
+
+      });
+    }
+    )
+    promise.then(
+      function(){
+        self.setState({
+          hombres:hombres,
+          mujeres:mujeres
+        });
+
+      }
+    )
   }
     render(){
         return(
@@ -120,6 +155,17 @@ class dist extends Component{
                  <li><Link to="/AppWeb/analitics/mes" className="time">Mes</Link></li>
                  <li><Link to="/AppWeb/analitics/semana" className="time">Semana</Link></li>
                </ul>
+          <div className={'my-pretty-chart-container'}>
+          <Chart
+          chartType="PieChart"
+          data={[["Task","Hours per Day"],["Hombres",this.state.hombres],["Mujeres",this.state.mujeres]]}
+          options={{"title":"Sexo","pieHole":0.4,"is3D":false}}
+          graph_id="DonutChart"
+          width="100%"
+
+          />
+      </div>
+
         </div>
 
         )
