@@ -13,6 +13,7 @@ import graph from 'fb-react-sdk'
 import { Button } from 'react-bootstrap';
 import GoArrowRight from 'react-icons/lib/go/arrow-right';
 import GoArrowLeft from 'react-icons/lib/go/arrow-left';
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
 
@@ -93,6 +94,11 @@ const styleCarousel = {
   marginLeft: '0%',
   marginTop: '1.9%',
   color:'white'
+ }
+
+ const styleArrowDown = {
+  color:'white',
+  marginRight: '7%',
  }
 
 class Child extends Component {
@@ -281,6 +287,7 @@ render() {
         onImageLoad={this.handleImageLoad}/>
         <div id='view-buttons'>
           <h2 id='view-title'>¡OBTÉN UNA <span id='view-title-promocion'>PROMOCIÓN</span> <span id='view-title-exclusiva'>EXCLUSIVA</span>!</h2>
+          <FaAngleDown size={35} style={styleArrowDown}/>
           <br/>
           <div id='facebok-button'>
             <FacebookProvider appId="253083618527049">

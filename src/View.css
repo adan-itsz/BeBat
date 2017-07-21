@@ -2,8 +2,8 @@
   font-size: 1.5em;
   color:white;
   padding-top:1%;
-  padding-bottom:1%;
   margin-bottom: 0;
+  margin-right: 7%;
 }
 
 #view{
@@ -41,3 +41,4 @@ p.social-button-text {
 div#facebook-button{
   width: 100%;
 }
+
