@@ -10,6 +10,7 @@
     "chart.js": "^2.6.0",
     "fb-react-sdk": "^1.0.4",
     "firebase": "^3.8.0",
+    "inline-style-prefix-all": "^2.0.2",
     "material-ui": "^0.18.1",
     "react": "^15.5.4",
     "react-bootstrap": "^0.30.8",

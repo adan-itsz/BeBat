@@ -8,7 +8,6 @@ import { ref } from './constants.js'
 import * as firebase from 'firebase'
 import GoogleLogin from 'react-google-login';
 import FacebookProvider, { Login } from 'react-facebook';
-import graph from 'fb-react-sdk'
 
 import { Button } from 'react-bootstrap';
 import GoArrowRight from 'react-icons/lib/go/arrow-right';
@@ -253,9 +252,6 @@ handleResponse = (data) => {
    alert("lissto");
 
 
-   graph.get("/me", function(err, res) {
-     console.log(res); // { id: '4', name: 'Mark Zuckerberg'... }
-   });
  }
 
  handleError = (error) => {
