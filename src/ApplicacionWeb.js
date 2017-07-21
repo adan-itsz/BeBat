@@ -25,27 +25,45 @@ class ApplicacionWeb extends Component {
   constructor(){
     super();
     this.state={
-      logoWeb:'logo',
+      logoWeb:' ',
       open: false,
-      user :firebase.auth().currentUser
 
     }
   }
 
   componentWillMount(){
-      var refDB=ref.child(this.state.user+"/logo");
+    var self = this;
+    var user =firebase.auth().currentUser
+    var userDB = user.email.split('.').join('-');
+      var imageDB;
+      var p1=new Promise (
+        function(resolve, reject){
+  var refDB=ref.child(userDB+"/logo");
+          refDB.on('value', snapshot=>{
+          resolve(imageDB=snapshot.val().logoWeb);
+        });
+      });
+      p1.then(
+        function(val){
+          self.setState({
+            logoWeb:val
+          });
 
+        }
+      );
   }
 
   cambiarLogo(event){
     event.preventDefault();
     var downloadURL;
-    var userDB = this.state.user.email.split('.').join('-');
+   var user =firebase.auth().currentUser
+
+    var userDB = user.email.split('.').join('-');
 
       var promise;
     let reader = new FileReader();
    let file = event.target.files[0];
-   const storageRef = firebase.storage().ref(`${this.state.user.email}`+"/logo/"+`${file.name}`)
+   const storageRef = firebase.storage().ref(`${user.email}`+"/logo/"+`${file.name}`)
  const task = storageRef.put(file)
 
         promise=new Promise(
@@ -59,8 +77,8 @@ class ApplicacionWeb extends Component {
         });
       })
         promise.then(
-          alert(this.state.user),
             function(url){
+            alert("esta "+url);
                   var refUsuarios=ref.child(`${userDB}`+"/logo");
                 refUsuarios.set({
                      logoWeb:url
@@ -69,9 +87,7 @@ class ApplicacionWeb extends Component {
 
 
         )
-        this.setState({
-            open:false
-          })
+
 
   }
 
@@ -95,7 +111,7 @@ handleClose = () => {
         label="Submit"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.cambiarLogo}
+        onTouchTap={this.handleClose}
       />,
     ];
     return (
@@ -104,7 +120,7 @@ handleClose = () => {
         <div className="contenedor">
         <div id="barraLateral">
           <div id='logobarra'>
-            <img src={logo} onClick={this.handleOpen}/>
+            <img src={this.state.logoWeb} onClick={this.handleOpen}/>
           </div>
 
           <Dialog
@@ -115,7 +131,7 @@ handleClose = () => {
               onRequestClose={this.handleClose}
           >
           <div id='logobarra'>
-            <img src={logo}/>
+            <img src={this.state.logoWeb}/>
           </div>
           <label className='custom-file-upload'>
             <input type='file' onChange={this.cambiarLogo.bind(this)}/>
