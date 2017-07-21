@@ -14,20 +14,115 @@ import config from './login.js'
 import * as firebase from 'firebase';
 import { ref, firebaseAuth } from './constants.js'
 import logo from './logobebat.png'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 
 
 class ApplicacionWeb extends Component {
+  constructor(){
+    super();
+    this.state={
+      logoWeb:'logo',
+      open: false,
+      user :firebase.auth().currentUser
+
+    }
+  }
+
+  componentWillMount(){
+      var refDB=ref.child(this.state.user+"/logo");
+
+  }
+
+  cambiarLogo(event){
+    event.preventDefault();
+    var downloadURL;
+    var userDB = this.state.user.email.split('.').join('-');
+
+      var promise;
+    let reader = new FileReader();
+   let file = event.target.files[0];
+   const storageRef = firebase.storage().ref(`${this.state.user.email}`+"/logo/"+`${file.name}`)
+ const task = storageRef.put(file)
+
+        promise=new Promise(
+      function(resolve,reject){
+        task.on('state_changed', function(snapshot){
+
+      }, function(error) {
+          alert("error");
+        }, function() {
+      resolve(downloadURL = task.snapshot.downloadURL);
+        });
+      })
+        promise.then(
+          alert(this.state.user),
+            function(url){
+                  var refUsuarios=ref.child(`${userDB}`+"/logo");
+                refUsuarios.set({
+                     logoWeb:url
+                   });
+            }
+
+
+        )
+        this.setState({
+            open:false
+          })
+
+  }
+
+
+  handleOpen = () => {
+  this.setState({open: true});
+};
+
+handleClose = () => {
+  this.setState({open: false});
+};
   render() {
     var user = firebase.auth().currentUser;
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.cambiarLogo}
+      />,
+    ];
     return (
 
       <Router>
         <div className="contenedor">
         <div id="barraLateral">
           <div id='logobarra'>
+            <img src={logo} onClick={this.handleOpen}/>
+          </div>
+
+          <Dialog
+              title="Cambiar logo"
+              actions={actions}
+              modal={false}
+              open={this.state.open}
+              onRequestClose={this.handleClose}
+          >
+          <div id='logobarra'>
             <img src={logo}/>
           </div>
+          <label className='custom-file-upload'>
+            <input type='file' onChange={this.cambiarLogo.bind(this)}/>
+            SUBIR IMAGEN
+          </label>
+          </Dialog>
+
           <div id='bienvenida'>
             <p id='parBienv'>Bienvenido</p>
             <div id="curruser">
