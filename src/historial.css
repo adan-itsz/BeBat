@@ -16,3 +16,9 @@ div#historial {
   padding: 2%;
   margin-left: 30%;
 }
+
+#historial-image-gallery .image-gallery{
+  width: 29%;
+  margin-left: 35%;
+  margin-top: 0;
+}

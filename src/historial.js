@@ -8,17 +8,10 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import './historial.css';
-import {React_Bootstrap_Carousel} from 'react-bootstrap-carousel';
+import ImageGallery from 'react-image-gallery'
+import "react-image-gallery/styles/css/image-gallery.css"
 
-class CaroucelArray extends Component{
-  render(){
-    return(
-      <div className="itemHistorial">
-        <img src={this.props.url}/>
-      </div>
-    );
-  }
-}
+
 
 class PromoSlide extends Component {
   constructor(props) {
@@ -56,17 +49,28 @@ class PromoSlide extends Component {
   }
 
   render(){
-    return(
-      <div>
-        <React_Bootstrap_Carousel
-          animation={true}
-          onSelect={this.onSelect}
-          className="carousel-fade"
-        >
-        {this.state.arrayActual.map((listaImgs,i)=>{
-          return (<CaroucelArray key={i} url={listaImgs}/>);})
+    const images = [
+        {
+          original:this.state.arrayActual[0],
+        },
+        {
+          original: this.state.arrayActual[1],
+        },
+        {
+          original: this.state.arrayActual[2]
         }
-        </React_Bootstrap_Carousel>
+      ]
+    return(
+      <div id='historial-image-gallery'>
+        <ImageGallery
+                items={images}
+                slideInterval={5000}
+                showThumbnails={false}
+                showBullets={true}
+                autoPlay={true}
+                showPlayButton={false}
+                showFullscreenButton={false}
+                onImageLoad={this.handleImageLoad}/>
       </div>
     )
   }

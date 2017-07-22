@@ -6,17 +6,15 @@ import 'react-bootstrap-carousel/dist/react-bootstrap-carousel.css';
 import {React_Bootstrap_Carousel} from 'react-bootstrap-carousel';
 import * as firebase from 'firebase'
 import { ref } from './constants.js'
+import ImageGallery from 'react-image-gallery'
+import "react-image-gallery/styles/css/image-gallery.css"
 
 var arreglo=[];
-class CaroucelArray extends Component{
-  render(){
-    return(
-      <div className="itemCaroucel">
-        <img src={this.props.url}/>
-      </div>
-    );
-  }
+
+const styleCarousel = {
+  backgroundColor:'black',
 }
+
 
 class PromoActiva extends Component {
       constructor(){
@@ -65,23 +63,34 @@ class PromoActiva extends Component {
         console.log(`active=${active} && direction=${direction}`);
     }
     render() {
-
+      const images = [
+        {
+          original:this.state.arrayActual[0],
+        },
+        {
+          original: this.state.arrayActual[1],
+        },
+        {
+          original: this.state.arrayActual[2]
+        }
+      ]
       return(
         <div>
-        <div id="carousel-main">
-        <div style={{ margin:20}}>
-          <React_Bootstrap_Carousel
-            animation={true}
-            onSelect={this.onSelect}
-            className="carousel-fade"
-          >
-          {this.state.arrayActual.map(listaImgs=>{
-            return (<CaroucelArray url={listaImgs}/>);})
-          }
-          </React_Bootstrap_Carousel>
-        </div>
-        </div>
-        <h1>Tu slide actual</h1>
+          <div id="carousel-main">
+            <div style={{ margin:20}}>
+              <ImageGallery
+                style={styleCarousel}
+                items={images}
+                slideInterval={5000}
+                showThumbnails={false}
+                showBullets={true}
+                autoPlay={true}
+                showPlayButton={false}
+                showFullscreenButton={false}
+                onImageLoad={this.handleImageLoad}/>
+                <h1 id='promocion-actual-text'>PROMOCIONES ACTUALES</h1>
+            </div>
+          </div>
         </div>
       )
     }

@@ -58,11 +58,11 @@
 	margin-left: 25%;
 	margin-bottom: 5%;
 	background-color: #044A62;
-  color: #fff;
 	width: 50%;
 	height: 30%;
-  font-size: 3vw;
+  font-size: 100%;
   margin-top: 10px;
+  font-weight: bold;
 
 }
 #btnaceptar:hover{
