@@ -8,7 +8,6 @@ import { ref } from './constants.js'
 import * as firebase from 'firebase'
 import GoogleLogin from 'react-google-login';
 import FacebookProvider, { Login } from 'react-facebook';
-import graph from 'fb-react-sdk'
 
 
 class View extends Component {
@@ -44,7 +43,9 @@ class Child extends Component {
         count:0,
         diaCount:0,
         mesCount:0,
-        anoCount:0
+        anoCount:0,
+        logoWeb:' ',
+        tituloS:""
 
       }
 
@@ -52,8 +53,6 @@ class Child extends Component {
 
       componentWillMount(){
         var date = new Date();
-
-
 
         var referenciaContador=ref.child(`${this.state.user}`+"/views");
         var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
@@ -98,9 +97,13 @@ class Child extends Component {
 
 
       var recibirArray;
+      var titulo;
+
     var refDB=ref.child(this.state.user+"/SlideActual");
     refDB.on('value', snapshot=> {
       recibirArray=snapshot.val().slideActual;
+      titulo=snapshot.val().nombreSlide;
+      document.title=titulo;
     var StringN="";
     var ArrayFg=[];
     for (var i = 0; i < recibirArray.length; i++) {
@@ -154,9 +157,44 @@ class Child extends Component {
       }
 
     this.setState({
-      arrayActual:ArrayFg
+      arrayActual:ArrayFg,
     })
     }  );
+    this.logo();
+
+  }
+
+  logo(){
+    var userDB = this.state.user;
+    var self = this;
+      var imageDB;
+      var p1=new Promise (
+        function(resolve, reject){
+  var refDB=ref.child(userDB+"/logo");
+          refDB.on('value', snapshot=>{
+          resolve(imageDB=snapshot.val().logoWeb);
+        });
+      });
+      p1.then(
+        function(val){
+          self.setState({
+            logoWeb:val
+          });
+
+        }
+      );
+
+          document.head || (document.head = document.getElementsByTagName('head')[0]);
+
+           var link = document.createElement('link'),
+               oldLink = document.getElementById('dynamic-favicon');
+           link.id = 'dynamic-favicon';
+           link.rel = 'shortcut icon';
+           link.href = this.state.logoWeb;
+           if (oldLink) {
+            document.head.removeChild(oldLink);
+           }
+           document.head.appendChild(link);
   }
 
   onSuccess(response) {
@@ -185,17 +223,15 @@ handleResponse = (data) => {
      id:data.profile.id,
      email:data.profile.email,
    });
-   alert("lissto");
 
-
-   graph.get("/me", function(err, res) {
-     console.log(res); // { id: '4', name: 'Mark Zuckerberg'... }
-   });
  }
 
  handleError = (error) => {
    this.setState({ error });
  }
+
+
+
 render() {
 
   return(
