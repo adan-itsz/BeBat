@@ -94,10 +94,12 @@ class ApplicacionWeb extends Component {
 
   handleOpen = () => {
   this.setState({open: true});
+
 };
 
 handleClose = () => {
   this.setState({open: false});
+  window.location.reload();
 };
   render() {
     var user = firebase.auth().currentUser;
@@ -130,7 +132,7 @@ handleClose = () => {
               open={this.state.open}
               onRequestClose={this.handleClose}
           >
-          <div id='logobarra'>
+          <div id='logobarra2'>
             <img src={this.state.logoWeb}/>
           </div>
           <label className='custom-file-upload'>

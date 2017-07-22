@@ -11,11 +11,6 @@ class Registro extends React.Component {
     firebaseAuth().createUserWithEmailAndPassword(this.email.value, this.pw.value)
     .then(function(user) {
         user.sendEmailVerification()
-        var userDB = user.email.split('.').join('-');
-        var refUsuarios=ref.child(`${userDB}`+"/logo");
-       refUsuarios.set({
-           logoWeb:"https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2Ficono.ico?alt=media&token=5f9699e2-189a-46ed-a44c-ecf1857dc223"
-         });
     }).then(function () {
         alert("Confirme su correo para poder logearse");
     }).catch(function (error) {
