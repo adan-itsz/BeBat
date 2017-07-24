@@ -8,6 +8,22 @@ import * as firebase from 'firebase';
 import { ref } from './constants.js';
 var ban=0;
 var ban2=0;
+
+function getUltimoDiaMes(mes, ano){
+  if( (mes == 1) || (mes == 3) || (mes == 5) || (mes == 7) || (mes == 8) || (mes == 10) || (mes == 12) )
+      return 31;
+  else if( (mes == 4) || (mes == 6) || (mes == 9) || (mes == 11) )
+      return 30;
+  else if( mes == 2 )
+  {
+
+      if( (ano % 4 == 0) && (ano % 100 != 0) || (ano % 400 == 0) )
+          return 29;
+      else
+          return 28;
+  }
+}
+
 const dataano = {
   labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
   datasets: [
@@ -36,8 +52,12 @@ const dataano = {
   ]
 };
 function datosPorDia(dia, array){
-  var inicio=30-dia;
+  var date1 = new Date();
   var datos=array;
+  var labelsDias=[];
+  for(var i=1;i<=getUltimoDiaMes(date1.getMonth()+1);i++){
+    labelsDias[i]=i;
+  }
   if(ban<2){
   for(var i=1;i<dia;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
       datos.unshift(0);
@@ -197,32 +217,40 @@ class datames1 extends Component{
   }
 
 componentWillMount(){
+  let self=this;
   var user = firebase.auth().currentUser;
   var inicio=0;
   var remplazo=`${user.email}`.split('.').join('-');
   var refDB=ref.child(remplazo+"/visitasDia");
   var refDBTiempoReal=ref.child(remplazo+"/views");
-  refDB.on('child_added', snapshot=> {
-    let obj=snapshot.val();
-    inicio=obj.dia;
-    this.setState({
-      valores:this.state.valores.concat(obj.visitasDia),
-      diaInicio:inicio
-    })
+  var arrayValores=[];
+  var promise=new Promise(
+    function(resolve,reject){
+  refDB.on('value', snapshot=> {
+    snapshot.forEach(function(child){
+    inicio=child.val().dia;
+    arrayValores=arrayValores.concat(child.val().visitasDia);
+  })
   });
   refDBTiempoReal.on('value',datos=>{
     var valu=datos.val().visitas;
     if(ban2>0){
-      this.state.valores.pop();
-
+      arrayValores.pop();
     }
     else{
       ban2++;
     }
-    this.setState({
-      valores:this.state.valores.concat(valu)
+    resolve(arrayValores=arrayValores.concat(valu));
+  });
+})//end promise
+promise.then(
+  function(){
+    self.setState({
+      valores:arrayValores,
+      inicio:inicio
     })
-  })
+  }
+)
 }
  render() {
    return (
