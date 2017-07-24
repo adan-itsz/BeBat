@@ -43,10 +43,14 @@ class PromoActiva extends Component {
                 if(recibirArray[j]!='~'){
                   StringN += recibirArray.substring(j,j+1);
                 }
-                else if (recibirArray[j]=='~'&&j!=0||recibirArray[j+1]===null&&j!=0) {
+                else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
                   ArrayFg.push(StringN);
                   StringN="";
                 }
+              }
+              if(j==recibirArray.length){
+                ArrayFg.push(StringN);
+                break;
               }
             }
           }
