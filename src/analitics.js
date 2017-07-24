@@ -51,21 +51,24 @@ const dataano = {
     }
   ]
 };
-function datosPorDia(dia, array){
-  var date1 = new Date();
-  var datos=array;
+function label(){
+    var date1 = new Date();
   var labelsDias=[];
   for(var i=1;i<=getUltimoDiaMes(date1.getMonth()+1);i++){
-    labelsDias[i]=i;
+
+    labelsDias[i]=i.toString();
   }
-  if(ban<2){
+  return labelsDias
+}
+function datosPorDia(dia, array){
+  var datos=array;
   for(var i=1;i<dia;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
       datos.unshift(0);
   }
-  ban++;
-}
+
 const datames = {
-  labels: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30'],
+
+  labels:['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30',''],
   datasets: [
     {
       label: 'Usuarios fisicos',
@@ -210,7 +213,7 @@ class datames1 extends Component{
     super()
 
     this.state={
-      diaInicio:1,
+
       valores:[]
     }
     ban=0;
@@ -220,15 +223,20 @@ componentWillMount(){
   let self=this;
   var user = firebase.auth().currentUser;
   var inicio=0;
-  var remplazo=`${user.email}`.split('.').join('-');
+  var bandera=false;
+    var remplazo=`${user.email}`.split('.').join('-');
   var refDB=ref.child(remplazo+"/visitasDia");
   var refDBTiempoReal=ref.child(remplazo+"/views");
   var arrayValores=[];
+  var diaInicial;
   var promise=new Promise(
     function(resolve,reject){
   refDB.on('value', snapshot=> {
     snapshot.forEach(function(child){
-    inicio=child.val().dia;
+    if(!bandera){
+      inicio=child.val().dia;
+      bandera=true;
+    }
     arrayValores=arrayValores.concat(child.val().visitasDia);
   })
   });
@@ -240,14 +248,17 @@ componentWillMount(){
     else{
       ban2++;
     }
-    resolve(arrayValores=arrayValores.concat(valu));
+    resolve(
+      arrayValores=arrayValores.concat(valu),
+      diaInicial=inicio
+  );
   });
 })//end promise
 promise.then(
   function(){
     self.setState({
       valores:arrayValores,
-      inicio:inicio
+      diaInicio:diaInicial
     })
   }
 )
