@@ -105,8 +105,27 @@ div#logobarra {
     width: 50%;
     height: 0%;
     margin-left: 26%;
-    margin-top: 15%;
+    margin-top: 5%;
 }
+
+#logobarra .text{
+  position: relative;
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: cadetblue;
+  font-size: medium;
+}
+
+#logobarra img {
+  cursor: pointer;
+}
+
+#logobarra:hover .text{
+  visibility: visible;
+}
+
 div#logobarra2 {
     width: 30%;
     height: 0%;
@@ -127,7 +146,7 @@ p#parBienv{
 }
 
 #bienvenida{
-  margin-top: 62%;
+  margin-top: 70%;
 }
 
 #salirPromo a{

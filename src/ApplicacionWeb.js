@@ -122,7 +122,8 @@ handleClose = () => {
         <div className="contenedor">
         <div id="barraLateral">
           <div id='logobarra'>
-            <img src={this.state.logoWeb} onClick={this.handleOpen}/>
+            <p className='text'>Haz click para cambiar logo</p>
+            <img src={this.state.logoWeb} className='hover' onClick={this.handleOpen}/>
           </div>
 
           <Dialog
