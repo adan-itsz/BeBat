@@ -68,11 +68,12 @@ class PromoActiva extends Component {
           original:this.state.arrayActual[0],
         },
         {
-          original: this.state.arrayActual[1],
+          original:this.state.arrayActual[1],
         },
         {
-          original: this.state.arrayActual[2]
+          original:this.state.arrayActual[2]
         }
+
       ]
       return(
         <div>
