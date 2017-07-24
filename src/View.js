@@ -8,18 +8,14 @@ import { ref } from './constants.js'
 import * as firebase from 'firebase'
 import GoogleLogin from 'react-google-login';
 import FacebookProvider, { Login } from 'react-facebook';
-
 import { Button } from 'react-bootstrap';
 import GoArrowRight from 'react-icons/lib/go/arrow-right';
 import GoArrowLeft from 'react-icons/lib/go/arrow-left';
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
-
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-
-
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 
@@ -125,9 +121,6 @@ class Child extends Component {
         var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
         var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
 
-
-
-
         var valor=0;
         var dia=0;
         var mes=0;
@@ -137,8 +130,6 @@ class Child extends Component {
           dia=snapshot.val().dia;
           mes=snapshot.val().mes;
           ano=snapshot.val().ano;
-
-
           var valorNumerico=parseInt(valor+1);
 
           if(valor==null){
@@ -279,8 +270,24 @@ onSelect= (active,direction)=>{
 }
 
 handleResponse = (data) => {
+  var self=this;
    console.log(data);
-   var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
+   var h,m;
+    var refGenero=ref.child(`${this.state.user}`+"/usuarios/genero");
+    var promise= new Promise(
+      function(resolve,reject){
+    refGenero.on('value',snapshot=>{
+
+      resolve(
+        h=snapshot.exists() ? snapshot.val().hombre:0,
+        m=snapshot.exists()? snapshot.val().mujer:0
+      )
+    });
+  }
+  )
+  promise.then(
+    function(){
+   var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
    var users=refUsuarios.push();
    users.set({
      nombre:data.profile.name,
@@ -288,6 +295,20 @@ handleResponse = (data) => {
      id:data.profile.id,
      email:data.profile.email,
    });
+
+   if(data.profile.gender=='male'){
+     h+=1;
+   }
+   if(data.profile.gender=='female'){
+     m+=1;
+   }
+   refGenero.set({
+     hombre:h,
+     mujer:m
+   })
+   alert("lissto");
+ })
+
 
  }
 
