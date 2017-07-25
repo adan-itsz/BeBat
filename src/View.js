@@ -164,18 +164,23 @@ class Child extends Component {
     var StringN="";
     var ArrayFg=[];
     for (var i = 0; i < recibirArray.length; i++) {
-        if(recibirArray[i] =='~'){
-          for (var j = i+1; j < recibirArray.length; j++) {
-            if(recibirArray[j]!='~'){
-              StringN += recibirArray.substring(j,j+1);
-            }
-            else if (recibirArray[j]=='~'&&j!=0||recibirArray[j+1]===null&&j!=0) {
-              ArrayFg.push(StringN);
-              StringN="";
+            if(recibirArray[i] =='~'){
+              for (var j = i+1; j < recibirArray.length; j++) {
+                if(recibirArray[j]!='~'){
+                  StringN += recibirArray.substring(j,j+1);
+                }
+                else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+                  ArrayFg = ArrayFg.concat({original:StringN});
+
+                  StringN="";
+                }
+              }
+              if(j==recibirArray.length){
+                ArrayFg = ArrayFg.concat({original:StringN});
+                break;
+              }
             }
           }
-        }
-      }
 
       if(dia==0){   //por el metodo asyncrono la primera vez no guarda el valor en los states asi que hacemos set, fuera del metodo asyncrono
       referenciaContador.set({
@@ -319,22 +324,11 @@ handleResponse = (data) => {
 
 
 render() {
-  const images = [
-    {
-      original:this.state.arrayActual[0],
-    },
-    {
-      original: this.state.arrayActual[1],
-    },
-    {
-      original: this.state.arrayActual[2]
-    }
-  ]
   return(
     <div id='view'>
       <ImageGallery
         style={styleCarousel}
-        items={images}
+        items={this.state.arrayActual}
         slideInterval={5000}
         showThumbnails={false}
         showBullets={true}

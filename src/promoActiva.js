@@ -44,12 +44,13 @@ class PromoActiva extends Component {
                   StringN += recibirArray.substring(j,j+1);
                 }
                 else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
-                  ArrayFg.push(StringN);
+                  ArrayFg = ArrayFg.concat({original:StringN});
+
                   StringN="";
                 }
               }
               if(j==recibirArray.length){
-                ArrayFg.push(StringN);
+                ArrayFg = ArrayFg.concat({original:StringN});
                 break;
               }
             }
@@ -67,25 +68,13 @@ class PromoActiva extends Component {
         console.log(`active=${active} && direction=${direction}`);
     }
     render() {
-      const images = [
-        {
-          original:this.state.arrayActual[0],
-        },
-        {
-          original:this.state.arrayActual[1],
-        },
-        {
-          original:this.state.arrayActual[2]
-        }
-
-      ]
       return(
         <div>
           <div id="carousel-main">
             <div style={{ margin:20}}>
               <ImageGallery
                 style={styleCarousel}
-                items={images}
+                items={this.state.arrayActual}
                 slideInterval={5000}
                 showThumbnails={false}
                 showBullets={true}
