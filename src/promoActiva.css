@@ -27,7 +27,7 @@ h1{
   font-size: 50%;
 }
 
-.image-gallery {
+#carousel-main .image-gallery {
     width: 50%;
     margin-left: 32%;
     margin-top: 5%;
