@@ -22,3 +22,12 @@ div#historial {
   margin-left: 35%;
   margin-top: 0;
 }
+
+.image-gallery{
+  margin: 0;
+  width: 100%;
+}
+
+#view-buttons{
+  padding-bottom: 100%;
+}
