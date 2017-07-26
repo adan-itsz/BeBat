@@ -111,6 +111,7 @@ class Child extends Component {
 
       }
   this.logo();
+  //  ga('send', this.state.user);
     }
 
       componentWillMount(){
