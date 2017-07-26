@@ -12,10 +12,23 @@ var d = new Date();
 const database = firebase.database();
 
 class Promo extends Component{
+  handleClick = () => this.props.onClick(this.props.index);
   render(){
     var id = this.props.id;
     return(
-      <li><div className="imagenSubir"><img src={this.props.p}/>< button className="buttonSubir" button onClick={()=>this.props.funEliminar(id)}>Eliminar</button></div></li>
+      <li>
+        <div className={this.props.isActive ? 'active' : 'imagenSubir'} >
+          <img src={this.props.p}/>
+          <button className="buttonSubir" button onClick={()=>this.props.funEliminar(id)}>Eliminar</button>
+          <button 
+            type='button' 
+            onClick={this.handleClick}
+            className='buttonEspecial'
+          >
+            Especial
+          </button>
+        </div>
+      </li>
     );
   }
 }
@@ -137,12 +150,13 @@ handleOnChange (event) {
  });
    }
 
+handleClick = (index) => this.setState({activeIndex:index})
 
+render() {
 
-  render() {
-
-    const style = {
+  const style = {
       margin: 12,
+      backgroundColor:'#231F20',
   };
 
 
@@ -152,7 +166,14 @@ handleOnChange (event) {
       <div id='gallery'>
       <ul className="listaPromos">
              {this.state.arrayPreview.map((listaImgs,i)=>{
-               return (<Promo key={i} id={i} funEliminar={this.eliminarImg.bind(this)} p={listaImgs.url}/>);})
+               return (
+                <Promo key={i} id={i} index={i} 
+                  isActive={this.state.activeIndex===i} 
+                  funEliminar={this.eliminarImg.bind(this)} 
+                  p={listaImgs.url}
+                  onClick={this.handleClick}/>
+                );
+              })
              }
      </ul>
       </div>
@@ -176,7 +197,9 @@ handleOnChange (event) {
          </div>
        </div>
        </div>
-       <RaisedButton label="Cargar" primary={true} style={style} onClick={() => this.subeSlide()} />
+       <div id='buttonCarga'>
+        <RaisedButton label="Cargar" primary={true} style={style} onClick={() => this.subeSlide()} />
+       </div>
      </div>
      </MuiThemeProvider>
     );
