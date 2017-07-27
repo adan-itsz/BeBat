@@ -42,7 +42,8 @@ class SubirPromo extends Component {
        arreglo:[],
        arrayPreview:[],
        arrayStorage:[],
-       date:""
+       date:"",
+       activeIndex: 0,
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -100,10 +101,23 @@ class SubirPromo extends Component {
 
 subeSlide(){
   var array2=this.state.arreglo;
-  var cantidad=array2.length;
+
   var contador=0;
+  var user = firebase.auth().currentUser;
+  
+  const archivo = this.state.arreglo[this.state.activeIndex].a;
+  const ref = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/Especial/${archivo.name}`)
+  ref.put(archivo).then(function(snapshot) {
+    console.log('Uploaded a blob or file!');
+  });
+
+  array2.splice(this.state.activeIndex,1);
+  this.setState({
+      arreglo:array2,
+  })
+  var cantidad=array2.length;
+
   this.state.arreglo.map(listaAAgregar=>{
-    var user = firebase.auth().currentUser;
     const file = listaAAgregar.a
     const storageRef = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/${file.name}`)
     const task = storageRef.put(file)

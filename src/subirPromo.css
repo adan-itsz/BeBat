@@ -153,6 +153,12 @@ button.buttonEspecial:hover{
   margin-left: 1%;
 }
 
+.active .buttonEspecial:hover{
+  background-color: #AD974F;
+  display: table-caption;
+  cursor: inherit;
+}
+
 .active:focus {
   background-color: #AD974F;
   display: table-caption;
