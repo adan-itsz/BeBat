@@ -162,6 +162,7 @@ class HistorialPromos extends Component{
     var refHistorial=ref.child(remplazo+"/Historial/" + id);
     var array=this.state.arregloHistorial;
     var arregloFile=this.state.arregloHistorialKey;
+
     array.splice(key,1);
     arregloFile.splice(key,1);
     this.setState({
@@ -169,6 +170,8 @@ class HistorialPromos extends Component{
       arregloHistorialKey:arregloFile,
     })
     refHistorial.remove();
+
+    
   }
 
   onUpdate(nombre,notas,fecha,url){

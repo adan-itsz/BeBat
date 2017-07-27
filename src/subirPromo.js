@@ -44,6 +44,7 @@ class SubirPromo extends Component {
        arrayStorage:[],
        date:"",
        activeIndex: 0,
+       especial:"",
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -82,34 +83,45 @@ class SubirPromo extends Component {
       var notas=this.refs.notas.getValue();
       var correoUsuario=this.recortarCadenas(`${user.email}`);
       var refDBHistorial=ref.child(correoUsuario+"/Historial");
-     var refDB=ref.child(correoUsuario+"/SlideActual");
+      var refDB=ref.child(correoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
+
       HistorialSlidesDB.set({
         historial:`${this.state.arrayStorage}`,
         notas:notas,
         nombreSlide:nombreSlide,
-        fecha:this.state.date
+        fecha:this.state.date,
+        especial: this.state.especial
       });
    refDB.set({
         slideActual:`${this.state.arrayStorage}`,
         notas:notas,
         nombreSlide:nombreSlide,
         fecha:this.state.date,
+        especial: this.state.especial
       });
     }
 
 
 subeSlide(){
   var array2=this.state.arreglo;
-
+  let promoEspecial;
   var contador=0;
   var user = firebase.auth().currentUser;
   
   const archivo = this.state.arreglo[this.state.activeIndex].a;
   const ref = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/Especial/${archivo.name}`)
-  ref.put(archivo).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
-  });
+  const task = ref.put(archivo)
+  task.on('state_changed', function(snapshot){
+        }, (error) =>{
+          alert("error");
+        }, () => {
+          promoEspecial = task.snapshot.downloadURL
+          alert(promoEspecial)
+          this.setState({
+            especial: promoEspecial,
+          })
+        });
 
   array2.splice(this.state.activeIndex,1);
   this.setState({
