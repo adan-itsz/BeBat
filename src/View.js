@@ -107,8 +107,9 @@ class Child extends Component {
         mesCount:0,
         anoCount:0,
         logoWeb:' ',
-        tituloS:""
-
+        tituloS:"",
+        loggedIn:false,
+        especial:"",
       }
   this.logo();
     }
@@ -155,11 +156,16 @@ class Child extends Component {
 
       var recibirArray;
       var titulo;
+      let promoEspecial;
 
     var refDB=ref.child(this.state.user+"/SlideActual");
     refDB.on('value', snapshot=> {
       recibirArray=snapshot.val().slideActual;
       titulo=snapshot.val().nombreSlide;
+      promoEspecial = snapshot.val().especial;
+      this.setState({
+        especial: promoEspecial,
+      })
       document.title=titulo;
     var StringN="";
     var ArrayFg=[];
@@ -260,6 +266,9 @@ class Child extends Component {
   }
 
   onSuccess(response) {
+    this.setState({
+      loggedIn: true,
+    });
     var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
     var users=refUsuarios.push();
     users.set({
@@ -267,8 +276,7 @@ class Child extends Component {
       id:response.profileObj.googleId,
       email:response.profileObj.email,
     });
-
-      }
+  }
 
 onSelect= (active,direction)=>{
     console.log(`active=${active} && direction=${direction}`);
@@ -311,7 +319,10 @@ handleResponse = (data) => {
      hombre:h,
      mujer:m
    })
-   alert("lissto");
+   self.setState({
+    loggedIn: true,
+   })
+   
  })
 
 
@@ -358,11 +369,18 @@ render() {
             <GoogleLogin
               clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
               buttonText={"Ingresa con Google"}
-              onSuccess={this.onSuccess}
+              onSuccess={this.onSuccess.bind(this)}
               onFailure={this.onSuccess}
               style={googleLoginComponent}
             />
         </div>
+      </div>
+      <div >
+        {this.state.loggedIn ? (
+          <img id='promo-especial' src={this.state.especial}/>
+        ) : (
+          <span></span>
+        )}
       </div>
     </div>
   )
