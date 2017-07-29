@@ -18,6 +18,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
+import ReactDOM from 'react-dom'
 
 
 import './View.css'
@@ -33,6 +34,36 @@ class View extends Component {
     </Router>
       )
     }
+}
+
+class Especial extends Component{
+  constructor(){
+    super()
+  }
+
+   scrollToBottom = () => {
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    node.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  render(){
+    return(
+      <div>
+        <div>
+        <img id='promo-especial' src={this.props.imgEspecial}/>
+        </div>
+        <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el }}></div>
+      </div>
+    )
+  }
 }
 
 var arreglo=[];
@@ -325,14 +356,11 @@ handleResponse = (data) => {
    
  })
 
-
  }
 
  handleError = (error) => {
    this.setState({ error });
  }
-
-
 
 render() {
   return(
@@ -358,7 +386,7 @@ render() {
               onResponse={this.handleResponse}
               onError={this.handleError}
             >
-              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" block>
+              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" >
                 <p className='social-button-text'><Facebook size={23} style={socialIcon}/> Ingresa con Facebook </p>
               </Button>
             </Login>
@@ -377,7 +405,7 @@ render() {
       </div>
       <div >
         {this.state.loggedIn ? (
-          <img id='promo-especial' src={this.state.especial}/>
+          <Especial imgEspecial={this.state.especial}/>
         ) : (
           <span></span>
         )}
