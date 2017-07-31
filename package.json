@@ -29,6 +29,7 @@
     "react-metrics-graphics": "^0.6.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "react-scroll": "^1.5.4",
     "react-tap-event-plugin": "^2.0.1",
     "react-typing-animation": "^1.0.10",
     "react.video": "^1.0.14"

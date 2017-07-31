@@ -18,9 +18,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
+import ReactDOM from 'react-dom'
 
 
 import './View.css'
+
+import Scroll from 'react-scroll'
+
+let scroll = Scroll.animateScroll;
 
 class View extends Component {
 
@@ -33,6 +38,22 @@ class View extends Component {
     </Router>
       )
     }
+}
+
+class Especial extends Component{
+  constructor(){
+    super()
+  }
+  render(){
+    return(
+      <div>
+        <div>
+        <img id='promo-especial' src={this.props.imgEspecial}/>
+        </div>
+        <div></div>
+      </div>
+    )
+  }
 }
 
 var arreglo=[];
@@ -64,6 +85,7 @@ const socialButtonFacebook = {
   marginBottom:'2%',
   paddingTop: '2%',
   paddingBottom: '2%',
+  marginRight: '5%'
 }
 
 const socialButtonGoogle = {
@@ -107,8 +129,9 @@ class Child extends Component {
         mesCount:0,
         anoCount:0,
         logoWeb:' ',
-        tituloS:""
-
+        tituloS:"",
+        loggedIn:false,
+        especial:"",
       }
   this.logo();
   //  ga('send', this.state.user);
@@ -156,11 +179,16 @@ class Child extends Component {
 
       var recibirArray;
       var titulo;
+      let promoEspecial;
 
     var refDB=ref.child(this.state.user+"/SlideActual");
     refDB.on('value', snapshot=> {
       recibirArray=snapshot.val().slideActual;
       titulo=snapshot.val().nombreSlide;
+      promoEspecial = snapshot.val().especial;
+      this.setState({
+        especial: promoEspecial,
+      })
       document.title=titulo;
     var StringN="";
     var ArrayFg=[];
@@ -261,6 +289,9 @@ class Child extends Component {
   }
 
   onSuccess(response) {
+    this.setState({
+      loggedIn: true,
+    });
     var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
     var users=refUsuarios.push();
     users.set({
@@ -268,8 +299,8 @@ class Child extends Component {
       id:response.profileObj.googleId,
       email:response.profileObj.email,
     });
-
-      }
+    scroll.scrollToBottom()
+  }
 
 onSelect= (active,direction)=>{
     console.log(`active=${active} && direction=${direction}`);
@@ -312,17 +343,17 @@ handleResponse = (data) => {
      hombre:h,
      mujer:m
    })
-   alert("lissto");
+   self.setState({
+    loggedIn: true,
+   })
+   scroll.scrollToBottom()
  })
-
 
  }
 
  handleError = (error) => {
    this.setState({ error });
  }
-
-
 
 render() {
   return(
@@ -348,7 +379,7 @@ render() {
               onResponse={this.handleResponse}
               onError={this.handleError}
             >
-              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" block>
+              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" >
                 <p className='social-button-text'><Facebook size={23} style={socialIcon}/> Ingresa con Facebook </p>
               </Button>
             </Login>
@@ -359,11 +390,18 @@ render() {
             <GoogleLogin
               clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
               buttonText={"Ingresa con Google"}
-              onSuccess={this.onSuccess}
+              onSuccess={this.onSuccess.bind(this)}
               onFailure={this.onSuccess}
               style={googleLoginComponent}
             />
         </div>
+      </div>
+      <div >
+        {this.state.loggedIn ? (
+          <Especial imgEspecial={this.state.especial}/>
+        ) : (
+          <span></span>
+        )}
       </div>
     </div>
   )

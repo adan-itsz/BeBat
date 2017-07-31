@@ -12,10 +12,23 @@ var d = new Date();
 const database = firebase.database();
 
 class Promo extends Component{
+  handleClick = () => this.props.onClick(this.props.index);
   render(){
     var id = this.props.id;
     return(
-      <li><div className="imagenSubir"><img src={this.props.p}/>< button className="buttonSubir" button onClick={()=>this.props.funEliminar(id)}>Eliminar</button></div></li>
+      <li>
+        <div className={this.props.isActive ? 'active' : 'imagenSubir'} >
+          <img src={this.props.p}/>
+          <button className="buttonSubir" button onClick={()=>this.props.funEliminar(id)}>Eliminar</button>
+          <button 
+            type='button' 
+            onClick={this.handleClick}
+            className='buttonEspecial'
+          >
+            Especial
+          </button>
+        </div>
+      </li>
     );
   }
 }
@@ -29,7 +42,9 @@ class SubirPromo extends Component {
        arreglo:[],
        arrayPreview:[],
        arrayStorage:[],
-       date:""
+       date:"",
+       activeIndex: 0,
+       especial:"",
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -68,29 +83,53 @@ class SubirPromo extends Component {
       var notas=this.refs.notas.getValue();
       var correoUsuario=this.recortarCadenas(`${user.email}`);
       var refDBHistorial=ref.child(correoUsuario+"/Historial");
-     var refDB=ref.child(correoUsuario+"/SlideActual");
+      var refDB=ref.child(correoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
+
       HistorialSlidesDB.set({
         historial:`${this.state.arrayStorage}`,
         notas:notas,
         nombreSlide:nombreSlide,
-        fecha:this.state.date
+        fecha:this.state.date,
+        especial: this.state.especial
       });
    refDB.set({
         slideActual:`${this.state.arrayStorage}`,
         notas:notas,
         nombreSlide:nombreSlide,
         fecha:this.state.date,
+        especial: this.state.especial
       });
     }
 
 
 subeSlide(){
   var array2=this.state.arreglo;
-  var cantidad=array2.length;
+  let promoEspecial;
   var contador=0;
+  var user = firebase.auth().currentUser;
+  
+  const archivo = this.state.arreglo[this.state.activeIndex].a;
+  const ref = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/Especial/${archivo.name}`)
+  const task = ref.put(archivo)
+  task.on('state_changed', function(snapshot){
+        }, (error) =>{
+          alert("error");
+        }, () => {
+          promoEspecial = task.snapshot.downloadURL
+          alert(promoEspecial)
+          this.setState({
+            especial: promoEspecial,
+          })
+        });
+
+  array2.splice(this.state.activeIndex,1);
+  this.setState({
+      arreglo:array2,
+  })
+  var cantidad=array2.length;
+
   this.state.arreglo.map(listaAAgregar=>{
-    var user = firebase.auth().currentUser;
     const file = listaAAgregar.a
     const storageRef = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/${file.name}`)
     const task = storageRef.put(file)
@@ -137,12 +176,13 @@ handleOnChange (event) {
  });
    }
 
+handleClick = (index) => this.setState({activeIndex:index})
 
+render() {
 
-  render() {
-
-    const style = {
+  const style = {
       margin: 12,
+      backgroundColor:'#231F20',
   };
 
 
@@ -152,7 +192,14 @@ handleOnChange (event) {
       <div id='gallery'>
       <ul className="listaPromos">
              {this.state.arrayPreview.map((listaImgs,i)=>{
-               return (<Promo key={i} id={i} funEliminar={this.eliminarImg.bind(this)} p={listaImgs.url}/>);})
+               return (
+                <Promo key={i} id={i} index={i} 
+                  isActive={this.state.activeIndex===i} 
+                  funEliminar={this.eliminarImg.bind(this)} 
+                  p={listaImgs.url}
+                  onClick={this.handleClick}/>
+                );
+              })
              }
      </ul>
       </div>
@@ -176,7 +223,9 @@ handleOnChange (event) {
          </div>
        </div>
        </div>
-       <RaisedButton label="Cargar" primary={true} style={style} onClick={() => this.subeSlide()} />
+       <div id='buttonCarga'>
+        <RaisedButton label="Cargar" primary={true} style={style} onClick={() => this.subeSlide()} />
+       </div>
      </div>
      </MuiThemeProvider>
     );
