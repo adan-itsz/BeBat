@@ -23,6 +23,10 @@ import ReactDOM from 'react-dom'
 
 import './View.css'
 
+import Scroll from 'react-scroll'
+
+let scroll = Scroll.animateScroll;
+
 class View extends Component {
 
     render() {
@@ -40,27 +44,13 @@ class Especial extends Component{
   constructor(){
     super()
   }
-
-   scrollToBottom = () => {
-    const node = ReactDOM.findDOMNode(this.messagesEnd);
-    node.scrollIntoView({ behavior: "smooth" });
-  }
-
-  componentDidMount() {
-    this.scrollToBottom();
-  }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
-
   render(){
     return(
       <div>
         <div>
         <img id='promo-especial' src={this.props.imgEspecial}/>
         </div>
-        <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el }}></div>
+        <div></div>
       </div>
     )
   }
@@ -95,6 +85,7 @@ const socialButtonFacebook = {
   marginBottom:'2%',
   paddingTop: '2%',
   paddingBottom: '2%',
+  marginRight: '5%'
 }
 
 const socialButtonGoogle = {
@@ -307,6 +298,7 @@ class Child extends Component {
       id:response.profileObj.googleId,
       email:response.profileObj.email,
     });
+    scroll.scrollToBottom()
   }
 
 onSelect= (active,direction)=>{
@@ -353,7 +345,7 @@ handleResponse = (data) => {
    self.setState({
     loggedIn: true,
    })
-   
+   scroll.scrollToBottom()
  })
 
  }
