@@ -20,7 +20,8 @@ class PromoActiva extends Component {
       constructor(){
         super()
           this.state={
-            arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"]
+            arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"],
+            especial:"",
           }
         }
         recortarCadenas(correo){
@@ -35,6 +36,10 @@ class PromoActiva extends Component {
         var refDB=ref.child(remplazo+"/SlideActual");
         refDB.on('value', snapshot=> {
           recibirArray=snapshot.val().slideActual;
+          let promoEspecial = snapshot.val().especial;
+          this.setState({
+            especial: promoEspecial,
+          })
         var StringN="";
         var ArrayFg=[];
         for (var i = 0; i < recibirArray.length; i++) {
@@ -83,6 +88,10 @@ class PromoActiva extends Component {
                 showFullscreenButton={false}
                 onImageLoad={this.handleImageLoad}/>
                 <h1 id='promocion-actual-text'>PROMOCIONES ACTUALES</h1>
+            </div>
+            <div>
+              <img id='image-special' src={this.state.especial} />
+              <h1 id='promocion-especial-text'>PROMOCIÓN ESPECIAL</h1>
             </div>
           </div>
         </div>

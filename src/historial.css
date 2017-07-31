@@ -1,3 +1,7 @@
+div#historial-image-gallery {
+    display: -webkit-inline-box!important;
+}
+
 div#historial {
     width: 67em;
     margin-left: 15.5%;
@@ -17,12 +21,11 @@ div#historial {
   margin-left: 30%;
 }
 
-#historial-image-gallery .image-gallery{
-  width: 29%;
-  margin-left: 35%;
-  margin-top: 0;
+#historial-image-gallery .image-gallery {
+    width: 29%;
+    margin-left: 20%;
+    margin-top: 0;
 }
-
 .image-gallery{
   margin: 0;
   width: 100%;
@@ -31,3 +34,11 @@ div#historial {
 #view-buttons{
   padding-bottom: 100%;
 }
+
+img#especial-historial {
+    width: 28%;
+    margin-top: 0;
+    padding: 0;
+    margin-top: 0.5%;
+}
+

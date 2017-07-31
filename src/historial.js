@@ -65,6 +65,7 @@ class PromoSlide extends Component {
                 showPlayButton={false}
                 showFullscreenButton={false}
                 onImageLoad={this.handleImageLoad}/>
+        <img id='especial-historial' src={this.props.urlEspecial} />
       </div>
     )
   }
@@ -100,12 +101,13 @@ class Cards extends Component{
                                                                               this.props.historial[i].nombreSlide,
                                                                               this.props.historial[i].notas,
                                                                               this.props.historial[i].fecha,
-                                                                              this.props.historial[i].historial
+                                                                              this.props.historial[i].historial,
+                                                                              this.props.historial[i].especial
                                                                             )}/>
            <FlatButton label="Eliminar" onClick={()=>this.props.onDelete(this.props.keys[i],i)}/>
          </CardActions>
          <CardText expandable={true}>
-           <PromoSlide urlImagenes={this.props.historial[i].historial}/>
+           <PromoSlide urlImagenes={this.props.historial[i].historial} urlEspecial={this.props.historial[i].especial}/>
          </CardText>
         </Card>
       )}
@@ -174,7 +176,7 @@ class HistorialPromos extends Component{
     
   }
 
-  onUpdate(nombre,notas,fecha,url){
+  onUpdate(nombre,notas,fecha,url,especial){
     var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
     var refHistorial=ref.child(remplazo+"/SlideActual");
@@ -183,6 +185,7 @@ class HistorialPromos extends Component{
       nombreSlide: nombre,
       notas: notas,
       slideActual: url,
+      especial: especial,
     })
     alert("Actualizado");
   }

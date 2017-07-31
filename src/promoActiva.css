@@ -2,10 +2,12 @@
 .principal img{
 padding: .5%;
 }
-#carousel-main{
-  z-index: 2;
-  position: relative;
-width: 100%;
+#carousel-main {
+    z-index: 2;
+    position: relative;
+    width: 100%;
+    display: flex;
+    margin-left: 3%;
 }
 
 .itemCaroucel{
@@ -28,11 +30,22 @@ h1{
 }
 
 #carousel-main .image-gallery {
-    width: 50%;
-    margin-left: 32%;
-    margin-top: 5%;
+    width: 72%;
+    margin-left: 10%;
+    margin-top: 6%;
 }
 
 #promocion-actual-text{
-  margin-left: 15%;
+  margin-right: 10%;
+}
+
+img#image-special {
+    width: 74%;
+    margin-top: 8%;
+    margin-right: 24%;
+    height: 73.5%;
+}
+
+h1#promocion-especial-text {
+    margin-right: 22%;
 }
