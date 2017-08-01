@@ -106,55 +106,68 @@ class SubirPromo extends Component {
 subeSlide(){
   var array2=this.state.arreglo;
   let promoEspecial;
+  let self = this;
   var contador=0;
   var user = firebase.auth().currentUser;
   
   const archivo = this.state.arreglo[this.state.activeIndex].a;
-  const ref = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/Especial/${archivo.name}`)
+  const ref = firebase.storage().ref(`${user.email}/${self.nombre_slide.value}/Especial/${archivo.name}`)
   const task = ref.put(archivo)
-  task.on('state_changed', function(snapshot){
-        }, (error) =>{
-          alert("error");
-        }, () => {
-          promoEspecial = task.snapshot.downloadURL
-          alert(promoEspecial)
-          this.setState({
-            especial: promoEspecial,
-          })
-        });
 
-  array2.splice(this.state.activeIndex,1);
-  this.setState({
-      arreglo:array2,
-  })
-  var cantidad=array2.length;
+  var promise = new Promise(
+    function(resolve,reject){
+      
+        task.on('state_changed',function(snapshot){
+        
+        },(error) =>{
+          alert(error);
+        },()=>{
+          resolve(
+          promoEspecial = task.snapshot.downloadURL,
+          self.setState({
+            especial:promoEspecial,
+          }),
+           array2.splice(self.state.activeIndex,1),
+           self.setState({
+              arreglo:array2,
+           }),
+          )
+        })
+    })
 
-  this.state.arreglo.map(listaAAgregar=>{
-    const file = listaAAgregar.a
-    const storageRef = firebase.storage().ref(`${user.email}/${this.nombre_slide.value}/${file.name}`)
-    const task = storageRef.put(file)
-    task.on('state_changed', snapshot => {
-             let per = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-             this.setState({
-                uploadStatus : per
-             })
-          }, (error) => {
-             this.setState({
-                message : `Alert!, ${error.message}`
-             })
-          },
-          () => {
-            contador++;
-            this.setState({
-             arrayStorage:this.state.arrayStorage+"~"+task.snapshot.downloadURL
-            })
-            if(contador>=cantidad){
-            this.subirDB();
-          }
-          },
- 		 );
+ 
+  var cantidad=array2.length-1;
 
-   })
+  promise.then(
+    function(){
+      self.state.arreglo.map(listaAAgregar=>{
+      const file = listaAAgregar.a
+      const storageRef = firebase.storage().ref(`${user.email}/${self.nombre_slide.value}/${file.name}`)
+      const task = storageRef.put(file)
+      task.on('state_changed', snapshot => {
+               let per = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+               self.setState({
+                  uploadStatus : per
+               })
+            }, (error) => {
+               self.setState({
+                  message : `Alert!, ${error.message}`
+               })
+            },
+            () => {
+              contador++;
+              self.setState({
+               arrayStorage:self.state.arrayStorage+"~"+task.snapshot.downloadURL
+              })
+              if(contador>=cantidad){
+              self.subirDB();
+            }
+            },
+       );
+
+     })
+    }
+  )
 }
 
 
