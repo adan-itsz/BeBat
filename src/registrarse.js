@@ -29,9 +29,12 @@ class Registro extends React.Component {
             }
             console.log(error);
           });
-
-
-
+    this.email.value = "";
+    this.pw.value ="";
+    this.nombre.value = "";
+    this.apellidoP.value = "";
+    this.apellidoM.value = "";
+    this.telefono.value = "";
   }
     render() {
 
@@ -42,13 +45,12 @@ class Registro extends React.Component {
           <div id="regis">
             <Form onSubmit={this.handleSubmit} method="post">
               <h3 id="h">INGRESA TUS DATOS</h3>
-             <input type="text" name="nombre" placeholder="Nombre(s) *" required />
-             <input type="text" name="apellidoPaterno" placeholder="Apellido Paterno *" required/>
-             <input type="text" name="apellidoMaterno" placeholder="Apellido Materno *" required/>
+             <input type="text" name="nombre" placeholder="Nombre(s) *" ref={(nombre) => this.nombre = nombre} required />
+             <input type="text" name="apellidoPaterno" placeholder="Apellido Paterno *" ref={(apellidoP) => this.apellidoP = apellidoP} required/>
+             <input type="text" name="apellidoMaterno" placeholder="Apellido Materno *" ref={(apellidoM) => this.apellidoM = apellidoM} required/>
              <input type="email" name="correo" ref={(email) => this.email = email}  placeholder="Correo *" required/>
              <input type="password"name="clave" placeholder="Contraseña *" ref={(pw) => this.pw = pw}  pattern=".{6,}"title="Debe contar con un mínimo de 6 caracteres" required/>
-             <input type="text" placeholder="RFC " />
-             <input type="text" placeholder="Telefono " />
+             <input type="text" placeholder="Telefono" ref={(telefono) => this.telefono = telefono}/>
 
              <a id="cue"href="#">¿Ya tienes una cuenta?</a>
 

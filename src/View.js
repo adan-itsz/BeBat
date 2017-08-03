@@ -102,7 +102,8 @@ const styleCarousel = {
   height:'100%',
   backgroundColor: 'none'
 }
- const googleLoginComponent = {
+
+const googleLoginComponent = {
   backgroundColor:'rgb(209, 72, 54)',
   marginBottom: '1.9%',
   fontWeight:'none',
@@ -119,68 +120,88 @@ const styleCarousel = {
  }
 
 class Child extends Component {
+  
   constructor({match}){
     super()
-      this.state={
-        arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"],
-        user:`${match.params.id}`,
-        count:0,
-        diaCount:0,
-        mesCount:0,
-        anoCount:0,
-        logoWeb:' ',
-        tituloS:"",
-        loggedIn:false,
-        especial:"",
-      }
-  this.logo();
-  //  ga('send', this.state.user);
+    this.state={
+      arrayActual:["https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623"],
+      user:`${match.params.id}`,
+      count:0,
+      diaCount:0,
+      mesCount:0,
+      anoCount:0,
+      logoWeb:' ',
+      tituloS:"",
+      loggedIn:false,
+      especial:"",
+      slide:"",
+      horaEntrada:"",
+      fechaEntrada:"",
     }
+    this.logo();
+  }
 
-      componentWillMount(){
-        var date = new Date();
+  componentWillMount(){
+    
+    var date = new Date();
+    var h = this.addZero(date.getHours());
+    var m = this.addZero(date.getMinutes());
+    var s = this.addZero(date.getSeconds());
+    var hora = h + ":" + m + ":" + s;
 
-        var referenciaContador=ref.child(`${this.state.user}`+"/views");
-        var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
-        var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
-        var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
+    var dd = date.getDate();
+    var mm = date.getMonth()+1; 
+    var yy = date.getFullYear();
 
-        var valor=0;
-        var dia=0;
-        var mes=0;
-        var ano=0;
-         referenciaContador.on('value',snapshot=>{
-          valor=snapshot.val().visitas;
-          dia=snapshot.val().dia;
-          mes=snapshot.val().mes;
-          ano=snapshot.val().ano;
-          var valorNumerico=parseInt(valor+1);
+    if(dd<10) {
+      dd = '0'+dd
+    } 
 
-          if(valor==null){
-            valor=0;
-          }
-          if(dia==null){
-            dia=date.getDate();
-            mes=date.getMonth()+1;
-            ano=date.getFullYear();
-          }
+    if(mm<10) {
+      mm = '0'+mm
+    } 
 
+    let today = mm + '/' + dd + '/' + yy;
+    
+    var referenciaContador=ref.child(`${this.state.user}`+"/views");
+    var referenciaContadorHoras=ref.child(`${this.state.user}`+"/views/horasDeEntrada");
+    var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
+    var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/visitasDia/horasDeEntrada");
+    var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
+    var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
+    
+    var valor=0;
+    var dia=0;
+    var mes=0;
+    var ano=0;
 
-          this.setState({
-            count:valorNumerico,
-            diaCount:dia,
-            mesCount:mes,
-            anoCount:ano
-          });
-        });
+    referenciaContador.on('value',snapshot=>{
+      valor=snapshot.val().visitas;
+      dia=snapshot.val().dia;
+      mes=snapshot.val().mes;
+      ano=snapshot.val().ano;
+      var valorNumerico=parseInt(valor+1);
+      if(valor==null){
+        valor=0;
+      }
+      if(dia==null){
+        dia=date.getDate();
+        mes=date.getMonth()+1;
+        ano=date.getFullYear();
+      }
+      this.setState({
+        count:valorNumerico,
+        diaCount:dia,
+        mesCount:mes,
+        anoCount:ano,
+        horaEntrada: hora,
+        fechaEntrada: today,
+      });
+    });
 
-
-
-
-      var recibirArray;
-      var titulo;
-      let promoEspecial;
-
+    var recibirArray;
+    var titulo;
+    let promoEspecial;
     var refDB=ref.child(this.state.user+"/SlideActual");
     refDB.on('value', snapshot=> {
       recibirArray=snapshot.val().slideActual;
@@ -188,45 +209,49 @@ class Child extends Component {
       promoEspecial = snapshot.val().especial;
       this.setState({
         especial: promoEspecial,
+        slide: titulo,
       })
       document.title=titulo;
-    var StringN="";
-    var ArrayFg=[];
-    for (var i = 0; i < recibirArray.length; i++) {
-            if(recibirArray[i] =='~'){
-              for (var j = i+1; j < recibirArray.length; j++) {
-                if(recibirArray[j]!='~'){
-                  StringN += recibirArray.substring(j,j+1);
-                }
-                else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
-                  ArrayFg = ArrayFg.concat({original:StringN});
-
-                  StringN="";
-                }
-              }
-              if(j==recibirArray.length){
-                ArrayFg = ArrayFg.concat({original:StringN});
-                break;
-              }
+      var StringN="";
+      var ArrayFg=[];
+      for (var i = 0; i < recibirArray.length; i++) {
+        if(recibirArray[i] =='~'){
+          for (var j = i+1; j < recibirArray.length; j++) {
+            if(recibirArray[j]!='~'){
+              StringN += recibirArray.substring(j,j+1);
+            }
+            else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+              ArrayFg = ArrayFg.concat({original:StringN});
+              StringN="";
             }
           }
-
+          if(j==recibirArray.length){
+            ArrayFg = ArrayFg.concat({original:StringN});
+            break;
+          }
+        }
+      }
       if(dia==0){   //por el metodo asyncrono la primera vez no guarda el valor en los states asi que hacemos set, fuera del metodo asyncrono
-      referenciaContador.set({
-     visitas:1,
-        dia:date.getDate(),
-        mes:date.getMonth()+1,
-        ano:date.getFullYear()
-      });
-    }
+        referenciaContador.set({
+          visitas:1,
+          dia:date.getDate(),
+          mes:date.getMonth()+1,
+          ano:date.getFullYear()
+        });
+        referenciaContadorHoras.push({
+          horaEntrada: this.state.horaEntrada,
+        })
+      }
       else{ //en caso de que no sea 0 se hace un set normal, con el valor de los states
         referenciaContador.set({
-       visitas:this.state.count,//este set es el de las visitas de cada dia
+          visitas:this.state.count,//este set es el de las visitas de cada dia
           dia:this.state.diaCount,
           mes:this.state.mesCount,
           ano:this.state.anoCount
         });
-
+        referenciaContadorHoras.push({
+          horaEntrada: this.state.horaEntrada,
+        })
       }
 
       if(this.state.diaCount!=date.getDate()){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
@@ -238,54 +263,62 @@ class Child extends Component {
           ano:this.state.anoCount
         });
 
+        HistorialCountDiaHoras.push({
+          horaEntrada:this.state.horaEntrada
+        })
+
         referenciaContador.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
-       visitas:1,
+          visitas:1,
           dia:date.getDate(),
           mes:date.getMonth()+1,
           ano:date.getFullYear()
         });
 
+        referenciaContadorHoras.push({
+          horaEntrada: this.state.horaEntrada,
+        })
       }
-
-    this.setState({
-      arrayActual:ArrayFg,
-    })
-    }  );
-
-
+      this.setState({
+        arrayActual:ArrayFg,
+      })
+    });
   }
 
   logo(){
     var userDB = this.state.user;
     var self = this;
-      var imageDB;
-      var p1=new Promise (
-        function(resolve, reject){
-  var refDB=ref.child(userDB+"/logo");
-          refDB.on('value', snapshot=>{
+    var imageDB;
+    var p1 = new Promise (
+      function(resolve, reject){
+        var refDB=ref.child(userDB+"/logo");
+        refDB.on('value', snapshot=>{
           resolve(imageDB=snapshot.val().logoWeb);
         });
       });
-      p1.then(
-        function(val){
-          self.setState({
-            logoWeb:val
-          });
-          document.head || (document.head = document.getElementsByTagName('head')[0]);
-
-           var link = document.createElement('link'),
-               oldLink = document.getElementById('dynamic-favicon');
-           link.id = 'dynamic-favicon';
-           link.rel = 'shortcut icon';
-           link.href = self.state.logoWeb;
-           if (oldLink) {
-            document.head.removeChild(oldLink);
-           }
-           document.head.appendChild(link);
+    p1.then(
+      function(val){
+        self.setState({
+          logoWeb:val
+        });
+      document.head || (document.head = document.getElementsByTagName('head')[0]);
+      var link = document.createElement('link'),
+      oldLink = document.getElementById('dynamic-favicon');
+      link.id = 'dynamic-favicon';
+      link.rel = 'shortcut icon';
+      link.href = self.state.logoWeb;
+        if (oldLink){
+          document.head.removeChild(oldLink);
         }
-      );
+           document.head.appendChild(link);
+      }
+    );
+  }
 
-
+  addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
   }
 
   onSuccess(response) {
@@ -298,91 +331,104 @@ class Child extends Component {
       nombre:response.profileObj.name,
       id:response.profileObj.googleId,
       email:response.profileObj.email,
+      promocion:this.state.slide,
+      horaEntrada: this.state.horaEntrada,
+      fechaEntrada: this.state.fechaEntrada
     });
     scroll.scrollToBottom()
   }
 
-onSelect= (active,direction)=>{
+  onSelect = (active,direction)=>{
     console.log(`active=${active} && direction=${direction}`);
-}
+  }
 
-handleResponse = (data) => {
-  var self=this;
-   console.log(data);
-   var h,m;
+  handleResponse = (data) => {
+    var self=this;
+    console.log(data);
+    var h,m;
     var refGenero=ref.child(`${this.state.user}`+"/usuarios/genero");
     var promise= new Promise(
       function(resolve,reject){
-    refGenero.on('value',snapshot=>{
+        refGenero.on('value',snapshot=>{
+          resolve(
+            h=snapshot.exists() ? snapshot.val().hombre:0,
+            m=snapshot.exists()? snapshot.val().mujer:0
+          )
+        });
+      }
+    )
+  
+    promise.then(
+      function(){
+        var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
+        var users=refUsuarios.push();
+        users.set({
+          nombre:data.profile.name,
+          genero: data.profile.gender,
+          id:data.profile.id,
+          email:data.profile.email,
+          promocion: self.state.slide,
+          horaEntrada: self.state.horaEntrada,
+          fechaEntrada: self.state.fechaEntrada
+        });
 
-      resolve(
-        h=snapshot.exists() ? snapshot.val().hombre:0,
-        m=snapshot.exists()? snapshot.val().mujer:0
-      )
-    });
+        if(data.profile.gender=='male'){
+          h+=1;
+        }
+        if(data.profile.gender=='female'){
+          m+=1;
+        }  
+        refGenero.set({
+          hombre:h,
+          mujer:m
+        })
+
+        self.setState({
+          loggedIn: true,
+        })
+
+        scroll.scrollToBottom()
+      }
+    )
   }
-  )
-  promise.then(
-    function(){
-   var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
-   var users=refUsuarios.push();
-   users.set({
-     nombre:data.profile.name,
-     genero: data.profile.gender,
-     id:data.profile.id,
-     email:data.profile.email,
-   });
 
-   if(data.profile.gender=='male'){
-     h+=1;
-   }
-   if(data.profile.gender=='female'){
-     m+=1;
-   }
-   refGenero.set({
-     hombre:h,
-     mujer:m
-   })
-   self.setState({
-    loggedIn: true,
-   })
-   scroll.scrollToBottom()
- })
+  handleError = (error) => {
+    this.setState({ error });
+  }
 
- }
-
- handleError = (error) => {
-   this.setState({ error });
- }
-
-render() {
-  return(
-    <div id='view'>
-      <ImageGallery
-        style={styleCarousel}
-        items={this.state.arrayActual}
-        slideInterval={5000}
-        showThumbnails={false}
-        showBullets={true}
-        autoPlay={true}
-        showPlayButton={false}
-        showFullscreenButton={false}
-        onImageLoad={this.handleImageLoad}/>
+  render() {
+    return(
+      <div id='view'>
+        <ImageGallery
+          style={styleCarousel}
+          items={this.state.arrayActual}
+          slideInterval={5000}
+          showThumbnails={false}
+          showBullets={true}
+          autoPlay={true}
+          showPlayButton={false}
+          showFullscreenButton={false}
+          onImageLoad={this.handleImageLoad}/>
         <div id='view-buttons'>
-          <h2 id='view-title'>¡OBTÉN UNA <span id='view-title-promocion'>PROMOCIÓN</span> <span id='view-title-exclusiva'>EXCLUSIVA</span>!</h2>
+          <h2 id='view-title'>
+            ¡OBTÉN UNA 
+            <span id='view-title-promocion'> PROMOCIÓN</span>
+            <span id='view-title-exclusiva'> EXCLUSIVA</span>
+            !
+          </h2>
           <FaAngleDown size={35} style={styleArrowDown}/>
           <br/>
           <div id='facebok-button'>
             <FacebookProvider appId="253083618527049">
-            <Login
-              scope="email"
-              onResponse={this.handleResponse}
-              onError={this.handleError}
-            >
-              <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" >
-                <p className='social-button-text'><Facebook size={23} style={socialIcon}/> Ingresa con Facebook </p>
-              </Button>
-            </Login>
+              <Login
+                scope="email"
+                onResponse={this.handleResponse}
+                onError={this.handleError}
+              >
+                <Button style={socialButtonFacebook} bsStyle='none' bsSize="large" >
+                  <p className='social-button-text'><Facebook size={23} style={socialIcon}/> Ingresa con Facebook </p>
+                </Button>
+              </Login>
             </FacebookProvider>
           </div>
           <div id='google-button' style={socialButtonGoogle}>
@@ -394,18 +440,18 @@ render() {
               onFailure={this.onSuccess}
               style={googleLoginComponent}
             />
+          </div>
+        </div>
+        <div>
+          {this.state.loggedIn ? (
+            <Especial imgEspecial={this.state.especial}/>
+          ) : (
+            <span></span>
+          )}
         </div>
       </div>
-      <div >
-        {this.state.loggedIn ? (
-          <Especial imgEspecial={this.state.especial}/>
-        ) : (
-          <span></span>
-        )}
-      </div>
-    </div>
-  )
-}
+    )
+  }
 }
 
 

@@ -175,19 +175,19 @@ handleOnChange (event) {
   event.preventDefault();
   let fecha=d.getDate() + "/" + (parseInt(d.getMonth())+parseInt(1))+ "/" +d.getFullYear();
   let reader = new FileReader();
- let file = event.target.files[0];
- reader.onloadend = () => {
-   this.setState({
-     file: file,
-     imagePreviewUrl: reader.result
-   });
-    this.agregarImagenes(file);
- }
- reader.readAsDataURL(file)
- this.setState({
-   date:fecha
- });
+  let file = event.target.files[0];
+   reader.onloadend = () => {
+     this.setState({
+       file: file,
+       imagePreviewUrl: reader.result
+     });
+      this.agregarImagenes(file);
    }
+   reader.readAsDataURL(file)
+   this.setState({
+     date:fecha
+   });
+}
 
 handleClick = (index) => this.setState({activeIndex:index})
 
