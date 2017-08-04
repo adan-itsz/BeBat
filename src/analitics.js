@@ -130,7 +130,11 @@ class dist extends Component{
     ban=0;
     this.state={
       hombres:0,
-      mujeres:0
+      mujeres:0,
+      android:0,
+      iphone:0,
+      ipad:0,
+      ipod:0
     }
 
   }
@@ -159,9 +163,55 @@ class dist extends Component{
           hombres:hombres,
           mujeres:mujeres
         });
-
+        self.obtenerDispositivos();
       }
     )
+  }
+
+  obtenerDispositivos(){
+      var user = firebase.auth().currentUser;
+    var remplazo=`${user.email}`.split('.').join('-');
+    var refDBUsers=ref.child(remplazo+"/usuarios");
+    var android=0;
+    var iphone=0;
+    var ipod=0;
+    var ipad=0;
+    var devices=[];
+    var self=this;
+    var promise = new Promise(
+      function(resolve, reject){
+    refDBUsers.on('value',function(snapshot){
+      snapshot.forEach(function(child){
+        resolve( devices.push(child.val().dispositivo))
+      })
+    })
+  })
+
+  promise.then(
+    function(){
+    for(var i=0;i<devices.length;i++){
+      if(devices[i]=="Android"){
+        android++;
+      }
+      else if(devices[i]=="iPhone"){
+        iphone++;
+      }
+      else if(devices[i]=="iPad"){
+        ipad++;
+      }
+      else if(devices[i]=="iPod"){
+        ipod++;
+      }
+    }
+
+  self.setState({
+    android:android,
+    iphone:iphone,
+    ipod:ipod,
+    ipad:ipad
+  });
+}
+)
   }
     render(){
         return(

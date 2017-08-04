@@ -120,7 +120,7 @@ const googleLoginComponent = {
  }
 
 class Child extends Component {
-  
+
   constructor({match}){
     super()
     this.state={
@@ -142,7 +142,7 @@ class Child extends Component {
   }
 
   componentWillMount(){
-    
+
     var date = new Date();
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
@@ -150,26 +150,26 @@ class Child extends Component {
     var hora = h + ":" + m + ":" + s;
 
     var dd = date.getDate();
-    var mm = date.getMonth()+1; 
+    var mm = date.getMonth()+1;
     var yy = date.getFullYear();
 
     if(dd<10) {
       dd = '0'+dd
-    } 
+    }
 
     if(mm<10) {
       mm = '0'+mm
-    } 
+    }
 
     let today = mm + '/' + dd + '/' + yy;
-    
+
     var referenciaContador=ref.child(`${this.state.user}`+"/views");
     var referenciaContadorHoras=ref.child(`${this.state.user}`+"/views/horasDeEntrada");
     var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
     var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/visitasDia/horasDeEntrada");
     var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
     var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
-    
+
     var valor=0;
     var dia=0;
     var mes=0;
@@ -284,6 +284,17 @@ class Child extends Component {
     });
   }
 
+isMobile(){
+    return (
+        (navigator.userAgent.match(/Android/i)) ||
+        (navigator.userAgent.match(/webOS/i)) ||
+        (navigator.userAgent.match(/iPhone/i)) ||
+        (navigator.userAgent.match(/iPod/i)) ||
+        (navigator.userAgent.match(/iPad/i))
+    );
+}
+
+
   logo(){
     var userDB = this.state.user;
     var self = this;
@@ -325,6 +336,8 @@ class Child extends Component {
     this.setState({
       loggedIn: true,
     });
+    var sistema=this.isMobile();
+    var device=sistema[0];
     var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
     var users=refUsuarios.push();
     users.set({
@@ -333,7 +346,8 @@ class Child extends Component {
       email:response.profileObj.email,
       promocion:this.state.slide,
       horaEntrada: this.state.horaEntrada,
-      fechaEntrada: this.state.fechaEntrada
+      fechaEntrada: this.state.fechaEntrada,
+      dispositivo:device
     });
     scroll.scrollToBottom()
   }
@@ -344,6 +358,8 @@ class Child extends Component {
 
   handleResponse = (data) => {
     var self=this;
+    var sistema=self.isMobile();
+    var device=sistema[0];
     console.log(data);
     var h,m;
     var refGenero=ref.child(`${this.state.user}`+"/usuarios/genero");
@@ -357,9 +373,10 @@ class Child extends Component {
         });
       }
     )
-  
+
     promise.then(
       function(){
+
         var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
         var users=refUsuarios.push();
         users.set({
@@ -369,7 +386,8 @@ class Child extends Component {
           email:data.profile.email,
           promocion: self.state.slide,
           horaEntrada: self.state.horaEntrada,
-          fechaEntrada: self.state.fechaEntrada
+          fechaEntrada: self.state.fechaEntrada,
+          dispositivo: device
         });
 
         if(data.profile.gender=='male'){
@@ -377,7 +395,7 @@ class Child extends Component {
         }
         if(data.profile.gender=='female'){
           m+=1;
-        }  
+        }
         refGenero.set({
           hombre:h,
           mujer:m
@@ -411,7 +429,7 @@ class Child extends Component {
           onImageLoad={this.handleImageLoad}/>
         <div id='view-buttons'>
           <h2 id='view-title'>
-            ¡OBTÉN UNA 
+            ¡OBTÉN UNA
             <span id='view-title-promocion'> PROMOCIÓN</span>
             <span id='view-title-exclusiva'> EXCLUSIVA</span>
             !
