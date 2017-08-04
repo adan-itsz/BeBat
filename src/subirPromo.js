@@ -58,11 +58,13 @@ class SubirPromo extends Component {
 
 
   agregarImagenes(a){
-       if(a!=null && this.state.contador <= 5){
+       if(a!=null && this.state.arrayPreview.length < 4 && this.state.arreglo.length < 4){
          this.setState({
           contador: this.state.contador +=1,
           arrayPreview:this.state.arrayPreview.concat([{url:this.state.imagePreviewUrl}]),
           arreglo:this.state.arreglo.concat([{a}])});
+      }else{
+        alert("El limite de imagenes permitido es cuatro.")
       }
     }
     eliminarImg(index){
