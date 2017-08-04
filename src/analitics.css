@@ -44,8 +44,13 @@ a.time:hover {
 div#analitics {
     width: 54em;
     margin-left: 30%;
+    overflow-y:hidden;
 }
 ul#analitics-time li{
   border: thick solid white;
   width: 34%;
+}
+
+.text-anchor{
+  font-size: 20px;
 }

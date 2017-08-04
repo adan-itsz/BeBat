@@ -9,6 +9,13 @@ import { ref } from './constants.js';
 var ban=0;
 var ban2=0;
 
+const devicesGraph={
+  padding:'0',
+  margin:'0',
+  fontSize:'50px'
+
+}
+
 function getUltimoDiaMes(mes, ano){
   if( (mes == 1) || (mes == 3) || (mes == 5) || (mes == 7) || (mes == 8) || (mes == 10) || (mes == 12) )
       return 31;
@@ -238,7 +245,16 @@ class dist extends Component{
 
           />
       </div>
-
+      <div className={'my-pretty-chart-container2'}>
+        <Chart
+        style={devicesGraph}
+        chartType="PieChart"
+        data={[["Task","Hours per Day"],["Android",this.state.android],["iPhone",this.state.iphone],["iPod",this.state.ipod],["Ipad",this.state.ipad]]}
+        options={{"title":"Dispositivos utilizados","pieHole":0.9,"is3D":false}}
+        graph_id="DonutChart2"
+        width="100%"
+        />
+      </div>
         </div>
 
         )
