@@ -224,7 +224,7 @@ class dist extends Component{
         return(
           <div id="analitics">
             <div id="grafica">
-               <Route exact path="/AppWeb/analitics" component={dataano1}/>
+               <Route exact path="/AppWeb/analitics" component={datames1}/>
                <Route path="/AppWeb/analitics/año" component={dataano1}/>
                <Route path="/AppWeb/analitics/mes" component={datames1}/>
                <Route path="/AppWeb/analitics/semana" component={datasemana1}/>
