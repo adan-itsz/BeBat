@@ -162,46 +162,91 @@ class Child extends Component {
     }
 
     let today = mm + '/' + dd + '/' + yy;
+    var refViewDiaActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso");
+    var refContadorHorasActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
+    var referenciaContadorDia
+    var refViewHistorial=ref.child(`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
 
-    var referenciaContador=ref.child(`${this.state.user}`+"/views");
-    var referenciaContadorHoras=ref.child(`${this.state.user}`+"/views/horasDeEntrada");
-    var referenciaContadorDia=ref.child(`${this.state.user}`+"/visitasDia");
-    var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/visitasDia/horasDeEntrada");
-    var referenciaContadorMes=ref.child(`${this.state.user}`+"/visitasMes");
-    var referenciaContadorAno=ref.child(`${this.state.user}`+"/visitasAno");
+  //  var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/historialViews/horasDeEntrada");
 
     var valor=0;
     var dia=0;
     var mes=0;
     var ano=0;
-
-    referenciaContador.on('value',snapshot=>{
-      valor=snapshot.val().visitas;
-      dia=snapshot.val().dia;
-      mes=snapshot.val().mes;
-      ano=snapshot.val().ano;
-      var valorNumerico=parseInt(valor+1);
-      if(valor==null){
-        valor=0;
-      }
-      if(dia==null){
-        dia=date.getDate();
-        mes=date.getMonth()+1;
-        ano=date.getFullYear();
-      }
-      this.setState({
-        count:valorNumerico,
-        diaCount:dia,
-        mesCount:mes,
-        anoCount:ano,
-        horaEntrada: hora,
-        fechaEntrada: today,
-      });
-    });
-
     var recibirArray;
     var titulo;
     let promoEspecial;
+    var snap;
+///////se toman valores de la BD o se asignan iniciales en caso de estar vacia
+    var promise=new Promise(
+    function(resolve,reject){
+      refViewDiaActual.on('value',snapshot=>{
+      resolve (
+        snap=snapshot.val(),
+          valor=snap!=null?snapshot.val().visitas:-1,
+          dia=(snap!=null? snapshot.val().dia:-1),
+          mes=(snap!=null? snapshot.val().mes:-1),
+          ano=(snap!=null? snapshot.val().ano:-1)
+
+      );
+        });
+      })
+      promise.then(
+        function(){
+          var valorNumerico=parseInt(valor+1);
+          if(valor==-1){
+            refViewDiaActual.set({
+              visitas:1,
+              dia:date.getDate(),
+              mes:date.getMonth()+1,
+              ano:date.getFullYear()
+            });
+          }
+
+      if(dia!=date.getDate()|| (dia!= date.getDate()&& mes!=date.getMonth()+1)){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
+        var HistorialCountDia=refViewHistorial.push();
+        HistorialCountDia.set({
+          visitasDia:valor,
+          dia:dia,
+          mes:mes,
+          ano:ano
+        });
+      /*  var refHistorialCountDiaHoras=HistorialCountDiaHoras.push();
+        refHistorialCountDiaHoras.set({
+          horaEntrada:this.state.horaEntrada
+        })*/
+
+        refViewDiaActual.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
+          visitas:1,
+          dia:date.getDate(),
+          mes:date.getMonth()+1,
+          ano:date.getFullYear()
+        });
+
+        refContadorHorasActual.push({
+          horaEntrada: this.state.horaEntrada,
+        })
+      }
+
+      else{ //en caso de que no sea 0 se hace un set normal, con el valor de los states
+        refViewDiaActual.update({
+          visitas:valorNumerico,//este set es el de las visitas de cada dia
+          dia:dia,
+          mes:mes,
+          ano:ano
+        });
+        refContadorHorasActual.push({
+          horaEntrada: hora
+        })
+      }
+
+
+
+    });
+
+    /////////////////////
+
+
     var refDB=ref.child(this.state.user+"/SlideActual");
     refDB.on('value', snapshot=> {
       recibirArray=snapshot.val().slideActual;
@@ -231,53 +276,7 @@ class Child extends Component {
           }
         }
       }
-      if(dia==0){   //por el metodo asyncrono la primera vez no guarda el valor en los states asi que hacemos set, fuera del metodo asyncrono
-        referenciaContador.set({
-          visitas:1,
-          dia:date.getDate(),
-          mes:date.getMonth()+1,
-          ano:date.getFullYear()
-        });
-        referenciaContadorHoras.push({
-          horaEntrada: this.state.horaEntrada,
-        })
-      }
-      else{ //en caso de que no sea 0 se hace un set normal, con el valor de los states
-        referenciaContador.set({
-          visitas:this.state.count,//este set es el de las visitas de cada dia
-          dia:this.state.diaCount,
-          mes:this.state.mesCount,
-          ano:this.state.anoCount
-        });
-        referenciaContadorHoras.push({
-          horaEntrada: this.state.horaEntrada,
-        })
-      }
 
-      if(this.state.diaCount!=date.getDate()){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
-        var HistorialCountDia=referenciaContadorDia.push();
-        HistorialCountDia.set({
-          visitasDia:this.state.count,
-          dia:this.state.diaCount,
-          mes:this.state.mesCount,
-          ano:this.state.anoCount
-        });
-
-        HistorialCountDiaHoras.push({
-          horaEntrada:this.state.horaEntrada
-        })
-
-        referenciaContador.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
-          visitas:1,
-          dia:date.getDate(),
-          mes:date.getMonth()+1,
-          ano:date.getFullYear()
-        });
-
-        referenciaContadorHoras.push({
-          horaEntrada: this.state.horaEntrada,
-        })
-      }
       this.setState({
         arrayActual:ArrayFg,
       })
