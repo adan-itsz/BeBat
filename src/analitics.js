@@ -67,10 +67,33 @@ function label(){
   }
   return labelsDias
 }
-function datosPorDia(dia, array){
+function datosPorDia(dia, array,arrayDias){
   var datos=array;
-  for(var i=1;i<dia;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
-      datos.unshift(0);
+  var arrayDias=arrayDias;
+  var aux;
+  var ban=true;
+  var datosFinales=[];
+  for(var i=0;i<datos.length;i++){
+    if(i==0){
+      aux=arrayDias[i];
+      datosFinales.push(datos[i]);
+    }
+    else{
+      var resta=arrayDias[i]-aux;
+      if(resta!=1){
+        var valActual=datos[i];
+        for(var j=1;j<resta;j++){
+          datosFinales.push(0);
+        }
+      }
+      datosFinales.push(datos[i]);
+      aux=arrayDias[i];
+    }
+
+  }
+
+  for(var i=1;i<arrayDias[0];i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+      datosFinales.unshift(0);
   }
 
 const datames = {
@@ -97,7 +120,7 @@ const datames = {
       pointRadius: 1,
       pointHitRadius: 10,
 
-      data:datos
+      data:datosFinales
     }
   ]
 };
@@ -176,7 +199,7 @@ class dist extends Component{
   }
 
   obtenerDispositivos(){
-      var user = firebase.auth().currentUser;
+    var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
     var refDBUsers=ref.child(remplazo+"/usuarios");
     var android=0;
@@ -186,39 +209,39 @@ class dist extends Component{
     var devices=[];
     var self=this;
     var promise = new Promise(
-      function(resolve, reject){
-    refDBUsers.on('value',function(snapshot){
-      snapshot.forEach(function(child){
-        resolve( devices.push(child.val().dispositivo))
+    function(resolve, reject){
+      refDBUsers.on('value',function(snapshot){
+        snapshot.forEach(function(child){
+          resolve( devices.push(child.val().dispositivo))
+        })
       })
     })
-  })
 
-  promise.then(
-    function(){
-    for(var i=0;i<devices.length;i++){
-      if(devices[i]=="Android"){
-        android++;
-      }
-      else if(devices[i]=="iPhone"){
-        iphone++;
-      }
-      else if(devices[i]=="iPad"){
-        ipad++;
-      }
-      else if(devices[i]=="iPod"){
-        ipod++;
-      }
-    }
+    promise.then(
+      function(){
+        for(var i=0;i<devices.length;i++){
+          if(devices[i]=="Android"){
+            android++;
+          }
+          else if(devices[i]=="iPhone"){
+            iphone++;
+          }
+          else if(devices[i]=="iPad"){
+            ipad++;
+          }
+          else if(devices[i]=="iPod"){
+            ipod++;
+          }
+        }
 
-  self.setState({
-    android:android,
-    iphone:iphone,
-    ipod:ipod,
-    ipad:ipad
-  });
-}
-)
+        self.setState({
+          android:android,
+          iphone:iphone,
+          ipod:ipod,
+          ipad:ipad
+        });
+      }
+    )
   }
     render(){
         return(
@@ -279,21 +302,40 @@ class datames1 extends Component{
     super()
 
     this.state={
-
+      dias:[],
       valores:[]
     }
     ban=0;
   }
 
 componentWillMount(){
+  var date = new Date();
+  var h = this.addZero(date.getHours());
+  var m = this.addZero(date.getMinutes());
+  var s = this.addZero(date.getSeconds());
+  var hora = h + ":" + m + ":" + s;
+
+  var dd = date.getDate();
+  var mm = date.getMonth()+1;
+  var yy = date.getFullYear();
+
+  if(dd<10) {
+    dd = '0'+dd
+  }
+
+  if(mm<10) {
+    mm = '0'+mm
+  }
+
   let self=this;
   var user = firebase.auth().currentUser;
   var inicio=0;
   var bandera=false;
-    var remplazo=`${user.email}`.split('.').join('-');
-  var refDB=ref.child(remplazo+"/visitasDia");
-  var refDBTiempoReal=ref.child(remplazo+"/views");
+  var remplazo=`${user.email}`.split('.').join('-');
+  var refDB=ref.child(remplazo+"/historialViews"+"/"+yy+"/"+mm);
+  var refDBTiempoReal=ref.child(remplazo+"/viewsDiaEnCurso");
   var arrayValores=[];
+  var arrayDias=[];
   var diaInicial;
   var promise=new Promise(
     function(resolve,reject){
@@ -304,18 +346,16 @@ componentWillMount(){
       bandera=true;
     }
     arrayValores=arrayValores.concat(child.val().visitasDia);
+    arrayDias=arrayDias.concat(child.val().dia);
   })
   });
   refDBTiempoReal.on('value',datos=>{
     var valu=datos.val().visitas;
-    if(ban2>0){
-      arrayValores.pop();
-    }
-    else{
-      ban2++;
-    }
+    var valDia=datos.val().dia;
+
     resolve(
       arrayValores=arrayValores.concat(valu),
+      arrayDias=arrayDias.concat(valDia),
       diaInicial=inicio
   );
   });
@@ -324,16 +364,24 @@ promise.then(
   function(){
     self.setState({
       valores:arrayValores,
+      dias:arrayDias,
       diaInicio:diaInicial
     })
   }
 )
 }
+
+addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
  render() {
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={datosPorDia(this.state.diaInicio,this.state.valores)} width={500}
+       <Line data={datosPorDia(this.state.diaInicio,this.state.valores, this.state.dias)} width={500}
  height={300} />
 </div>
    );

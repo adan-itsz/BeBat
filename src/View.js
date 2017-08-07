@@ -143,6 +143,12 @@ class Child extends Component {
 
   componentWillMount(){
 
+
+    var a = new Date().getTimezoneOffset();
+var res = -Math.round(a/60)+':'+-(a%60);
+res = res < 0 ?res : '+'+res;
+
+console.log(res)
     var date = new Date();
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
@@ -164,10 +170,8 @@ class Child extends Component {
     let today = mm + '/' + dd + '/' + yy;
     var refViewDiaActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso");
     var refContadorHorasActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
-    var referenciaContadorDia
     var refViewHistorial=ref.child(`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
-
-  //  var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/historialViews/horasDeEntrada");
+    //var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/historialViews/"+yy+"/"+mm);
 
     var valor=0;
     var dia=0;
@@ -224,7 +228,7 @@ class Child extends Component {
         });
 
         refContadorHorasActual.push({
-          horaEntrada: this.state.horaEntrada,
+          horaEntrada: hora,
         })
       }
 
