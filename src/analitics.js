@@ -30,9 +30,11 @@ function getUltimoDiaMes(mes, ano){
           return 28;
   }
 }
-
+function datosAnio(viewsMes){
+  var views=viewsMes;
+  console.log(views);
 const dataano = {
-  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+  labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
   datasets: [
     {
       label: 'Usuarios fisicos',
@@ -54,10 +56,12 @@ const dataano = {
       pointRadius: 1,
       pointHitRadius: 10,
 
-      data: [3000, 4500, 2350, 2340, 5600, 1500, 2340, 1300, 8000,2300,4321,8521]
+      data: views
     }
   ]
 };
+return dataano;
+}
 function label(){
     var date1 = new Date();
   var labelsDias=[];
@@ -286,12 +290,86 @@ class dist extends Component{
 
 
 class dataano1 extends Component{
+  constructor(){
+    super()
+    this.state={
+      valores:[]
+    }
 
+  }
+  componentWillMount(){
+    var date = new Date();
+    var h = this.addZero(date.getHours());
+    var m = this.addZero(date.getMinutes());
+    var s = this.addZero(date.getSeconds());
+    var hora = h + ":" + m + ":" + s;
+
+    var dd = date.getDate();
+    var mm = date.getMonth()+1;
+    var yy = date.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    let self=this;
+    var user = firebase.auth().currentUser;
+    var remplazo=`${user.email}`.split('.').join('-');
+    var refDB;
+    var arrayMeses=[];
+    var sumaViews=0;
+    var mes;
+    var bandera=true;
+    var arrayViewMes=[];
+    var promise= new Promise(
+      function(resolve,reject){
+
+          refDB =ref.child(remplazo+"/historialViews"+"/"+yy);
+          refDB.on('value', snapshot=>{
+            snapshot.forEach(function(snapChild){
+            //  sumaViews=0;
+              snapChild.forEach(function(snapBaby){
+                if(bandera){
+                  mes=snapBaby.val().mes;
+                  bandera=false;
+                }
+                sumaViews=sumaViews+snapBaby.val().visitasDia;
+
+              })
+                resolve(arrayMeses.push(sumaViews));
+              })
+            })
+
+      }
+    )
+    promise.then(
+      function(){
+        for(var i=1;i<mes;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+            arrayMeses.unshift(0);
+        }
+          self.setState({
+          valores:arrayMeses
+        })
+      }
+    )
+
+  }
+
+  addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
  render() {
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={dataano} width={500}
+       <Line data={datosAnio(this.state.valores)} width={500}
  height={300} />
 </div>
    );
@@ -306,6 +384,7 @@ class datames1 extends Component{
       valores:[]
     }
     ban=0;
+
   }
 
 componentWillMount(){

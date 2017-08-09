@@ -142,14 +142,12 @@ class Child extends Component {
   }
 
   componentWillMount(){
-
-
-    var a = new Date().getTimezoneOffset();
-var res = -Math.round(a/60)+':'+-(a%60);
-res = res < 0 ?res : '+'+res;
-
-console.log(res)
-    var date = new Date();
+    var req = new XMLHttpRequest();
+    req.open('GET', 'google.com', false );
+    req.send(null);
+    var headers = req.getAllResponseHeaders().toLowerCase();
+    console.log(headers+" hola");
+    var date=new Date();
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
     var s = this.addZero(date.getSeconds());
@@ -344,6 +342,7 @@ isMobile(){
     var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
     var users=refUsuarios.push();
     users.set({
+
       nombre:response.profileObj.name,
       id:response.profileObj.googleId,
       email:response.profileObj.email,
