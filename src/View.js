@@ -142,11 +142,11 @@ class Child extends Component {
   }
 
   componentWillMount(){
-    var req = new XMLHttpRequest();
+    /*var req = new XMLHttpRequest();
     req.open('GET', 'google.com', false );
     req.send(null);
     var headers = req.getAllResponseHeaders().toLowerCase();
-    console.log(headers+" hola");
+    console.log(headers+" hola");*/
     var date=new Date();
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
@@ -166,6 +166,11 @@ class Child extends Component {
     }
 
     let today = mm + '/' + dd + '/' + yy;
+
+    this.setState({
+      fechaEntrada:today,
+      horaEntrada:hora
+    })
     var refViewDiaActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso");
     var refContadorHorasActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
     var refViewHistorial=ref.child(`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
@@ -332,6 +337,84 @@ isMobile(){
     }
     return i;
   }
+  usuariosLogeados(){
+    var date=new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth()+1;
+    var yy = date.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+    var snap;
+    var valor;
+    var dia;
+    var mes;
+    var ano;
+    var refUsersRegistrados=ref.child(`${this.state.user}`+"/RegistradosViewsHistorial");
+    var refUsersRegistradosDiaActual=ref.child(`${this.state.user}`+"/RegistradosViewsActual");
+    var promise=new Promise(
+    function(resolve,reject){
+      refUsersRegistradosDiaActual.on('value',snapshot=>{
+      resolve (
+        snap=snapshot.val(),
+          valor=snap!=null?snapshot.val().visitas:-1,
+          dia=(snap!=null? snapshot.val().dia:-1),
+          mes=(snap!=null? snapshot.val().mes:-1),
+          ano=(snap!=null? snapshot.val().ano:-1)
+
+      );
+        });
+      })
+      promise.then(
+        function(){
+          var valorNumerico=parseInt(valor+1);
+          if(valor==-1){
+            refUsersRegistradosDiaActual.set({
+              visitas:1,
+              dia:date.getDate(),
+              mes:date.getMonth()+1,
+              ano:date.getFullYear()
+            });
+          }
+
+      if(dia!=date.getDate()|| (dia!= date.getDate()&& mes!=date.getMonth()+1)){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
+        var HistorialCountDia=refUsersRegistrados.push();
+        HistorialCountDia.set({
+          visitasDia:valor,
+          dia:dia,
+          mes:mes,
+          ano:ano
+        });
+
+        refUsersRegistradosDiaActual.set({//inicializamos view con nuevos valores, vistas en 0 y fecha del nuevo dia
+          visitas:1,
+          dia:date.getDate(),
+          mes:date.getMonth()+1,
+          ano:date.getFullYear()
+        });
+
+      }
+
+      else{ //en caso de que no sea 0 se hace un set normal, con el valor de los states
+        refUsersRegistradosDiaActual.update({
+          visitas:valorNumerico,//este set es el de las visitas de cada dia
+          dia:dia,
+          mes:mes,
+          ano:ano
+        });
+      }
+
+
+
+    });
+
+    }
+
 
   onSuccess(response) {
     this.setState({
@@ -351,7 +434,8 @@ isMobile(){
       fechaEntrada: this.state.fechaEntrada,
       dispositivo:device
     });
-    scroll.scrollToBottom()
+    scroll.scrollToBottom();
+    this.usuariosLogeados();
   }
 
   onSelect = (active,direction)=>{
@@ -407,7 +491,8 @@ isMobile(){
           loggedIn: true,
         })
 
-        scroll.scrollToBottom()
+        scroll.scrollToBottom();
+        self.usuariosLogeados();
       }
     )
   }
