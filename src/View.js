@@ -137,9 +137,298 @@ class Child extends Component {
       slide:"",
       horaEntrada:"",
       fechaEntrada:"",
+      keyProgramado:"",
+
     }
     this.logo();
+    this.SlidesProgramados();
+
   }
+  SlidesProgramados(){
+            let self=this;
+            var refDB=ref.child(`${this.state.user}`+"/Programadas");
+            var FechaInicialPromise=[];
+            var FechaFinalPromise=[];
+            var HoraInicialPromise=[];
+            var HoraFinalPromise=[];
+            var Keys=[];
+            var promise=new Promise(
+              function(resolve,reject){
+            refDB.on('value', snapshot=> {
+              snapshot.forEach(function(child){
+                resolve(
+               Keys = Keys.concat(child.key),
+               FechaInicialPromise= FechaInicialPromise.concat(child.val().fechaInicialDB),
+               FechaFinalPromise= FechaFinalPromise.concat(child.val().fechaFinalDB),
+               HoraInicialPromise=HoraInicialPromise.concat(child.val().horaInicialDB),
+               HoraFinalPromise=HoraFinalPromise.concat(child.val().horaFinalDB),
+                      )
+            })
+            });
+          })//end promise
+          promise.then(
+            function(){
+              self.CheckIfs(Keys,FechaInicialPromise,FechaFinalPromise,HoraInicialPromise,HoraFinalPromise);
+
+            }
+          )
+  }
+  algoritmProga(){
+
+
+    if(this.state.keyProgramado!=""){
+    var recibirArray;
+    var titulo;
+    let promoEspecial;
+    let self =this;
+    var p1=new Promise (
+      function(resolve, reject){
+    var refDB=ref.child(`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
+    refDB.on('value', snapshot=> {
+        resolve(recibirArray=snapshot.val().historial,
+                titulo=snapshot.val().nombreSlide,
+                promoEspecial = snapshot.val().especial,)
+      });
+    });
+    p1.then(
+      function(recibirArray,titulo,promoEspecial){
+
+        document.title=titulo;
+      var StringN="";
+      var ArrayFg=[];
+      for (var i = 0; i < recibirArray.length; i++) {
+              if(recibirArray[i] =='~'){
+                for (var j = i+1; j < recibirArray.length; j++) {
+                  if(recibirArray[j]!='~'){
+                    StringN += recibirArray.substring(j,j+1);
+                  }
+                  else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+                    ArrayFg = ArrayFg.concat({original:StringN});
+
+                    StringN="";
+                  }
+                }
+                if(j==recibirArray.length){
+                  ArrayFg = ArrayFg.concat({original:StringN});
+                  break;
+                }
+              }
+            }
+            self.setState({
+              especial: promoEspecial,
+              arrayActual:ArrayFg,
+            });
+      }
+    );
+}
+else{
+
+  var recibirArray;
+  var titulo;
+  let promoEspecial;
+  let self =this;
+
+      var refDB=ref.child(this.state.user+"/SlideActual");
+      refDB.on('value', snapshot=> {
+        recibirArray=snapshot.val().slideActual;
+        titulo=snapshot.val().nombreSlide;
+        promoEspecial = snapshot.val().especial;
+        this.setState({
+          especial: promoEspecial,
+          slide: titulo,
+        })
+        document.title=titulo;
+        var StringN="";
+        var ArrayFg=[];
+        for (var i = 0; i < recibirArray.length; i++) {
+          if(recibirArray[i] =='~'){
+            for (var j = i+1; j < recibirArray.length; j++) {
+              if(recibirArray[j]!='~'){
+                StringN += recibirArray.substring(j,j+1);
+              }
+              else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+                ArrayFg = ArrayFg.concat({original:StringN});
+                StringN="";
+              }
+            }
+            if(j==recibirArray.length){
+              ArrayFg = ArrayFg.concat({original:StringN});
+              break;
+            }
+          }
+        }
+
+        this.setState({
+          arrayActual:ArrayFg,
+        })
+      });
+}
+
+
+
+  }
+
+  checarHora(key2,HoraA,HoraI,HoraF,MinutoA,MinutoI,MinutoF){
+    if(HoraA>HoraI &&HoraA<HoraF ){
+      this.setState({
+      keyProgramado:key2,
+      keyActiva:true,
+
+      });
+      this.algoritmProga();
+    }
+    else if (HoraA==HoraI&&HoraA==HoraF) {
+      if(MinutoA>MinutoI&&MinutoA<MinutoF){
+        this.setState({
+        keyProgramado:key2,
+        keyActiva:true,
+
+        });
+        this.algoritmProga();
+      }
+    }
+    else if(HoraA==HoraI){
+      if(MinutoA>=MinutoI&&HoraA<HoraF){
+        this.setState({
+        keyProgramado:key2,
+        keyActiva:true,
+
+        });
+        this.algoritmProga();
+      }
+    }
+    else if (HoraA==HoraF) {
+      if(MinutoA<=MinutoF){
+        this.setState({
+        keyProgramado:key2,
+        keyActiva:true,
+
+        });
+        this.algoritmProga();
+      }
+
+    }
+
+
+  }
+
+
+    CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
+      var date = new Date();
+      let yearSystem = date.getFullYear();
+      let monthSystem = date.getMonth()+1;
+      let daySystem = date.getDate();
+      let hourSystem = date.getHours();
+      let key2;
+
+      let minuteSystem =date.getMinutes();
+      for (var i = 0; i < key.length; i++) {
+
+        let anoInicialDB = fechaInicialDB[i].split("-")[2];
+        let mesInicialDB = fechaInicialDB[i].split("-")[1];
+        let diaInicialDB = fechaInicialDB[i].split("-")[0];
+        let horaIniciaDB = horaInicialDB[i].split(":")[0];
+        let minutosInicialDB = horaInicialDB[i].split(":")[1];
+        let anoFinalDB = fechaFinalDB[i].split("-")[2];
+        let mesFinalDB = fechaFinalDB[i].split("-")[1];
+        let diaFinalDB = fechaFinalDB[i].split("-")[0];
+        let horaFinaDB = horaFinalDB[i].split(":")[0];
+        let minutoFinalDB = horaFinalDB[i].split(":")[1];
+
+        if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
+          key2=key[i];
+          this.setState({
+          keyProgramado:key2,
+          keyActiva:true,
+
+          });
+          this.algoritmProga();
+        }
+
+        else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
+
+            if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+              key2=key[i];
+              this.setState({
+              keyProgramado:key2,
+              keyActiva:true,
+
+              });
+              this.algoritmProga();
+
+            }
+            else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+              this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+            }
+            else if (daySystem==diaInicialDB) {
+              this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+            }
+            else if (daySystem==diaFinalDB) {
+              this.checarHora(key2,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+            }
+
+        }
+
+
+      else if (monthSystem==mesInicialDB) {
+
+          if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
+            key2=key[i];
+            this.setState({
+            keyProgramado:key2,
+            keyActiva:true,
+
+            });
+            this.algoritmProga();
+
+          }
+          else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+          }
+          else if (daySystem==diaInicialDB) {
+            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+          }
+          else if (daySystem==diaFinalDB) {
+            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+          }
+
+        }
+
+          else if (monthSystem==mesFinalDB) {
+
+
+              if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+                key2=key[i];
+                this.setState({
+                keyProgramado:key2,
+                keyActiva:true,
+
+                });
+                this.algoritmProga();
+              }
+              else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+              }
+              else if (daySystem==diaInicialDB) {
+                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+              }
+              else if (daySystem==diaFinalDB) {
+                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+              }
+        }
+
+     }
+     this.algoritmProga();
+   }
 
   componentWillMount(){
     /*var req = new XMLHttpRequest();
@@ -180,9 +469,7 @@ class Child extends Component {
     var dia=0;
     var mes=0;
     var ano=0;
-    var recibirArray;
-    var titulo;
-    let promoEspecial;
+
     var snap;
 ///////se toman valores de la BD o se asignan iniciales en caso de estar vacia
     var promise=new Promise(
@@ -252,42 +539,6 @@ class Child extends Component {
     });
 
     /////////////////////
-
-
-    var refDB=ref.child(this.state.user+"/SlideActual");
-    refDB.on('value', snapshot=> {
-      recibirArray=snapshot.val().slideActual;
-      titulo=snapshot.val().nombreSlide;
-      promoEspecial = snapshot.val().especial;
-      this.setState({
-        especial: promoEspecial,
-        slide: titulo,
-      })
-      document.title=titulo;
-      var StringN="";
-      var ArrayFg=[];
-      for (var i = 0; i < recibirArray.length; i++) {
-        if(recibirArray[i] =='~'){
-          for (var j = i+1; j < recibirArray.length; j++) {
-            if(recibirArray[j]!='~'){
-              StringN += recibirArray.substring(j,j+1);
-            }
-            else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
-              ArrayFg = ArrayFg.concat({original:StringN});
-              StringN="";
-            }
-          }
-          if(j==recibirArray.length){
-            ArrayFg = ArrayFg.concat({original:StringN});
-            break;
-          }
-        }
-      }
-
-      this.setState({
-        arrayActual:ArrayFg,
-      })
-    });
   }
 
 isMobile(){
