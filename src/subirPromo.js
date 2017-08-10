@@ -136,6 +136,7 @@ class SubirPromo extends Component {
         especial: this.state.especial
       });
       }
+      window.location.reload();
     }
 
 

@@ -358,15 +358,15 @@ else{
 
             }
             else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-              this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
             }
             else if (daySystem==diaInicialDB) {
-              this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
             }
             else if (daySystem==diaFinalDB) {
-              this.checarHora(key2,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
             }
 
@@ -386,15 +386,15 @@ else{
 
           }
           else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
           }
           else if (daySystem==diaInicialDB) {
-            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
           }
           else if (daySystem==diaFinalDB) {
-            this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
           }
 
@@ -413,15 +413,15 @@ else{
                 this.algoritmProga();
               }
               else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
               }
               else if (daySystem==diaInicialDB) {
-                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
               }
               else if (daySystem==diaFinalDB) {
-                this.checarHora(key,hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
               }
         }
