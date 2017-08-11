@@ -335,7 +335,8 @@ else{
         let horaFinaDB = horaFinalDB[i].split(":")[0];
         let minutoFinalDB = horaFinalDB[i].split(":")[1];
 
-        if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
+
+        if(yearSystem>anoInicialDB&&yearSystem<anoFinalDB){
           key2=key[i];
           this.setState({
           keyProgramado:key2,
@@ -344,87 +345,288 @@ else{
           });
           this.algoritmProga();
         }
+       else if (yearSystem==anoInicialDB&&yearSystem==anoFinalDB) {
 
-        else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
+                 if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
+                   key2=key[i];
+                   this.setState({
+                   keyProgramado:key2,
+                   keyActiva:true,
 
-            if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-              key2=key[i];
-              this.setState({
-              keyProgramado:key2,
-              keyActiva:true,
+                   });
+                   this.algoritmProga();
+                 }
 
-              });
-              this.algoritmProga();
+                 else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
 
-            }
-            else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                     if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+                       key2=key[i];
+                       this.setState({
+                       keyProgramado:key2,
+                       keyActiva:true,
 
-            }
-            else if (daySystem==diaInicialDB) {
-              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                       });
+                       this.algoritmProga();
 
-            }
-            else if (daySystem==diaFinalDB) {
-              this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                     }
+                     else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                       this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
-            }
+                     }
+                     else if (daySystem==diaInicialDB) {
+                       this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
-        }
+                     }
+                     else if (daySystem==diaFinalDB) {
+                       this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
+                     }
 
-      else if (monthSystem==mesInicialDB) {
-
-          if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
-            key2=key[i];
-            this.setState({
-            keyProgramado:key2,
-            keyActiva:true,
-
-            });
-            this.algoritmProga();
-
-          }
-          else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-          }
-          else if (daySystem==diaInicialDB) {
-            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-          }
-          else if (daySystem==diaFinalDB) {
-            this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-          }
-
-        }
-
-          else if (monthSystem==mesFinalDB) {
+                 }
 
 
-              if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-                key2=key[i];
-                this.setState({
-                keyProgramado:key2,
-                keyActiva:true,
+               else if (monthSystem==mesInicialDB) {
 
-                });
-                this.algoritmProga();
-              }
-              else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                   if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
+                     key2=key[i];
+                     this.setState({
+                     keyProgramado:key2,
+                     keyActiva:true,
 
-              }
-              else if (daySystem==diaInicialDB) {
-                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                     });
+                     this.algoritmProga();
 
-              }
-              else if (daySystem==diaFinalDB) {
-                this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+                   }
+                   else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                     this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
-              }
-        }
+                   }
+                   else if (daySystem==diaInicialDB) {
+                     this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+                   }
+                   else if (daySystem==diaFinalDB) {
+                     this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+                   }
+
+                 }
+
+                   else if (monthSystem==mesFinalDB) {
+
+
+                       if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+                         key2=key[i];
+                         this.setState({
+                         keyProgramado:key2,
+                         keyActiva:true,
+
+                         });
+                         this.algoritmProga();
+                       }
+                       else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                         this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+                       }
+                       else if (daySystem==diaInicialDB) {
+                         this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+                       }
+                       else if (daySystem==diaFinalDB) {
+                         this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+                       }
+                 }
+
+       }
+       else if (yearSystem==anoInicialDB) {
+         if(monthSystem>mesInicialDB&&yearSystem<anoFinalDB){
+           key2=key[i];
+           this.setState({
+           keyProgramado:key2,
+           keyActiva:true,
+
+           });
+           this.algoritmProga();
+
+         }
+         else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
+
+             if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+               key2=key[i];
+               this.setState({
+               keyProgramado:key2,
+               keyActiva:true,
+
+               });
+               this.algoritmProga();
+
+             }
+             else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+             else if (daySystem==diaInicialDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+             else if (daySystem==diaFinalDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+
+         }
+
+
+       else if (monthSystem==mesInicialDB) {
+
+           if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
+             key2=key[i];
+             this.setState({
+             keyProgramado:key2,
+             keyActiva:true,
+
+             });
+             this.algoritmProga();
+
+           }
+           else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+           else if (daySystem==diaInicialDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+           else if (daySystem==diaFinalDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+
+         }
+
+           else if (monthSystem==mesFinalDB) {
+
+
+               if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+                 key2=key[i];
+                 this.setState({
+                 keyProgramado:key2,
+                 keyActiva:true,
+
+                 });
+                 this.algoritmProga();
+               }
+               else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+               else if (daySystem==diaInicialDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+               else if (daySystem==diaFinalDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+         }
+
+       }
+       else if (yearSystem==anoInicialDB) {
+         if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
+           key2=key[i];
+           this.setState({
+           keyProgramado:key2,
+           keyActiva:true,
+
+           });
+           this.algoritmProga();
+         }
+
+         else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
+
+             if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+               key2=key[i];
+               this.setState({
+               keyProgramado:key2,
+               keyActiva:true,
+
+               });
+               this.algoritmProga();
+
+             }
+             else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+             else if (daySystem==diaInicialDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+             else if (daySystem==diaFinalDB) {
+               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+             }
+
+         }
+
+
+       else if (monthSystem==mesInicialDB) {
+
+           if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
+             key2=key[i];
+             this.setState({
+             keyProgramado:key2,
+             keyActiva:true,
+
+             });
+             this.algoritmProga();
+
+           }
+           else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+           else if (daySystem==diaInicialDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+           else if (daySystem==diaFinalDB) {
+             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+           }
+
+         }
+
+           else if (monthSystem==mesFinalDB) {
+
+
+               if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
+                 key2=key[i];
+                 this.setState({
+                 keyProgramado:key2,
+                 keyActiva:true,
+
+                 });
+                 this.algoritmProga();
+               }
+               else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+               else if (daySystem==diaInicialDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+               else if (daySystem==diaFinalDB) {
+                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
+
+               }
+         }
+
+       }
+
+
 
      }
      this.algoritmProga();

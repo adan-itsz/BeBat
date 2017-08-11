@@ -49,6 +49,7 @@ class SubirPromo extends Component {
        fechaInitdefault:"",
        horaInitdefault:"",
        fechaFinaldefault:"",
+       fechaMaxima:"",
        horaFinaldefault:"",
        HInicial:"",
        FInicial:"",
@@ -284,6 +285,7 @@ componentWillMount(){
     horaInitdefault:hora+":"+minute,
     fechaFinaldefault:ano+"-"+mes2+"-"+dia,
     horaFinaldefault:hora+":"+minute,
+    fechaMaxima:ano+1+"-"+mes+"-"+dia,
   })
 
 
@@ -343,12 +345,12 @@ render() {
        <div id='HF'>
        <label>Hora y fecha inicial</label>
       <input type="time" id="horaInicial" defaultValue={this.state.horaInitdefault} ref={(hora_inicial) => this.hora_inicial = hora_inicial} />
-      <input type="date" id="fechaInicial" defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
+      <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
  </div>
       <div id='HF'>
       <label>Hora y fecha final</label>
       <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
-      <input type="date" id="fechaFinal" defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
+      <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
       <RaisedButton type="submit" label="Publicar" primary={true} style={style} />
 
      </div>
