@@ -355,7 +355,7 @@ isMobile(){
     var dia;
     var mes;
     var ano;
-    var refUsersRegistrados=ref.child(`${this.state.user}`+"/RegistradosViewsHistorial");
+    var refUsersRegistrados=ref.child(`${this.state.user}`+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
     var refUsersRegistradosDiaActual=ref.child(`${this.state.user}`+"/RegistradosViewsActual");
     var promise=new Promise(
     function(resolve,reject){
