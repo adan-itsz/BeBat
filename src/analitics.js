@@ -9,6 +9,13 @@ import { ref } from './constants.js';
 var ban=0;
 var ban2=0;
 
+const devicesGraph={
+  padding:'0',
+  margin:'0',
+  fontSize:'50px'
+
+}
+
 function getUltimoDiaMes(mes, ano){
   if( (mes == 1) || (mes == 3) || (mes == 5) || (mes == 7) || (mes == 8) || (mes == 10) || (mes == 12) )
       return 31;
@@ -23,34 +30,61 @@ function getUltimoDiaMes(mes, ano){
           return 28;
   }
 }
-
+function datosAnio(viewsMes,viewsMesUsuario){
+  var views=viewsMes;
+  var viewsMesUsuario=viewsMesUsuario;
+  console.log(views);
 const dataano = {
-  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+  labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
   datasets: [
     {
-      label: 'Usuarios fisicos',
+      label: 'Usuarios que ingresaron',
       fill: false,
       lineTension: 0.2,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
+      backgroundColor: 'rgba(3, 243, 229,2.4)',
+      borderColor: 'rgba(3, 243, 229,1)',
       borderCapStyle: 'butt',
       borderDash: [],
       borderDashOffset: 0.0,
       borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
+      pointBorderColor: 'rgba(3, 243, 229,1)',
       pointBackgroundColor: '#fff',
       pointBorderWidth: 4,
       pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+      pointHoverBackgroundColor: 'rgba(3, 243, 229,1)',
       pointHoverBorderColor: 'rgba(220,220,220,1)',
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
 
-      data: [3000, 4500, 2350, 2340, 5600, 1500, 2340, 1300, 8000,2300,4321,8521]
+      data: views
+    },
+    {
+      label: 'Usuarios registrados',
+      fill: false,
+      lineTension: 0.2,
+      backgroundColor: 'rgba(3, 136, 108,0.4)',
+      borderColor: 'rgba(3, 136, 108,1)',
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: 'rgba(3, 136, 108,1)',
+      pointBackgroundColor: '#fff',
+      pointBorderWidth: 4,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(199,0,57,1)',
+      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+
+      data: viewsMesUsuario
     }
   ]
 };
+return dataano;
+}
 function label(){
     var date1 = new Date();
   var labelsDias=[];
@@ -60,18 +94,50 @@ function label(){
   }
   return labelsDias
 }
-function datosPorDia(dia, array){
-  var datos=array;
-  for(var i=1;i<dia;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
-      datos.unshift(0);
+function adecuarArray(datos,arrayDias){
+  var datosFinales=[];
+  var aux;
+  for(var i=0;i<datos.length;i++){
+    if(i==0){
+      aux=arrayDias[i];
+      datosFinales.push(datos[i]);
+    }
+    else{
+      var resta=arrayDias[i]-aux;
+      if(resta!=1){
+        var valActual=datos[i];
+        for(var j=1;j<resta;j++){
+          datosFinales.push(0);
+        }
+      }
+      datosFinales.push(datos[i]);
+      aux=arrayDias[i];
+    }
+
   }
 
+  for(var i=1;i<arrayDias[0];i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+      datosFinales.unshift(0);
+  }
+  return datosFinales;
+}
+function datosPorDia(dia, array,arrayDias,diaUsuario,arrayUsuario,arrayDiasUsuario){
+  var datos=array;
+  var arrayDias=arrayDias;
+  var datosFinales=[];
+  var datosUsuario=arrayUsuario;
+  var arrayDiasUsuario=arrayDiasUsuario;
+  var datosFinalesUsuario=[];
+  if(datos!=null && datosUsuario!=null){
+  datosFinales=adecuarArray(datos,arrayDias);
+  datosFinalesUsuario= adecuarArray(datosUsuario,arrayDiasUsuario);
+}
 const datames = {
 
   labels:['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30',''],
   datasets: [
     {
-      label: 'Usuarios fisicos',
+      label: 'Usuarios que ingresaron',
       fill: false,
       lineTension: 0.2,
       backgroundColor: 'rgba(75,192,192,0.4)',
@@ -90,7 +156,29 @@ const datames = {
       pointRadius: 1,
       pointHitRadius: 10,
 
-      data:datos
+      data:datosFinales
+    },
+    {
+      label: 'Usuarios registrados',
+      fill: false,
+      lineTension: 0.2,
+      backgroundColor: 'rgba(3, 136, 108,0.4)',
+      borderColor: 'rgba(4,214,161,1)',
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: 'rgba(3, 136, 108,1)',
+      pointBackgroundColor: '#fff',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(3, 136, 108,1)',
+      pointHoverBorderColor: 'rgba(220,220,220,1)',
+      pointHoverBorderWidth: 2,
+      pointRadius: 1,
+      pointHitRadius: 10,
+
+      data:datosFinalesUsuario
     }
   ]
 };
@@ -169,7 +257,7 @@ class dist extends Component{
   }
 
   obtenerDispositivos(){
-      var user = firebase.auth().currentUser;
+    var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
     var refDBUsers=ref.child(remplazo+"/usuarios");
     var android=0;
@@ -179,45 +267,45 @@ class dist extends Component{
     var devices=[];
     var self=this;
     var promise = new Promise(
-      function(resolve, reject){
-    refDBUsers.on('value',function(snapshot){
-      snapshot.forEach(function(child){
-        resolve( devices.push(child.val().dispositivo))
+    function(resolve, reject){
+      refDBUsers.on('value',function(snapshot){
+        snapshot.forEach(function(child){
+          resolve( devices.push(child.val().dispositivo))
+        })
       })
     })
-  })
 
-  promise.then(
-    function(){
-    for(var i=0;i<devices.length;i++){
-      if(devices[i]=="Android"){
-        android++;
-      }
-      else if(devices[i]=="iPhone"){
-        iphone++;
-      }
-      else if(devices[i]=="iPad"){
-        ipad++;
-      }
-      else if(devices[i]=="iPod"){
-        ipod++;
-      }
-    }
+    promise.then(
+      function(){
+        for(var i=0;i<devices.length;i++){
+          if(devices[i]=="Android"){
+            android++;
+          }
+          else if(devices[i]=="iPhone"){
+            iphone++;
+          }
+          else if(devices[i]=="iPad"){
+            ipad++;
+          }
+          else if(devices[i]=="iPod"){
+            ipod++;
+          }
+        }
 
-  self.setState({
-    android:android,
-    iphone:iphone,
-    ipod:ipod,
-    ipad:ipad
-  });
-}
-)
+        self.setState({
+          android:android,
+          iphone:iphone,
+          ipod:ipod,
+          ipad:ipad
+        });
+      }
+    )
   }
     render(){
         return(
           <div id="analitics">
             <div id="grafica">
-               <Route exact path="/AppWeb/analitics" component={dataano1}/>
+               <Route exact path="/AppWeb/analitics" component={datames1}/>
                <Route path="/AppWeb/analitics/año" component={dataano1}/>
                <Route path="/AppWeb/analitics/mes" component={datames1}/>
                <Route path="/AppWeb/analitics/semana" component={datasemana1}/>
@@ -238,7 +326,16 @@ class dist extends Component{
 
           />
       </div>
-
+      <div className={'my-pretty-chart-container2'}>
+        <Chart
+        style={devicesGraph}
+        chartType="PieChart"
+        data={[["Task","Hours per Day"],["Android",this.state.android],["iPhone",this.state.iphone],["iPod",this.state.ipod],["Ipad",this.state.ipad]]}
+        options={{"title":"Dispositivos utilizados","pieHole":0.9,"is3D":false}}
+        graph_id="DonutChart2"
+        width="100%"
+        />
+      </div>
         </div>
 
         )
@@ -247,12 +344,150 @@ class dist extends Component{
 
 
 class dataano1 extends Component{
+  constructor(){
+    super()
+    this.state={
+      valores:[]
+    }
 
+  }
+  componentWillMount(){
+    var date = new Date();
+    var h = this.addZero(date.getHours());
+    var m = this.addZero(date.getMinutes());
+    var s = this.addZero(date.getSeconds());
+    var hora = h + ":" + m + ":" + s;
+
+    var dd = date.getDate();
+    var mm = date.getMonth()+1;
+    var yy = date.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    let self=this;
+    var user = firebase.auth().currentUser;
+    var remplazo=`${user.email}`.split('.').join('-');
+    var refDB;
+    var arrayMeses=[];
+    var sumaViews=0;
+    var mes;
+    var bandera=true;
+    var arrayViewMes=[];
+    var promise= new Promise(
+      function(resolve,reject){
+
+          refDB =ref.child(remplazo+"/historialViews"+"/"+yy);
+          refDB.on('value', snapshot=>{
+            snapshot.forEach(function(snapChild){
+            //  sumaViews=0;
+              snapChild.forEach(function(snapBaby){
+                if(bandera){
+                  mes=snapBaby.val().mes;
+                  bandera=false;
+                }
+                sumaViews=sumaViews+snapBaby.val().visitasDia;
+
+              })
+                resolve(arrayMeses.push(sumaViews));
+              })
+            })
+
+      }
+    )
+    promise.then(
+      function(){
+        for(var i=1;i<mes;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+            arrayMeses.unshift(0);
+        }
+        self.usuariosRegistradosAnio();
+          self.setState({
+          valores:arrayMeses
+        });
+
+
+      }
+    )
+
+  }
+
+  usuariosRegistradosAnio(){
+    var date = new Date();
+    var h = this.addZero(date.getHours());
+    var m = this.addZero(date.getMinutes());
+    var s = this.addZero(date.getSeconds());
+    var hora = h + ":" + m + ":" + s;
+
+    var dd = date.getDate();
+    var mm = date.getMonth()+1;
+    var yy = date.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    }
+
+    if(mm<10) {
+      mm = '0'+mm
+    }
+
+    let self=this;
+    var user = firebase.auth().currentUser;
+    var remplazo=`${user.email}`.split('.').join('-');
+    var refDB;
+    var arrayMesesUsuario=[];
+    var sumaViews=0;
+    var mes;
+    var bandera=true;
+    var arrayViewMes=[];
+    var promise= new Promise(
+      function(resolve,reject){
+
+          refDB =ref.child(remplazo+"/RegistradosViewsHistorial"+"/"+yy);
+          refDB.on('value', snapshot=>{
+            snapshot.forEach(function(snapChild){
+            //  sumaViews=0;
+              snapChild.forEach(function(snapBaby){
+                if(bandera){
+                  mes=snapBaby.val().mes;
+                  bandera=false;
+                }
+                sumaViews=sumaViews+snapBaby.val().visitasDia;
+
+              })
+                resolve(arrayMesesUsuario.push(sumaViews));
+              })
+            })
+
+      }
+    )
+    promise.then(
+      function(){
+        for(var i=1;i<mes;i++){ //llenamos array con 0 al inicio para equilibrar dias no metricados
+            arrayMesesUsuario.unshift(0);
+        }
+          self.setState({
+          valoresUsuario:arrayMesesUsuario
+        })
+
+      }
+    )
+  }
+  addZero(i) {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  }
  render() {
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={dataano} width={500}
+       <Line data={datosAnio(this.state.valores,this.state.valoresUsuario)} width={500}
  height={300} />
 </div>
    );
@@ -263,21 +498,41 @@ class datames1 extends Component{
     super()
 
     this.state={
-
+      dias:[],
       valores:[]
     }
     ban=0;
+
   }
 
 componentWillMount(){
+  var date = new Date();
+  var h = this.addZero(date.getHours());
+  var m = this.addZero(date.getMinutes());
+  var s = this.addZero(date.getSeconds());
+  var hora = h + ":" + m + ":" + s;
+
+  var dd = date.getDate();
+  var mm = date.getMonth()+1;
+  var yy = date.getFullYear();
+
+  if(dd<10) {
+    dd = '0'+dd
+  }
+
+  if(mm<10) {
+    mm = '0'+mm
+  }
+
   let self=this;
   var user = firebase.auth().currentUser;
   var inicio=0;
   var bandera=false;
-    var remplazo=`${user.email}`.split('.').join('-');
-  var refDB=ref.child(remplazo+"/visitasDia");
-  var refDBTiempoReal=ref.child(remplazo+"/views");
+  var remplazo=`${user.email}`.split('.').join('-');
+  var refDB=ref.child(remplazo+"/historialViews"+"/"+yy+"/"+mm);
+  var refDBTiempoReal=ref.child(remplazo+"/viewsDiaEnCurso");
   var arrayValores=[];
+  var arrayDias=[];
   var diaInicial;
   var promise=new Promise(
     function(resolve,reject){
@@ -288,18 +543,16 @@ componentWillMount(){
       bandera=true;
     }
     arrayValores=arrayValores.concat(child.val().visitasDia);
+    arrayDias=arrayDias.concat(child.val().dia);
   })
   });
   refDBTiempoReal.on('value',datos=>{
     var valu=datos.val().visitas;
-    if(ban2>0){
-      arrayValores.pop();
-    }
-    else{
-      ban2++;
-    }
+    var valDia=datos.val().dia;
+
     resolve(
       arrayValores=arrayValores.concat(valu),
+      arrayDias=arrayDias.concat(valDia),
       diaInicial=inicio
   );
   });
@@ -308,16 +561,90 @@ promise.then(
   function(){
     self.setState({
       valores:arrayValores,
+      dias:arrayDias,
       diaInicio:diaInicial
     })
+    self.usuariosRegistrados();
   }
 )
 }
+
+addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
+usuariosRegistrados(){
+  var date = new Date();
+  var h = this.addZero(date.getHours());
+  var m = this.addZero(date.getMinutes());
+  var s = this.addZero(date.getSeconds());
+  var hora = h + ":" + m + ":" + s;
+
+  var dd = date.getDate();
+  var mm = date.getMonth()+1;
+  var yy = date.getFullYear();
+
+  if(dd<10) {
+    dd = '0'+dd
+  }
+
+  if(mm<10) {
+    mm = '0'+mm
+  }
+
+  let self=this;
+  var user = firebase.auth().currentUser;
+  var inicio=0;
+  var bandera=false;
+  var remplazo=`${user.email}`.split('.').join('-');
+  var refDB=ref.child(remplazo+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
+  var refDBTiempoReal=ref.child(remplazo+"/RegistradosViewsActual");
+  var arrayValoresUsuario=[];
+  var arrayDiasUsuario=[];
+  var diaInicialUsuario;
+  var promise=new Promise(
+    function(resolve,reject){
+  refDB.on('value', snapshot=> {
+    snapshot.forEach(function(child){
+    if(!bandera){
+      inicio=child.val().dia;
+      bandera=true;
+    }
+    arrayValoresUsuario=arrayValoresUsuario.concat(child.val().visitasDia);
+    arrayDiasUsuario=arrayDiasUsuario.concat(child.val().dia);
+  })
+  });
+  refDBTiempoReal.on('value',datos=>{
+    var valu=datos.val().visitas;
+    var valDia=datos.val().dia;
+
+    resolve(
+      arrayValoresUsuario=arrayValoresUsuario.concat(valu),
+      arrayDiasUsuario=arrayDiasUsuario.concat(valDia),
+      diaInicialUsuario=inicio
+  );
+  });
+  })//end promise
+  promise.then(
+  function(){
+    self.setState({
+      valoresUsuario:arrayValoresUsuario,
+      diasUsuario:arrayDiasUsuario,
+      diaInicioUsuario:diaInicialUsuario
+    })
+  }
+  )
+
+}
+
+
  render() {
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={datosPorDia(this.state.diaInicio,this.state.valores)} width={500}
+       <Line data={datosPorDia(this.state.diaInicio,this.state.valores, this.state.dias,  this.state.diaInicioUsuario,this.state.valoresUsuario,this.state.diasUsuario)} width={500}
  height={300} />
 </div>
    );
