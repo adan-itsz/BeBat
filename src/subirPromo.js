@@ -56,6 +56,7 @@ class SubirPromo extends Component {
        HFinail:"",
        FFinal:"",
        SlideP:0,
+       horaServerExacta:null,
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -255,38 +256,62 @@ handleSubmit = (e) => {
  });
 this.subeSlide();
 
-
-
 }
+
+
+
 componentWillMount(){
-  let d = new Date();
-  let dia = d.getDate();
-  let mes = d.getMonth()+1;
-  let mes2 =d.getMonth()+3;
-  let ano = d.getFullYear();
-  let hora = d.getHours();
-  let minute = d.getMinutes();
 
-  if(dia<=9){
-    dia="0"+dia;
-  }
-  if(minute<=9){
-    minute="0"+minute;
-  }
+          var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+          var self=this;
+          var offset;
+          var promise = new Promise(
+            function(resolve,reject){
+              offsetRef.on("value", snapshot =>{
+                  resolve(
+                    offset = snapshot.val(),
+                  )
+              });
+            }
+          )
+          promise.then(
+            function(offset){
+        var estimatedServerTimeMs = new Date().getTime() + offset;
 
-  if(mes<=9){
-    mes="0"+mes;
-  }
-  if(mes2<=9){
-    mes2="0"+mes2;
-  }
-  this.setState({
-    fechaInitdefault:ano+"-"+mes+"-"+dia,
-    horaInitdefault:hora+":"+minute,
-    fechaFinaldefault:ano+"-"+mes2+"-"+dia,
-    horaFinaldefault:hora+":"+minute,
-    fechaMaxima:ano+1+"-"+mes+"-"+dia,
-  })
+              let d = new Date(estimatedServerTimeMs);
+              let dia = d.getDate();
+              let mes = d.getMonth()+1;
+              let mes2 =d.getMonth()+3;
+              let ano = d.getFullYear();
+              let hora = d.getHours();
+              let minute = d.getMinutes();
+
+              if(dia<=9){
+                dia="0"+dia;
+              }
+              if(minute<=9){
+                minute="0"+minute;
+              }
+
+              if(mes<=9){
+                mes="0"+mes;
+              }
+              if(mes2<=9){
+                mes2="0"+mes2;
+              }
+              self.setState({
+                fechaInitdefault:ano+"-"+mes+"-"+dia,
+                horaInitdefault:hora+":"+minute,
+                fechaFinaldefault:ano+"-"+mes2+"-"+dia,
+                horaFinaldefault:hora+":"+minute,
+                fechaMaxima:ano+1+"-"+mes+"-"+dia,
+              })
+              console.log('terminado');
+            }
+
+          )
+
+
 
 
 }

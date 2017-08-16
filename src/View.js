@@ -140,6 +140,7 @@ class Child extends Component {
       keyProgramado:"",
 
     }
+    
     this.logo();
     this.SlidesProgramados();
 
@@ -314,7 +315,16 @@ else{
 
 
     CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
-      var date = new Date();
+      var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+      var estimatedServerTimeMs;
+      offsetRef.on("value", function(snap) {
+        var offset = snap.val();
+        estimatedServerTimeMs = new Date().getTime() + offset;
+      });
+
+
+
+      var date = new Date(estimatedServerTimeMs);
       let yearSystem = date.getFullYear();
       let monthSystem = date.getMonth()+1;
       let daySystem = date.getDate();
@@ -450,179 +460,9 @@ else{
            this.algoritmProga();
 
          }
-         else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
-
-             if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-               key2=key[i];
-               this.setState({
-               keyProgramado:key2,
-               keyActiva:true,
-
-               });
-               this.algoritmProga();
-
-             }
-             else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-             else if (daySystem==diaInicialDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-             else if (daySystem==diaFinalDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-
-         }
-
-
-       else if (monthSystem==mesInicialDB) {
-
-           if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
-             key2=key[i];
-             this.setState({
-             keyProgramado:key2,
-             keyActiva:true,
-
-             });
-             this.algoritmProga();
-
-           }
-           else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-           else if (daySystem==diaInicialDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-           else if (daySystem==diaFinalDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-
-         }
-
-           else if (monthSystem==mesFinalDB) {
-
-
-               if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-                 key2=key[i];
-                 this.setState({
-                 keyProgramado:key2,
-                 keyActiva:true,
-
-                 });
-                 this.algoritmProga();
-               }
-               else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-               else if (daySystem==diaInicialDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-               else if (daySystem==diaFinalDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-         }
 
        }
        else if (yearSystem==anoInicialDB) {
-         if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
-           key2=key[i];
-           this.setState({
-           keyProgramado:key2,
-           keyActiva:true,
-
-           });
-           this.algoritmProga();
-         }
-
-         else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
-
-             if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-               key2=key[i];
-               this.setState({
-               keyProgramado:key2,
-               keyActiva:true,
-
-               });
-               this.algoritmProga();
-
-             }
-             else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-             else if (daySystem==diaInicialDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-             else if (daySystem==diaFinalDB) {
-               this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-             }
-
-         }
-
-
-       else if (monthSystem==mesInicialDB) {
-
-           if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
-             key2=key[i];
-             this.setState({
-             keyProgramado:key2,
-             keyActiva:true,
-
-             });
-             this.algoritmProga();
-
-           }
-           else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-           else if (daySystem==diaInicialDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-           else if (daySystem==diaFinalDB) {
-             this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-           }
-
-         }
-
-           else if (monthSystem==mesFinalDB) {
-
-
-               if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-                 key2=key[i];
-                 this.setState({
-                 keyProgramado:key2,
-                 keyActiva:true,
-
-                 });
-                 this.algoritmProga();
-               }
-               else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-               else if (daySystem==diaInicialDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-               else if (daySystem==diaFinalDB) {
-                 this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
-
-               }
-         }
 
        }
 
@@ -633,12 +473,14 @@ else{
    }
 
   componentWillMount(){
-    /*var req = new XMLHttpRequest();
-    req.open('GET', 'google.com', false );
-    req.send(null);
-    var headers = req.getAllResponseHeaders().toLowerCase();
-    console.log(headers+" hola");*/
-    var date=new Date();
+    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+    var estimatedServerTimeMs;
+    offsetRef.on("value", function(snap) {
+      var offset = snap.val();
+      estimatedServerTimeMs = new Date().getTime() + offset;
+    });
+
+    var date=new Date(estimatedServerTimeMs);
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
     var s = this.addZero(date.getSeconds());
@@ -791,7 +633,13 @@ isMobile(){
     return i;
   }
   usuariosLogeados(){
-    var date=new Date();
+    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+    var estimatedServerTimeMs;
+    offsetRef.on("value", function(snap) {
+      var offset = snap.val();
+      estimatedServerTimeMs = new Date().getTime() + offset;
+    });
+    var date=new Date(estimatedServerTimeMs);
     var dd = date.getDate();
     var mm = date.getMonth()+1;
     var yy = date.getFullYear();
