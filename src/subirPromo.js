@@ -9,6 +9,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LinearProgress from 'material-ui/LinearProgress';
 import TextField from 'material-ui/TextField';
 
+import TimePicker from 'material-ui/TimePicker';
+import DatePicker from 'material-ui/DatePicker';
+import areIntlLocalesSupported from 'intl-locales-supported';
+import persianUtils from 'material-ui-persian-date-picker-utils';
+
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['fr', 'fa-IR'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl');
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/fr');
+  require('intl/locale-data/jsonp/fa-IR');
+}
+
 var d = new Date();
 const database = firebase.database();
 
@@ -57,6 +73,10 @@ class SubirPromo extends Component {
        FFinal:"",
        SlideP:0,
        horaServerExacta:null,
+       diaInicio:"",
+       diaFinal:"",
+       tiempoFinal:"",
+       tiempoInicial:"",
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -316,6 +336,31 @@ componentWillMount(){
 
 }
 
+setFechaInicio(x,event){
+    var fecha=JSON.stringify(event);
+    var fechaFormat=fecha.substring(1,11);
+    this.setState({
+      diaInicio:fechaFormat
+    })
+  }
+
+  setFechaFinal(x,event){
+    var fecha=JSON.stringify(event);
+    var fechaFormat=fecha.substring(1,11);
+    this.setState({
+      diaFinal:fechaFormat
+    })
+  }
+
+  setTiempoInicial(event,time){
+    this.setState({tiempoInicial:time});
+  }
+
+  setTiempoFinal(event,time){
+    this.setState({tiempoFinal:time});
+  }
+
+
 render() {
 
   const style = {
@@ -365,6 +410,35 @@ render() {
         <RaisedButton label="Publicar Ahora" primary={true} style={style} onClick={() => this.subeSlide()} />
         <RaisedButton label="Programar" primary={true} style={style} />
        </div>
+
+       <DatePicker
+         hintText="Elige la fecha de inicio"
+         DateTimeFormat={DateTimeFormat}
+         okLabel="OK"
+         cancelLabel="Cancelar"
+         locale="es-Es"
+         onChange={(x, event) => this.setFechaInicio(x,event)}
+       />
+       <DatePicker
+         hintText="Elige la fecha final"
+         DateTimeFormat={DateTimeFormat}
+         okLabel="OK"
+         cancelLabel="Cancelar"
+         locale="es-Es"
+         onChange={(x, event) => this.setFechaFinal(x,event)}
+       />
+       <TimePicker
+         hintText="Elige la hora de inicio"
+         autoOk={true}
+         onChange={(x, event) => this.setTiempoInicial(x,event)}
+       />
+
+       <TimePicker
+         hintText="Elige la hora final"
+         autoOk={true}
+         onChange={(x, event) => this.setTiempoFinal(x,event)}
+       />
+
        <Form onSubmit={this.handleSubmit} method="post">
        <div id="programar">
        <div id='HF'>
