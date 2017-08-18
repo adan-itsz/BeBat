@@ -25,6 +25,7 @@
     "react-dom": "^15.5.4",
     "react-facebook": "^4.0.14",
     "react-firebase": "^2.2.5",
+    "react-google-chart": "^0.1.2",
     "react-google-charts": "^1.5.5",
     "react-google-login": "^2.9.2",
     "react-icons": "^2.2.3",

@@ -328,37 +328,8 @@ componentWillMount(){
               })
               console.log('terminado');
             }
-
           )
-
-
-
-
 }
-
-setFechaInicio(x,event){
-    var fecha=JSON.stringify(event);
-    var fechaFormat=fecha.substring(1,11);
-    this.setState({
-      diaInicio:fechaFormat
-    })
-  }
-
-  setFechaFinal(x,event){
-    var fecha=JSON.stringify(event);
-    var fechaFormat=fecha.substring(1,11);
-    this.setState({
-      diaFinal:fechaFormat
-    })
-  }
-
-  setTiempoInicial(event,time){
-    this.setState({tiempoInicial:time});
-  }
-
-  setTiempoFinal(event,time){
-    this.setState({tiempoFinal:time});
-  }
 
 
 render() {
@@ -367,6 +338,25 @@ render() {
       margin: 12,
       backgroundColor:'#231F20',
   };
+
+
+let TimePI = null;
+let DatePI = null;
+let TimePF = null;
+let DatePF = null;
+let label1 = null;
+let label2 = null;
+let boton = null;
+
+if (this.state.fechaInitdefault!=""&&this.state.horaInitdefault!=""&&this.state.horaFinaldefault!=""&&this.state.fechaFinaldefault!="") {
+  label1 = <label>Hora y fecha inicial</label>;
+  label2 = <label>Hora y fecha final</label>;
+  boton =  <RaisedButton type="submit" label="Publicar" primary={true} style={style} />;
+  TimePI = <input type="time" id="horaInicial" defaultValue={this.state.horaInitdefault} ref={(hora_inicial) => this.hora_inicial = hora_inicial} />;
+  DatePI = <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
+  TimePF = <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
+  DatePF = <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
+}
 
 
     return (
@@ -408,54 +398,24 @@ render() {
        </div>
        <div id='buttonCarga'>
         <RaisedButton label="Publicar Ahora" primary={true} style={style} onClick={() => this.subeSlide()} />
-        <RaisedButton label="Programar" primary={true} style={style} />
+        <RaisedButton label="Programar" onClick={() => this.subeSlide()} primary={true} style={style} />
        </div>
-
-       <DatePicker
-         hintText="Elige la fecha de inicio"
-         DateTimeFormat={DateTimeFormat}
-         okLabel="OK"
-         cancelLabel="Cancelar"
-         locale="es-Es"
-         onChange={(x, event) => this.setFechaInicio(x,event)}
-       />
-       <DatePicker
-         hintText="Elige la fecha final"
-         DateTimeFormat={DateTimeFormat}
-         okLabel="OK"
-         cancelLabel="Cancelar"
-         locale="es-Es"
-         onChange={(x, event) => this.setFechaFinal(x,event)}
-       />
-       <TimePicker
-         hintText="Elige la hora de inicio"
-         autoOk={true}
-         onChange={(x, event) => this.setTiempoInicial(x,event)}
-       />
-
-       <TimePicker
-         hintText="Elige la hora final"
-         autoOk={true}
-         onChange={(x, event) => this.setTiempoFinal(x,event)}
-       />
 
        <Form onSubmit={this.handleSubmit} method="post">
        <div id="programar">
        <div id='HF'>
-       <label>Hora y fecha inicial</label>
-      <input type="time" id="horaInicial" defaultValue={this.state.horaInitdefault} ref={(hora_inicial) => this.hora_inicial = hora_inicial} />
-      <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
+       {label1}
+       {TimePI}
+       {DatePI}
  </div>
       <div id='HF'>
-      <label>Hora y fecha final</label>
-      <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
-      <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
-      <RaisedButton type="submit" label="Publicar" primary={true} style={style} />
-
+      {label2}
+      {TimePF}
+      {DatePF}
+      {boton}
      </div>
 
   </div>
-
 
     </Form>
      </div>

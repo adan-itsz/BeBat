@@ -138,11 +138,34 @@ class Child extends Component {
       horaEntrada:"",
       fechaEntrada:"",
       keyProgramado:"",
-
+      estadoffset:null,
     }
-    
-    this.logo();
-    this.SlidesProgramados();
+  this.logo();
+    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+    var self=this;
+    var offset;
+    var promise = new Promise(
+      function(resolve,reject){
+        offsetRef.on("value", snapshot =>{
+            resolve(
+              offset = snapshot.val(),
+            )
+        });
+      }
+    )
+    promise.then(
+      function(offset){
+        self.setState({
+          estadoffset:offset,
+        })
+
+        self.SlidesProgramados();
+        self.ViewsGenerales()
+
+      }
+    )
+
+
 
   }
   SlidesProgramados(){
@@ -266,7 +289,6 @@ else{
 }
 
 
-
   }
 
   checarHora(key2,HoraA,HoraI,HoraF,MinutoA,MinutoI,MinutoF){
@@ -315,15 +337,10 @@ else{
 
 
     CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
-      var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-      var estimatedServerTimeMs;
-      offsetRef.on("value", function(snap) {
-        var offset = snap.val();
-        estimatedServerTimeMs = new Date().getTime() + offset;
-      });
 
 
 
+      var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
       var date = new Date(estimatedServerTimeMs);
       let yearSystem = date.getFullYear();
       let monthSystem = date.getMonth()+1;
@@ -472,14 +489,8 @@ else{
      this.algoritmProga();
    }
 
-  componentWillMount(){
-    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-    var estimatedServerTimeMs;
-    offsetRef.on("value", function(snap) {
-      var offset = snap.val();
-      estimatedServerTimeMs = new Date().getTime() + offset;
-    });
-
+  ViewsGenerales(){
+    var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
     var date=new Date(estimatedServerTimeMs);
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
