@@ -56,6 +56,7 @@ class SubirPromo extends Component {
        HFinail:"",
        FFinal:"",
        SlideP:0,
+       TimeEnable:false,
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -259,35 +260,68 @@ this.subeSlide();
 
 }
 componentWillMount(){
-  let d = new Date();
-  let dia = d.getDate();
-  let mes = d.getMonth()+1;
-  let mes2 =d.getMonth()+3;
-  let ano = d.getFullYear();
-  let hora = d.getHours();
-  let minute = d.getMinutes();
+          //se hace la peticion al servido del Time
+            var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+            var self=this;
+            var offset;
+            var promise = new Promise(
+              function(resolve,reject){
+                offsetRef.on("value", snapshot =>{
+                    resolve(
+                      offset = snapshot.val(),
+                    )
+                });
+              }
+            )
+            promise.then(
+              function(offset){
+          var estimatedServerTimeMs = new Date().getTime() + offset;
+              //se obtine ano, mes, hora y minutos
+                let d = new Date(estimatedServerTimeMs);
+                let dia = d.getDate();
+                let mes = d.getMonth()+1;
+                let mes2 =d.getMonth()+3;
+                let ano = d.getFullYear();
+                let hora = d.getHours();
+                let minute = d.getMinutes();
+                //se le agrega un 0 si es menor a 9 tanto al mes, dia y minuto
+                if(dia<=9){
+                  dia="0"+dia;
+                }
+                if(minute<=9){
+                  minute="0"+minute;
+                }
 
-  if(dia<=9){
-    dia="0"+dia;
-  }
-  if(minute<=9){
-    minute="0"+minute;
-  }
+                if(mes<=9){
+                  mes="0"+mes;
+                }
+                if(mes2<=9){
+                  mes2="0"+mes2;
+                }
+                self.setState({
+                  fechaInitdefault:ano+"-"+mes+"-"+dia,
+                  horaInitdefault:hora+":"+minute,
+                  fechaFinaldefault:ano+"-"+mes2+"-"+dia,
+                  horaFinaldefault:hora+":"+minute,
+                  fechaMaxima:ano+1+"-"+mes+"-"+dia,
+                })
+                console.log('terminado');
+              }
+            )
 
-  if(mes<=9){
-    mes="0"+mes;
-  }
-  if(mes2<=9){
-    mes2="0"+mes2;
-  }
-  this.setState({
-    fechaInitdefault:ano+"-"+mes+"-"+dia,
-    horaInitdefault:hora+":"+minute,
-    fechaFinaldefault:ano+"-"+mes2+"-"+dia,
-    horaFinaldefault:hora+":"+minute,
-    fechaMaxima:ano+1+"-"+mes+"-"+dia,
-  })
 
+}
+TimeEnable(){
+  if(this.state.TimeEnable==true){
+    this.setState({
+      TimeEnable:false,
+    })
+  }
+  else {
+    this.setState({
+      TimeEnable:true,
+    })
+  }
 
 }
 
@@ -298,6 +332,24 @@ render() {
       backgroundColor:'#231F20',
   };
 
+
+  let TimePI = null;
+  let DatePI = null;
+  let TimePF = null;
+  let DatePF = null;
+  let label1 = null;
+  let label2 = null;
+  let boton = null;
+//si son son diferentes de "" se cargan
+  if (this.state.fechaInitdefault!=""&&this.state.horaInitdefault!=""&&this.state.horaFinaldefault!=""&&this.state.fechaFinaldefault!="" && this.state.TimeEnable==true) {
+    label1 = <label>Hora y fecha inicial</label>;
+    label2 = <label>Hora y fecha final</label>;
+    boton =  <RaisedButton type="submit" label="Publicar" primary={true} style={style} />;
+    TimePI = <input type="time" id="horaInicial" defaultValue={this.state.horaInitdefault} ref={(hora_inicial) => this.hora_inicial = hora_inicial} />;
+    DatePI = <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
+    TimePF = <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
+    DatePF = <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
+  }
 
     return (
       <MuiThemeProvider>
@@ -338,21 +390,20 @@ render() {
        </div>
        <div id='buttonCarga'>
         <RaisedButton label="Publicar Ahora" primary={true} style={style} onClick={() => this.subeSlide()} />
-        <RaisedButton label="Programar" primary={true} style={style} />
+        <RaisedButton label="Programar" primary={true} style={style}  onClick={() => this.TimeEnable()}  />
        </div>
        <Form onSubmit={this.handleSubmit} method="post">
        <div id="programar">
        <div id='HF'>
-       <label>Hora y fecha inicial</label>
-      <input type="time" id="horaInicial" defaultValue={this.state.horaInitdefault} ref={(hora_inicial) => this.hora_inicial = hora_inicial} />
-      <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
+       {label1}
+       {TimePI}
+       {DatePI}
  </div>
       <div id='HF'>
-      <label>Hora y fecha final</label>
-      <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
-      <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
-      <RaisedButton type="submit" label="Publicar" primary={true} style={style} />
-
+      {label2}
+      {TimePF}
+      {DatePF}
+      {boton}
      </div>
 
   </div>

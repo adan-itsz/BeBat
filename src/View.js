@@ -138,10 +138,33 @@ class Child extends Component {
       horaEntrada:"",
       fechaEntrada:"",
       keyProgramado:"",
-
+      estadoffset:null,
     }
     this.logo();
-    this.SlidesProgramados();
+      var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+      var self=this;
+      var offset;
+      var promise = new Promise(
+        function(resolve,reject){
+          offsetRef.on("value", snapshot =>{
+              resolve(
+                offset = snapshot.val(),
+              )
+          });
+        }
+      )
+      promise.then(
+        function(offset){
+          self.setState({
+            estadoffset:offset,
+          })
+
+          self.SlidesProgramados();
+          self.ViewsGenerales()
+
+        }
+      )
+
 
   }
   SlidesProgramados(){
@@ -179,6 +202,8 @@ class Child extends Component {
     if(this.state.keyProgramado!=""){
     var recibirArray;
     var titulo;
+    var fecha;
+    var notas;
     let promoEspecial;
     let self =this;
     var p1=new Promise (
@@ -187,11 +212,13 @@ class Child extends Component {
     refDB.on('value', snapshot=> {
         resolve(recibirArray=snapshot.val().historial,
                 titulo=snapshot.val().nombreSlide,
+                fecha =snapshot.val().fecha,
+                notas = snapshot.val().notas,
                 promoEspecial = snapshot.val().especial,)
       });
     });
     p1.then(
-      function(recibirArray,titulo,promoEspecial){
+      function(recibirArray,titulo,promoEspecial,notas,fecha){
 
         document.title=titulo;
       var StringN="";
@@ -218,8 +245,11 @@ class Child extends Component {
               especial: promoEspecial,
               arrayActual:ArrayFg,
             });
-      }
+      },
     );
+
+
+
 }
 else{
 
@@ -314,7 +344,8 @@ else{
 
 
     CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
-      var date = new Date();
+      var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
+      var date = new Date(estimatedServerTimeMs);
       let yearSystem = date.getFullYear();
       let monthSystem = date.getMonth()+1;
       let daySystem = date.getDate();
@@ -632,22 +663,18 @@ else{
      this.algoritmProga();
    }
 
-  componentWillMount(){
-    /*var req = new XMLHttpRequest();
-    req.open('GET', 'google.com', false );
-    req.send(null);
-    var headers = req.getAllResponseHeaders().toLowerCase();
-    console.log(headers+" hola");*/
-    var date=new Date();
+  ViewsGenerales(){
+    var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
+    var date=new Date(estimatedServerTimeMs);
     var h = this.addZero(date.getHours());
     var m = this.addZero(date.getMinutes());
     var s = this.addZero(date.getSeconds());
     var hora = h + ":" + m + ":" + s;
 
-    var dd = date.getDate();
-    var mm = date.getMonth()+1;
-    var yy = date.getFullYear();
 
+        var dd = date.getDate();
+        var mm = date.getMonth()+1;
+        var yy = date.getFullYear();
     if(dd<10) {
       dd = '0'+dd
     }
@@ -791,7 +818,8 @@ isMobile(){
     return i;
   }
   usuariosLogeados(){
-    var date=new Date();
+    var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
+    var date=new Date(estimatedServerTimeMs);
     var dd = date.getDate();
     var mm = date.getMonth()+1;
     var yy = date.getFullYear();
