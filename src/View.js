@@ -169,25 +169,34 @@ class Child extends Component {
   }
   SlidesProgramados(){
             let self=this;
-            var refDB=ref.child(`${this.state.user}`+"/Programadas");
+            var refDB=ref.child(`${this.state.user}`+"/Programadas");// +"/Programadas"
             var FechaInicialPromise=[];
             var FechaFinalPromise=[];
             var HoraInicialPromise=[];
             var HoraFinalPromise=[];
             var Keys=[];
+
             var promise=new Promise(
               function(resolve,reject){
             refDB.on('value', snapshot=> {
+              if(snapshot.exists()){
               snapshot.forEach(function(child){
-                resolve(
+                alert(child.key);
+              resolve(
                Keys = Keys.concat(child.key),
                FechaInicialPromise= FechaInicialPromise.concat(child.val().fechaInicialDB),
                FechaFinalPromise= FechaFinalPromise.concat(child.val().fechaFinalDB),
                HoraInicialPromise=HoraInicialPromise.concat(child.val().horaInicialDB),
                HoraFinalPromise=HoraFinalPromise.concat(child.val().horaFinalDB),
-                      )
+              )
             })
-            });
+          }
+          else{
+          console.log('hello');
+          resolve();
+          }
+          });
+
           })//end promise
           promise.then(
             function(){
@@ -250,8 +259,8 @@ class Child extends Component {
 
 
 
-}
-else{
+  }
+  else{
 
   var recibirArray;
   var titulo;

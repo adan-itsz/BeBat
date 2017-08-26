@@ -32,7 +32,14 @@ function getUltimoDiaMes(mes, ano){
 }
 function datosAnio(viewsMes,viewsMesUsuario){
   var views=viewsMes;
+  var viewVacio=[0];
   var viewsMesUsuario=viewsMesUsuario;
+  if(views== undefined){
+    views=viewVacio;
+  }
+  if(viewsMesUsuario==undefined){
+    viewsMesUsuario=viewVacio;
+  }
   console.log(views);
 const dataano = {
   labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
@@ -449,18 +456,27 @@ class dataano1 extends Component{
 
           refDB =ref.child(remplazo+"/RegistradosViewsHistorial"+"/"+yy);
           refDB.on('value', snapshot=>{
-            snapshot.forEach(function(snapChild){
-            //  sumaViews=0;
-              snapChild.forEach(function(snapBaby){
-                if(bandera){
-                  mes=snapBaby.val().mes;
-                  bandera=false;
-                }
-                sumaViews=sumaViews+snapBaby.val().visitasDia;
+            if(snapshot.exists()){
+              snapshot.forEach(function(snapChild){
+                //  sumaViews=0;
+                snapChild.forEach(function(snapBaby){
+                  if(bandera){
+                    mes=snapBaby.val().mes;
+                    bandera=false;
+                  }
+                  sumaViews=sumaViews+snapBaby.val().visitasDia;
+                  })
+                  resolve(arrayMesesUsuario.push(sumaViews));
+                })
+              }
+              else{
+                resolve(
+                sumaViews=0,
+                mes=mm,
+                arrayMesesUsuario.push(0)
+                );
 
-              })
-                resolve(arrayMesesUsuario.push(sumaViews));
-              })
+              }
             })
 
       }
