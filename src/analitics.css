@@ -34,7 +34,6 @@ a.time:hover {
 
   ul#analitics-time {
     list-style: none;
-    background-color: darkturquoise;
     padding: 0;
     display: -webkit-inline-box;
     width: 100%;
@@ -48,4 +47,6 @@ div#analitics {
 ul#analitics-time li{
   border: thick solid white;
   width: 34%;
+  background-color: darkturquoise;
+  height: 100%;
 }

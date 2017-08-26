@@ -6,8 +6,18 @@ import {Line} from 'react-chartjs-2';
 import { Chart } from 'react-google-charts';
 import * as firebase from 'firebase';
 import { ref } from './constants.js';
+
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 var ban=0;
 var ban2=0;
+
+const styles = {
+  customWidth: {
+    width: 200,
+  },
+};
 
 const devicesGraph={
   padding:'0',
@@ -41,56 +51,56 @@ function datosAnio(viewsMes,viewsMesUsuario){
     viewsMesUsuario=viewVacio;
   }
   console.log(views);
-const dataano = {
-  labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
-  datasets: [
-    {
-      label: 'Usuarios que ingresaron',
-      fill: false,
-      lineTension: 0.2,
-      backgroundColor: 'rgba(3, 243, 229,2.4)',
-      borderColor: 'rgba(3, 243, 229,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(3, 243, 229,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 4,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(3, 243, 229,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
+  const dataano = {
+    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'Mayo', 'Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
+    datasets: [
+      {
+        label: 'Usuarios que ingresaron',
+        fill: false,
+        lineTension: 0.2,
+        backgroundColor: 'rgba(3, 243, 229,2.4)',
+        borderColor: 'rgba(3, 243, 229,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(3, 243, 229,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 4,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(3, 243, 229,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
 
-      data: views
-    },
-    {
-      label: 'Usuarios registrados',
-      fill: false,
-      lineTension: 0.2,
-      backgroundColor: 'rgba(3, 136, 108,0.4)',
-      borderColor: 'rgba(3, 136, 108,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(3, 136, 108,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 4,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(199,0,57,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
+        data: views
+      },
+      {
+        label: 'Usuarios registrados',
+        fill: false,
+        lineTension: 0.2,
+        backgroundColor: 'rgba(3, 136, 108,0.4)',
+        borderColor: 'rgba(3, 136, 108,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(3, 136, 108,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 4,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(199,0,57,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
 
-      data: viewsMesUsuario
-    }
-  ]
-};
-return dataano;
+        data: viewsMesUsuario
+      }
+    ]
+  };
+  return dataano;
 }
 function label(){
     var date1 = new Date();
@@ -138,58 +148,58 @@ function datosPorDia(dia, array,arrayDias,diaUsuario,arrayUsuario,arrayDiasUsuar
   if(datos!=null && datosUsuario!=null){
   datosFinales=adecuarArray(datos,arrayDias);
   datosFinalesUsuario= adecuarArray(datosUsuario,arrayDiasUsuario);
-}
-const datames = {
+  }
+  const datames = {
 
-  labels:['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30',''],
-  datasets: [
-    {
-      label: 'Usuarios que ingresaron',
-      fill: false,
-      lineTension: 0.2,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
+    labels:['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30',''],
+    datasets: [
+      {
+        label: 'Usuarios que ingresaron',
+        fill: false,
+        lineTension: 0.2,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
 
-      data:datosFinales
-    },
-    {
-      label: 'Usuarios registrados',
-      fill: false,
-      lineTension: 0.2,
-      backgroundColor: 'rgba(3, 136, 108,0.4)',
-      borderColor: 'rgba(4,214,161,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(3, 136, 108,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(3, 136, 108,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
+        data:datosFinales
+      },
+      {
+        label: 'Usuarios registrados',
+        fill: false,
+        lineTension: 0.2,
+        backgroundColor: 'rgba(3, 136, 108,0.4)',
+        borderColor: 'rgba(4,214,161,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(3, 136, 108,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(3, 136, 108,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
 
-      data:datosFinalesUsuario
-    }
-  ]
-};
-return datames;
+        data:datosFinalesUsuario
+      }
+    ]
+  };
+  return datames;
 }
 const datasemana = {
   labels: ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'],
@@ -229,10 +239,22 @@ class dist extends Component{
       android:0,
       iphone:0,
       ipad:0,
-      ipod:0
+      ipod:0,
+      value: 1,
+      meses:["Enero","Febrero","Marzo", "Abrir","Mayo","Junio","Julio","Agosto","Septiembre","Octubre", "Noviembre", "Diciembre"],
+      mesesBase:["01","02","03","04","05","06","07","08","09","10","11","12"],
+      mesActivo:"",
     }
 
   }
+
+  handleChange = (event, index, value) => {
+    this.setState({
+      value: value,
+      mesActivo:this.state.mesesBase[value],
+    })
+  };
+
   componentWillMount(){
     var user = firebase.auth().currentUser;
     var self=this;
@@ -317,32 +339,47 @@ class dist extends Component{
                <Route path="/AppWeb/analitics/mes" component={datames1}/>
                <Route path="/AppWeb/analitics/semana" component={datasemana1}/>
             </div>
-              <h2>Filtrar por: </h2>
-               <ul id="analitics-time">
-                 <li><Link to="/AppWeb/analitics/año" className="time">Año</Link></li>
-                 <li><Link to="/AppWeb/analitics/mes" className="time">Mes</Link></li>
-                 <li><Link to="/AppWeb/analitics/semana" className="time">Semana</Link></li>
-               </ul>
-          <div className={'my-pretty-chart-container'}>
-          <Chart
-          chartType="PieChart"
-          data={[["Task","Hours per Day"],["Hombres",this.state.hombres],["Mujeres",this.state.mujeres]]}
-          options={{"title":"Sexo","pieHole":0.4,"is3D":false}}
-          graph_id="DonutChart"
-          width="100%"
+            <h2>Filtrar por: </h2>
+              <ul id="analitics-time">
+                <li>
+                  <Link to="/AppWeb/analitics/año" className="time">
+                    <span>Año</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/AppWeb/analitics/mes" className="time">
 
-          />
-      </div>
-      <div className={'my-pretty-chart-container2'}>
-        <Chart
-        style={devicesGraph}
-        chartType="PieChart"
-        data={[["Task","Hours per Day"],["Android",this.state.android],["iPhone",this.state.iphone],["iPod",this.state.ipod],["Ipad",this.state.ipad]]}
-        options={{"title":"Dispositivos utilizados","pieHole":0.9,"is3D":false}}
-        graph_id="DonutChart2"
-        width="100%"
-        />
-      </div>
+                  </Link>
+                  <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+                    {this.state.meses.map((mes,key)=>{
+                      return (
+                        <MenuItem value={key} key={key} primaryText={this.state.meses[key]}/>
+                       );
+                     })
+                    }
+                  </DropDownMenu>
+                </li>
+                <li><Link to="/AppWeb/analitics/semana" className="time">Semana</Link></li>
+              </ul>
+            <div className={'my-pretty-chart-container'}>
+              <Chart
+                chartType="PieChart"
+                data={[["Task","Hours per Day"],["Hombres",this.state.hombres],["Mujeres",this.state.mujeres]]}
+                options={{"title":"Sexo","pieHole":0.4,"is3D":false}}
+                graph_id="DonutChart"
+                width="100%"
+              />
+          </div>
+          <div className={'my-pretty-chart-container2'}>
+            <Chart
+              style={devicesGraph}
+              chartType="PieChart"
+              data={[["Task","Hours per Day"],["Android",this.state.android],["iPhone",this.state.iphone],["iPod",this.state.ipod],["Ipad",this.state.ipad]]}
+              options={{"title":"Dispositivos utilizados","pieHole":0.9,"is3D":false}}
+              graph_id="DonutChart2"
+              width="100%"
+            />
+          </div>
         </div>
 
         )
