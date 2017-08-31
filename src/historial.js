@@ -124,7 +124,7 @@ class HistorialPromos extends Component{
   componentWillMount(){
     var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
-    var refHistorial=ref.child(remplazo+"/Historial");
+    var refHistorial=ref.child("Clientes/"+remplazo+"/Historial");
     let self = this;
     let array = [];
     let arrayKeys = [];
@@ -161,7 +161,7 @@ class HistorialPromos extends Component{
   onDelete(id,key){
     var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
-    var refHistorial=ref.child(remplazo+"/Historial/" + id);
+    var refHistorial=ref.child("Clientes/"+remplazo+"/Historial/" + id);
     var array=this.state.arregloHistorial;
     var arregloFile=this.state.arregloHistorialKey;
 
@@ -173,13 +173,13 @@ class HistorialPromos extends Component{
     })
     refHistorial.remove();
 
-    
+
   }
 
   onUpdate(nombre,notas,fecha,url,especial){
     var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
-    var refHistorial=ref.child(remplazo+"/SlideActual");
+    var refHistorial=ref.child("Clientes/"+remplazo+"/SlideActual");
     refHistorial.update({
       fecha: fecha,
       nombreSlide: nombre,

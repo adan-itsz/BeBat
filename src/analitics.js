@@ -259,7 +259,7 @@ class dist extends Component{
     var user = firebase.auth().currentUser;
     var self=this;
       var remplazo=`${user.email}`.split('.').join('-');
-      var refDB=ref.child(remplazo+"/usuarios/genero");
+      var refDB=ref.child("Clientes/"+remplazo+"/usuarios/genero");
       var hombres;
       var mujeres;
       var promise= new Promise(
@@ -288,7 +288,7 @@ class dist extends Component{
   obtenerDispositivos(){
     var user = firebase.auth().currentUser;
     var remplazo=`${user.email}`.split('.').join('-');
-    var refDBUsers=ref.child(remplazo+"/usuarios");
+    var refDBUsers=ref.child("Clientes/"+remplazo+"/usuarios");
     var android=0;
     var iphone=0;
     var ipod=0;
@@ -426,7 +426,7 @@ class dataano1 extends Component{
     var promise= new Promise(
       function(resolve,reject){
 
-          refDB =ref.child(remplazo+"/historialViews"+"/"+yy);
+          refDB =ref.child("Clientes/"+remplazo+"/historialViews"+"/"+yy);
           refDB.on('value', snapshot=>{
             snapshot.forEach(function(snapChild){
             //  sumaViews=0;
@@ -491,7 +491,7 @@ class dataano1 extends Component{
     var promise= new Promise(
       function(resolve,reject){
 
-          refDB =ref.child(remplazo+"/RegistradosViewsHistorial"+"/"+yy);
+          refDB =ref.child("Clientes/"+remplazo+"/RegistradosViewsHistorial"+"/"+yy);
           refDB.on('value', snapshot=>{
             if(snapshot.exists()){
               snapshot.forEach(function(snapChild){
@@ -582,8 +582,8 @@ componentWillMount(){
   var inicio=0;
   var bandera=false;
   var remplazo=`${user.email}`.split('.').join('-');
-  var refDB=ref.child(remplazo+"/historialViews"+"/"+yy+"/"+mm);
-  var refDBTiempoReal=ref.child(remplazo+"/viewsDiaEnCurso");
+  var refDB=ref.child("Clientes/"+remplazo+"/historialViews"+"/"+yy+"/"+mm);
+  var refDBTiempoReal=ref.child("Clientes/"+remplazo+"/viewsDiaEnCurso");
   var arrayValores=[];
   var arrayDias=[];
   var diaInicial;
@@ -652,8 +652,8 @@ usuariosRegistrados(){
   var inicio=0;
   var bandera=false;
   var remplazo=`${user.email}`.split('.').join('-');
-  var refDB=ref.child(remplazo+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
-  var refDBTiempoReal=ref.child(remplazo+"/RegistradosViewsActual");
+  var refDB=ref.child("Clientes/"+remplazo+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
+  var refDBTiempoReal=ref.child("Clientes/"+remplazo+"/RegistradosViewsActual");
   var arrayValoresUsuario=[];
   var arrayDiasUsuario=[];
   var diaInicialUsuario;

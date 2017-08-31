@@ -33,7 +33,7 @@ class PromoActiva extends Component {
         var user = firebase.auth().currentUser;
         var remplazo=`${user.email}`.split('.').join('-');
 
-        var refDB=ref.child(remplazo+"/SlideActual");
+        var refDB=ref.child("Clientes/"+remplazo+"/SlideActual");
         refDB.on('value', snapshot=> {
           recibirArray=snapshot.val().slideActual;
           let promoEspecial = snapshot.val().especial;

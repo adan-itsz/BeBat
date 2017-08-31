@@ -140,36 +140,70 @@ class Child extends Component {
       keyProgramado:"",
       estadoffset:null,
     }
-    this.logo();
-      var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-      var self=this;
-      var offset;
-      var promise = new Promise(
-        function(resolve,reject){
-          offsetRef.on("value", snapshot =>{
-              resolve(
-                offset = snapshot.val(),
-              )
-          });
-        }
-      )
-      promise.then(
-        function(offset){
-          self.setState({
-            estadoffset:offset,
-          })
+    let self=this;
+                 var refDB=ref.child("Clientes/");
+                 var Keys = [];
+                 var promise=new Promise(
+                   function(resolve,reject){
+                 refDB.on('value', snapshot=> {
+                   if(snapshot.exists()){
+                   snapshot.forEach(function(child){
+                   resolve(
+                    Keys = Keys.concat(child.key),
+                   )
+                 })
+               }
+               else{
+               console.log('hello');
+               resolve();
+               }
+               });
 
-          self.SlidesProgramados();
-          self.ViewsGenerales()
-
-        }
-      )
-
-
+               })//end promise
+               promise.then(
+                 function(){
+                   self.CheckUser(self,Keys);
+                 }//fuction de promise.them
+               )//promise/them nombre de clientes
   }
+  CheckUser(self,Keys){
+  for (var i = 0; i < Keys.length; i++) {
+
+if(self.state.user==Keys[i]){
+   this.logo();
+    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+    var self=this;
+    var offset;
+    var promise = new Promise(
+      function(resolve,reject){
+        offsetRef.on("value", snapshot =>{
+            resolve(
+              offset = snapshot.val(),
+            )
+        });
+      }
+    )
+    promise.then(
+      function(offset){
+        self.setState({
+          estadoffset:offset,
+        })
+
+        self.SlidesProgramados();
+        self.ViewsGenerales()
+
+      }
+    )//promise.then tiempo
+   }//lave de if
+   else{
+
+   }
+
+  } // llave del for
+}
   SlidesProgramados(){
             let self=this;
-            var refDB=ref.child(`${this.state.user}`+"/Programadas");// +"/Programadas"
+            var refDB=ref.child("Clientes/"+`${this.state.user}`+"/Programadas");// +"/Programadas"
             var FechaInicialPromise=[];
             var FechaFinalPromise=[];
             var HoraInicialPromise=[];
@@ -217,7 +251,7 @@ class Child extends Component {
     let self =this;
     var p1=new Promise (
       function(resolve, reject){
-    var refDB=ref.child(`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
+    var refDB=ref.child("Clientes/"+`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
     refDB.on('value', snapshot=> {
         resolve(recibirArray=snapshot.val().historial,
                 titulo=snapshot.val().nombreSlide,
@@ -267,7 +301,7 @@ class Child extends Component {
   let promoEspecial;
   let self =this;
 
-      var refDB=ref.child(this.state.user+"/SlideActual");
+      var refDB=ref.child("Clientes/"+this.state.user+"/SlideActual");
       refDB.on('value', snapshot=> {
         recibirArray=snapshot.val().slideActual;
         titulo=snapshot.val().nombreSlide;
@@ -698,9 +732,9 @@ class Child extends Component {
       fechaEntrada:today,
       horaEntrada:hora
     })
-    var refViewDiaActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso");
-    var refContadorHorasActual=ref.child(`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
-    var refViewHistorial=ref.child(`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
+    var refViewDiaActual=ref.child("Clientes/"+`${this.state.user}`+"/viewsDiaEnCurso");
+    var refContadorHorasActual=ref.child("Clientes/"+`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
+    var refViewHistorial=ref.child("Clientes/"+`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
     //var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/historialViews/"+yy+"/"+mm);
 
     var valor=0;
@@ -796,7 +830,7 @@ isMobile(){
     var imageDB;
     var p1 = new Promise (
       function(resolve, reject){
-        var refDB=ref.child(userDB+"/logo");
+        var refDB=ref.child("Clientes/"+userDB+"/logo");
         refDB.on('value', snapshot=>{
           resolve(imageDB=snapshot.val().logoWeb);
         });
@@ -845,8 +879,8 @@ isMobile(){
     var dia;
     var mes;
     var ano;
-    var refUsersRegistrados=ref.child(`${this.state.user}`+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
-    var refUsersRegistradosDiaActual=ref.child(`${this.state.user}`+"/RegistradosViewsActual");
+    var refUsersRegistrados=ref.child("Clientes/"+`${this.state.user}`+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
+    var refUsersRegistradosDiaActual=ref.child("Clientes/"+`${this.state.user}`+"/RegistradosViewsActual");
     var promise=new Promise(
     function(resolve,reject){
       refUsersRegistradosDiaActual.on('value',snapshot=>{
@@ -912,7 +946,7 @@ isMobile(){
     });
     var sistema=this.isMobile();
     var device=sistema[0];
-    var refUsuarios=ref.child(`${this.state.user}`+"/usuarios");
+    var refUsuarios=ref.child("Clientes/"+`${this.state.user}`+"/usuarios");
     var users=refUsuarios.push();
     users.set({
 
@@ -938,7 +972,7 @@ isMobile(){
     var device=sistema[0];
     console.log(data);
     var h,m;
-    var refGenero=ref.child(`${this.state.user}`+"/usuarios/genero");
+    var refGenero=ref.child("Clientes/"+`${this.state.user}`+"/usuarios/genero");
     var promise= new Promise(
       function(resolve,reject){
         refGenero.on('value',snapshot=>{
@@ -953,7 +987,7 @@ isMobile(){
     promise.then(
       function(){
 
-        var refUsuarios=ref.child(`${self.state.user}`+"/usuarios");
+        var refUsuarios=ref.child("Clientes/"+`${self.state.user}`+"/usuarios");
         var users=refUsuarios.push();
         users.set({
           nombre:data.profile.name,

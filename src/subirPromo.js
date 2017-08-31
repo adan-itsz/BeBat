@@ -98,7 +98,7 @@ class SubirPromo extends Component {
         var nombreSlide=this.nombre_slide.value;
         var notas=this.refs.notas.getValue();
         var correoUsuario=this.recortarCadenas(`${user.email}`);
-        var refDBHistorial=ref.child(correoUsuario+"/Programadas");
+        var refDBHistorial=ref.child("Clientes/"+correoUsuario+"/Programadas");
         var HistorialSlidesDB=refDBHistorial.push();
 
         HistorialSlidesDB.set({
@@ -119,8 +119,8 @@ class SubirPromo extends Component {
       var nombreSlide=this.nombre_slide.value;
       var notas=this.refs.notas.getValue();
       var correoUsuario=this.recortarCadenas(`${user.email}`);
-      var refDBHistorial=ref.child(correoUsuario+"/Historial");
-      var refDB=ref.child(correoUsuario+"/SlideActual");
+      var refDBHistorial=ref.child("Clientes/"+correoUsuario+"/Historial");
+      var refDB=ref.child(c"Clientes/"+orreoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
 
       HistorialSlidesDB.set({

@@ -38,7 +38,7 @@ class ApplicacionWeb extends Component {
       var imageDB;
       var p1=new Promise (
         function(resolve, reject){
-  var refDB=ref.child(userDB+"/logo");
+  var refDB=ref.child("Clientes/"+userDB+"/logo");
           refDB.on('value', snapshot=>{
           resolve(imageDB=snapshot.val().logoWeb);
         });
@@ -79,7 +79,7 @@ class ApplicacionWeb extends Component {
         promise.then(
             function(url){
             alert("esta "+url);
-                  var refUsuarios=ref.child(`${userDB}`+"/logo");
+                  var refUsuarios=ref.child("Clientes/"+`${userDB}`+"/logo");
                 refUsuarios.set({
                      logoWeb:url
                    });
