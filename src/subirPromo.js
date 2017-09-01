@@ -120,7 +120,7 @@ class SubirPromo extends Component {
       var notas=this.refs.notas.getValue();
       var correoUsuario=this.recortarCadenas(`${user.email}`);
       var refDBHistorial=ref.child("Clientes/"+correoUsuario+"/Historial");
-      var refDB=ref.child(c"Clientes/"+orreoUsuario+"/SlideActual");
+      var refDB=ref.child("Clientes/"+correoUsuario+"/SlideActual");
       var HistorialSlidesDB=refDBHistorial.push();
 
       HistorialSlidesDB.set({

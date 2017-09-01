@@ -27,7 +27,8 @@ class ApplicacionWeb extends Component {
     this.state={
       logoWeb:' ',
       open: false,
-
+      defaultSlide:"https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FCargando.jpg?alt=media&token=4431afee-2f74-4962-95d1-3780f53e4b5f~https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FCargando.jpg?alt=media&token=4431afee-2f74-4962-95d1-3780f53e4b5f",
+      defaultSlideEsp:"https://firebasestorage.googleapis.com/v0/b/bebat-d9540.appspot.com/o/imagenes-administrador%2FIMG_3405.jpg?alt=media&token=0c6b6585-96d6-4c56-a6c8-628483678623",
     }
   }
 
@@ -51,6 +52,43 @@ class ApplicacionWeb extends Component {
 
         }
       );
+      var siSlide="";
+      var user = firebase.auth().currentUser;
+      var remplazo=`${user.email}`.split('.').join('-');
+      var refDBActual=ref.child("Clientes/"+remplazo+"/SlideActual");
+      var p2=new Promise (
+        function(resolve, reject){
+          refDBActual.on('value', snapshot=>{
+              if(snapshot.exists()){
+          resolve(siSlide=snapshot.val().slideActual);
+            }
+            else{
+            console.log('hello');
+            resolve();
+            }
+
+        });
+      });
+      p2.then(
+        function(){
+        if(siSlide==""){
+              refDBActual.set({
+                slideActual:self.state.defaultSlide,
+                notas:"",
+                nombreSlide:"undefined",
+                fecha:"",
+                especial: self.state.defaultSlideEsp,
+              });
+        }
+        else{
+
+        }
+
+        }
+      );
+
+
+
   }
 
   cambiarLogo(event){
@@ -84,14 +122,8 @@ class ApplicacionWeb extends Component {
                      logoWeb:url
                    });
             }
-
-
         )
-
-
   }
-
-
   handleOpen = () => {
   this.setState({open: true});
 

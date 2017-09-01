@@ -240,8 +240,6 @@ if(self.state.user==Keys[i]){
           )
   }
   algoritmProga(){
-
-
     if(this.state.keyProgramado!=""){
     var recibirArray;
     var titulo;
@@ -253,11 +251,13 @@ if(self.state.user==Keys[i]){
       function(resolve, reject){
     var refDB=ref.child("Clientes/"+`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
     refDB.on('value', snapshot=> {
-        resolve(recibirArray=snapshot.val().historial,
+      console.log(snapshot.val());
+        resolve(promoEspecial = snapshot.val().especial,
+                recibirArray=snapshot.val().historial,
                 titulo=snapshot.val().nombreSlide,
                 fecha =snapshot.val().fecha,
                 notas = snapshot.val().notas,
-                promoEspecial = snapshot.val().especial,)
+                )
       });
     });
     p1.then(
@@ -351,7 +351,7 @@ if(self.state.user==Keys[i]){
       this.algoritmProga();
     }
     else if (HoraA==HoraI&&HoraA==HoraF) {
-      if(MinutoA>MinutoI&&MinutoA<MinutoF){
+      if(MinutoA>=MinutoI&&MinutoA<=MinutoF){
         this.setState({
         keyProgramado:key2,
         keyActiva:true,
