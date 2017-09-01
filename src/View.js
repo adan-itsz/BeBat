@@ -261,7 +261,7 @@ if(self.state.user==Keys[i]){
       });
     });
     p1.then(
-      function(recibirArray,titulo,promoEspecial,notas,fecha){
+      function(){
 
         document.title=titulo;
       var StringN="";
@@ -351,7 +351,7 @@ if(self.state.user==Keys[i]){
       this.algoritmProga();
     }
     else if (HoraA==HoraI&&HoraA==HoraF) {
-      if(MinutoA>=MinutoI&&MinutoA<=MinutoF){
+      if(MinutoA>MinutoI&&MinutoA<MinutoF){
         this.setState({
         keyProgramado:key2,
         keyActiva:true,
