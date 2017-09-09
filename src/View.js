@@ -1040,9 +1040,9 @@ isMobile(){
           onImageLoad={this.handleImageLoad}/>
         <div id='view-buttons'>
           <h2 id='view-title'>
-            ¡OBTÉN UNA
-            <span id='view-title-promocion'> PROMOCIÓN</span>
-            <span id='view-title-exclusiva'> EXCLUSIVA</span>
+            ¡OBTÉN TU
+            <span id='view-title-exclusiva'> CUPÓN</span>
+            
             !
           </h2>
           <FaAngleDown size={35} style={styleArrowDown}/>
