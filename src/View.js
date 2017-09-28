@@ -734,7 +734,7 @@ if(self.state.user==Keys[i]){
     })
     var refViewDiaActual=ref.child("Clientes/"+`${this.state.user}`+"/viewsDiaEnCurso");
     var refContadorHorasActual=ref.child("Clientes/"+`${this.state.user}`+"/viewsDiaEnCurso/horasDeEntrada");
-    var refViewHistorial=ref.child("Clientes/"+`${this.state.user}`+"/historialViews"+"/"+yy+"/"+mm);
+
     //var HistorialCountDiaHoras =ref.child(`${this.state.user}`+"/historialViews/"+yy+"/"+mm);
 
     var valor=0;
@@ -770,6 +770,8 @@ if(self.state.user==Keys[i]){
           }
 
       if(dia!=date.getDate()|| (dia!= date.getDate()&& mes!=date.getMonth()+1)){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
+        var mess=mes<10?'0'+mes:mes;
+          var refViewHistorial=ref.child("Clientes/"+`${this.state.user}`+"/historialViews"+"/"+ano+"/"+mess);
         var HistorialCountDia=refViewHistorial.push();
         HistorialCountDia.set({
           visitasDia:valor,
@@ -1042,7 +1044,7 @@ isMobile(){
           <h2 id='view-title'>
             ¡OBTÉN TU
             <span id='view-title-exclusiva'> CUPÓN</span>
-            
+
             !
           </h2>
           <FaAngleDown size={35} style={styleArrowDown}/>
