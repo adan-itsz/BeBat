@@ -215,7 +215,6 @@ if(self.state.user==Keys[i]){
             refDB.on('value', snapshot=> {
               if(snapshot.exists()){
               snapshot.forEach(function(child){
-                alert(child.key);
               resolve(
                Keys = Keys.concat(child.key),
                FechaInicialPromise= FechaInicialPromise.concat(child.val().fechaInicialDB),
@@ -743,8 +742,10 @@ if(self.state.user==Keys[i]){
     var ano=0;
 
     var snap;
+    var self = this;
 ///////se toman valores de la BD o se asignan iniciales en caso de estar vacia
     var promise=new Promise(
+
     function(resolve,reject){
       refViewDiaActual.on('value',snapshot=>{
       resolve (
@@ -757,6 +758,7 @@ if(self.state.user==Keys[i]){
       );
         });
       })
+
       promise.then(
         function(){
           var valorNumerico=parseInt(valor+1);
@@ -771,7 +773,7 @@ if(self.state.user==Keys[i]){
 
       if(dia!=date.getDate()|| (dia!= date.getDate()&& mes!=date.getMonth()+1)){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
         var mess=mes<10?'0'+mes:mes;
-          var refViewHistorial=ref.child("Clientes/"+`${this.state.user}`+"/historialViews"+"/"+ano+"/"+mess);
+          var refViewHistorial=ref.child("Clientes/"+`${self.state.user}`+"/historialViews"+"/"+ano+"/"+mess);
         var HistorialCountDia=refViewHistorial.push();
         HistorialCountDia.set({
           visitasDia:valor,
@@ -881,7 +883,6 @@ isMobile(){
     var dia;
     var mes;
     var ano;
-    var refUsersRegistrados=ref.child("Clientes/"+`${this.state.user}`+"/RegistradosViewsHistorial"+"/"+yy+"/"+mm);
     var refUsersRegistradosDiaActual=ref.child("Clientes/"+`${this.state.user}`+"/RegistradosViewsActual");
     var promise=new Promise(
     function(resolve,reject){
@@ -909,6 +910,8 @@ isMobile(){
           }
 
       if(dia!=date.getDate()|| (dia!= date.getDate()&& mes!=date.getMonth()+1)){// comprobamos si la fecha de la DB es diferente a la actual? si lo es significa que tiene que hacer push y guardar lo que tiene view
+        var mess=mes<10?'0'+mes:mes;
+        var refUsersRegistrados=ref.child("Clientes/"+`${self.state.user}`+"/RegistradosViewsHistorial"+"/"+ano+"/"+mess);
         var HistorialCountDia=refUsersRegistrados.push();
         HistorialCountDia.set({
           visitasDia:valor,

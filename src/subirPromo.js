@@ -151,7 +151,7 @@ subeSlide(){
 
   const archivo = this.state.arreglo[this.state.activeIndex].a;
   const ref = firebase.storage().ref(`${user.email}/${self.nombre_slide.value}/Especial/${archivo.name}`)
-  const task = ref.put(archivo)
+  const task = ref.put(archivo);
 
   var promise = new Promise(
     function(resolve,reject){
