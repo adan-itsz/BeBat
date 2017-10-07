@@ -171,7 +171,17 @@ button.buttonEspecial:hover{
   background-color: #231F20 !important;
 }
 #programar{
-  width: 20%;
+  width: 40%;
   margin-left: 30%;
 
+}
+
+.menuSemana{
+  width: 40%;
+  display: inline-block;
+  vertical-align: bottom;
+}
+#HF{
+  display: inline-block;
+  vertical-align: bottom;
 }
