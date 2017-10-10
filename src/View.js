@@ -139,6 +139,7 @@ class Child extends Component {
       fechaEntrada:"",
       keyProgramado:"",
       estadoffset:null,
+      SemanaDB:[],
     }
     let self=this;
                  var refDB=ref.child("Clientes/");
@@ -209,7 +210,7 @@ if(self.state.user==Keys[i]){
             var HoraInicialPromise=[];
             var HoraFinalPromise=[];
             var Keys=[];
-
+            var ArraySemana;
             var promise=new Promise(
               function(resolve,reject){
             refDB.on('value', snapshot=> {
@@ -217,6 +218,7 @@ if(self.state.user==Keys[i]){
               snapshot.forEach(function(child){
               resolve(
                Keys = Keys.concat(child.key),
+               ArraySemana=child.val().semana,
                FechaInicialPromise= FechaInicialPromise.concat(child.val().fechaInicialDB),
                FechaFinalPromise= FechaFinalPromise.concat(child.val().fechaFinalDB),
                HoraInicialPromise=HoraInicialPromise.concat(child.val().horaInicialDB),
@@ -233,6 +235,31 @@ if(self.state.user==Keys[i]){
           })//end promise
           promise.then(
             function(){
+              //Dias de la semana---------------------------------------------------
+                var StringNSemana="";
+                var ArrayFgSemana=[];
+                for (var i = 0; i < ArraySemana.length; i++) {
+                        if(ArraySemana[i] =='~'){
+                          for (var j = i+1; j < ArraySemana.length; j++) {
+                            if(ArraySemana[j]!='~'){
+                              StringNSemana += ArraySemana.substring(j,j+1);
+                            }
+                            else if (ArraySemana[j]=='~'&&j!=0||j+1==ArraySemana.length) {
+                              ArrayFgSemana = ArrayFgSemana.concat({original:StringNSemana});
+
+                              StringNSemana="";
+                            }
+                          }
+                          if(j==ArraySemana.length){
+                            ArrayFgSemana = ArrayFgSemana.concat({original:StringNSemana});
+                            break;
+                          }
+                        }
+                      }
+                      self.setState({
+                        SemanaDB:ArrayFgSemana,
+                      });
+                //------------------------------------------------------------------
               self.CheckIfs(Keys,FechaInicialPromise,FechaFinalPromise,HoraInicialPromise,HoraFinalPromise);
 
             }
@@ -244,6 +271,7 @@ if(self.state.user==Keys[i]){
     var titulo;
     var fecha;
     var notas;
+    var ArraySemana;
     let promoEspecial;
     let self =this;
     var p1=new Promise (
@@ -287,6 +315,7 @@ if(self.state.user==Keys[i]){
               especial: promoEspecial,
               arrayActual:ArrayFg,
             });
+
       },
     );
 
@@ -393,6 +422,9 @@ if(self.state.user==Keys[i]){
       let daySystem = date.getDate();
       let hourSystem = date.getHours();
       let key2;
+      var dW = date.getDay();
+      let WeekDay=["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+
 
       let minuteSystem =date.getMinutes();
       for (var i = 0; i < key.length; i++) {
@@ -407,8 +439,11 @@ if(self.state.user==Keys[i]){
         let diaFinalDB = fechaFinalDB[i].split("-")[0];
         let horaFinaDB = horaFinalDB[i].split(":")[0];
         let minutoFinalDB = horaFinalDB[i].split(":")[1];
+//-------------------------------------------------------- empieza algoritmo que checa el lapso de programadas
+for (var i = 0; i < this.state.SemanaDB.length; i++) {
 
-
+    console.log(WeekDay[dW]+"  "+this.state.SemanaDB[i].original);
+      if(WeekDay[dW]==this.state.SemanaDB[i].original){
         if(yearSystem>anoInicialDB&&yearSystem<anoFinalDB){
           key2=key[i];
           this.setState({
@@ -695,10 +730,12 @@ if(self.state.user==Keys[i]){
                  this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
                }
-         }
+         } //else if monthSystem==mesFinalDB
 
-       }
-
+       }// else if yearSystem==anoInicialDB
+    }//if semanaDB
+  }//for semanaDB
+//------------------------------------------------------------Termina el algoritmo
 
 
      }

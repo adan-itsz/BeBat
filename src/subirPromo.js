@@ -8,6 +8,8 @@ import { Grid, Jumbotron, Button,Glyphicon,Form,FormGroup,ControlLabel,Col,FormC
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LinearProgress from 'material-ui/LinearProgress';
 import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 var d = new Date();
 const database = firebase.database();
@@ -33,6 +35,11 @@ class Promo extends Component{
     );
   }
 }
+const styles = {
+  customWidth: {
+    width: 200,
+  },
+};
 
 class SubirPromo extends Component {
   constructor(){
@@ -57,6 +64,8 @@ class SubirPromo extends Component {
        FFinal:"",
        SlideP:0,
        TimeEnable:false,
+       Semana:"",
+       SemanaSystem:["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes"]
     }
     this.agregarImagenes=this.agregarImagenes.bind(this);
     this.subirDb=this.subirDB.bind(this);
@@ -111,6 +120,7 @@ class SubirPromo extends Component {
           fechaInicialDB:this.state.FInicial,
           horaFinalDB:this.state.HFinail,
           fechaFinalDB:this.state.FFinal,
+          semana:this.state.Semana,
         });
 
       }
@@ -232,18 +242,51 @@ handleClick = (index) => this.setState({activeIndex:index})
 
 handleSubmit = (e) => {
   e.preventDefault()
-   var yearInit = this.fecha_inicial.value.split("-")[0];
-    var monthInit =  this.fecha_inicial.value.split("-")[1];
-    var dayInit =  this.fecha_inicial.value.split("-")[2];
-  var hourInit = this.hora_inicial.value.split(":")[0];
-  var minuteInit = this.hora_inicial.value.split(":")[1];
+          var yearInit = this.fecha_inicial.value.split("-")[0];
+          var monthInit =  this.fecha_inicial.value.split("-")[1];
+          var dayInit =  this.fecha_inicial.value.split("-")[2];
+          var hourInit = this.hora_inicial.value.split(":")[0];
+          var minuteInit = this.hora_inicial.value.split(":")[1];
 
-  var yearEnd = this.fecha_final.value.split("-")[0];
-   var monthEnd =  this.fecha_final.value.split("-")[1];
-   var dayEnd =  this.fecha_final.value.split("-")[2];
- var hourEnd = this.hora_final.value.split(":")[0];
- var minuteEnd = this.hora_final.value.split(":")[1];
-
+          var yearEnd = this.fecha_final.value.split("-")[0];
+          var monthEnd =  this.fecha_final.value.split("-")[1];
+          var dayEnd =  this.fecha_final.value.split("-")[2];
+          var hourEnd = this.hora_final.value.split(":")[0];
+          var minuteEnd = this.hora_final.value.split(":")[1];
+            if(this.check_domingo.checked){
+              this.setState({
+                Semana:this.state.Semana+="~Domingo",
+              });
+            }
+            if (this.check_lunes.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Lunes",
+              });            }
+            if (this.check_martes.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Martes",
+              });
+            }
+            if (this.check_miercoles.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Miercoles",
+              });
+            }
+            if (this.check_jueves.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Jueves",
+              });
+            }
+            if (this.check_viernes.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Viernes",
+              });
+            }
+            if (this.check_sabado.checked) {
+              this.setState({
+                Semana:this.state.Semana+="~Sabado",
+              });
+            }
 
 
  this.setState({
@@ -339,6 +382,7 @@ render() {
   let DatePF = null;
   let label1 = null;
   let label2 = null;
+  let menu = null;
   let boton = null;
 //si son son diferentes de "" se cargan
   if (this.state.fechaInitdefault!=""&&this.state.horaInitdefault!=""&&this.state.horaFinaldefault!=""&&this.state.fechaFinaldefault!="" && this.state.TimeEnable==true) {
@@ -349,6 +393,15 @@ render() {
     DatePI = <input type="date" id="fechaInicial" min={this.state.fechaInitdefault} defaultValue={this.state.fechaInitdefault} ref={(fecha_inicial) => this.fecha_inicial = fecha_inicial}/>
     TimePF = <input type="time" id="horaFinal" defaultValue={this.state.horaFinaldefault} ref={(hora_final) => this.hora_final = hora_final} />
     DatePF = <input type="date" id="fechaFinal" max={this.state.fechaMaxima}defaultValue={this.state.fechaFinaldefault} ref={(fecha_final) => this.fecha_final = fecha_final} />
+    menu =   <div className= "menuSemana"> <input type="Checkbox" id="lunesId" value="lunes" ref={(check_lunes) => this.check_lunes = check_lunes}/>Lunes
+    <input type="Checkbox" id="martesId" value="martes" ref={(check_martes) => this.check_martes = check_martes}/>Martes
+    <input type="Checkbox" id="miercolesId" value="miercoles" ref={(check_miercoles) => this.check_miercoles = check_miercoles}/>Miercoles
+    <input type="Checkbox" id="juevesId" value="jueves" ref={(check_jueves) => this.check_jueves = check_jueves}/>Jueves
+    <input type="Checkbox" id="viernesId" value="viernes" ref={(check_viernes) => this.check_viernes = check_viernes}/>Viernes
+    <input type="Checkbox" id="sabadoId" value="sabado" ref={(check_sabado) => this.check_sabado = check_sabado}/>Sabado
+    <input type="Checkbox" id="domingoId" value="domingo" ref={(check_domingo) => this.check_domingo = check_domingo}/>Domingo
+
+      </div>
   }
 
     return (
@@ -394,12 +447,12 @@ render() {
        </div>
        <Form onSubmit={this.handleSubmit} method="post">
        <div id="programar">
+       {menu}
        <div id='HF'>
        {label1}
        {TimePI}
        {DatePI}
- </div>
-      <div id='HF'>
+
       {label2}
       {TimePF}
       {DatePF}
