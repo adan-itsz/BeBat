@@ -429,7 +429,7 @@ class dataano1 extends Component{
           refDB =ref.child("Clientes/"+remplazo+"/historialViews"+"/"+yy);
           refDB.on('value', snapshot=>{
             snapshot.forEach(function(snapChild){
-            //  sumaViews=0;
+
               snapChild.forEach(function(snapBaby){
                 if(bandera){
                   mes=snapBaby.val().mes;
@@ -439,6 +439,7 @@ class dataano1 extends Component{
 
               })
                 resolve(arrayMeses.push(sumaViews));
+                 sumaViews=0;
               })
             })
 
@@ -504,6 +505,7 @@ class dataano1 extends Component{
                   sumaViews=sumaViews+snapBaby.val().visitasDia;
                   })
                   resolve(arrayMesesUsuario.push(sumaViews));
+                  sumaViews=0;
                 })
               }
               else{
