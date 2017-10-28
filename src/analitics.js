@@ -487,7 +487,7 @@ class dataano1 extends Component{
     var arrayMesesUsuario=[];
     var sumaViews=0;
     var mes;
-    var bandera=true;
+    var bandera2=true;
     var arrayViewMes=[];
     var promise= new Promise(
       function(resolve,reject){
@@ -498,9 +498,9 @@ class dataano1 extends Component{
               snapshot.forEach(function(snapChild){
                 //  sumaViews=0;
                 snapChild.forEach(function(snapBaby){
-                  if(bandera){
+                  if(bandera2){
                     mes=snapBaby.val().mes;
-                    bandera=false;
+                    bandera2=false;
                   }
                   sumaViews=sumaViews+snapBaby.val().visitasDia;
                   })

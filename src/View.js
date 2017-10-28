@@ -238,30 +238,37 @@ if(self.state.user==Keys[i]){
               //Dias de la semana---------------------------------------------------
                 var StringNSemana="";
                 var ArrayFgSemana=[];
-                for (var i = 0; i < ArraySemana.length; i++) {
-                        if(ArraySemana[i] =='~'){
-                          for (var j = i+1; j < ArraySemana.length; j++) {
-                            if(ArraySemana[j]!='~'){
-                              StringNSemana += ArraySemana.substring(j,j+1);
+                if(ArraySemana!=undefined)
+                {
+                      for (var i = 0; i < ArraySemana.length; i++)
+                      {
+                          if(ArraySemana[i] =='~'){
+                            for (var j = i+1; j < ArraySemana.length; j++) {
+                              if(ArraySemana[j]!='~'){
+                                StringNSemana += ArraySemana.substring(j,j+1);
+                              }
+                              else if (ArraySemana[j]=='~'&&j!=0||j+1==ArraySemana.length) {
+                                ArrayFgSemana = ArrayFgSemana.concat({original:StringNSemana});
+                                StringNSemana="";
+                              }
                             }
-                            else if (ArraySemana[j]=='~'&&j!=0||j+1==ArraySemana.length) {
+                            if(j==ArraySemana.length){
                               ArrayFgSemana = ArrayFgSemana.concat({original:StringNSemana});
-
-                              StringNSemana="";
+                              break;
                             }
-                          }
-                          if(j==ArraySemana.length){
-                            ArrayFgSemana = ArrayFgSemana.concat({original:StringNSemana});
-                            break;
                           }
                         }
-                      }
-                      self.setState({
-                        SemanaDB:ArrayFgSemana,
-                      });
-                //------------------------------------------------------------------
-              self.CheckIfs(Keys,FechaInicialPromise,FechaFinalPromise,HoraInicialPromise,HoraFinalPromise);
 
+                        self.setState({
+                        SemanaDB:ArrayFgSemana,
+                        });
+                        self.CheckIfs(Keys,FechaInicialPromise,FechaFinalPromise,HoraInicialPromise,HoraFinalPromise);
+
+                        //------------------------------------------------------------------
+                      }
+                      else{
+                self.CheckIfs(Keys,FechaInicialPromise,FechaFinalPromise,HoraInicialPromise,HoraFinalPromise);
+              }
             }
           )
   }
@@ -415,6 +422,9 @@ if(self.state.user==Keys[i]){
 
 
     CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
+
+      if(fechaInicialDB!=null||fechaInicialDB!=undefined){
+
       var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
       var date = new Date(estimatedServerTimeMs);
       let yearSystem = date.getFullYear();
@@ -424,7 +434,6 @@ if(self.state.user==Keys[i]){
       let key2;
       var dW = date.getDay();
       let WeekDay=["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
-
 
       let minuteSystem =date.getMinutes();
       for (var i = 0; i < key.length; i++) {
@@ -440,10 +449,15 @@ if(self.state.user==Keys[i]){
         let horaFinaDB = horaFinalDB[i].split(":")[0];
         let minutoFinalDB = horaFinalDB[i].split(":")[1];
 //-------------------------------------------------------- empieza algoritmo que checa el lapso de programadas
-for (var i = 0; i < this.state.SemanaDB.length; i++) {
+if(this.state.SemanaDB==""){
+  this.setState({
+  SemanaDB:WeekDay[dW]
 
-    console.log(WeekDay[dW]+"  "+this.state.SemanaDB[i].original);
-      if(WeekDay[dW]==this.state.SemanaDB[i].original){
+  });
+}
+for (var i = 0; i < this.state.SemanaDB.length; i++) {
+      console.log(WeekDay[dW]+"="+this.state.SemanaDB)
+      if(WeekDay[dW]==this.state.SemanaDB||WeekDay[dW]==this.state.SemanaDB[i].original){
         if(yearSystem>anoInicialDB&&yearSystem<anoFinalDB){
           key2=key[i];
           this.setState({
@@ -493,7 +507,8 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
                  }
 
 
-               else if (monthSystem==mesInicialDB) {
+               else if (monthSystem==mesInicialDB)
+               {
 
                    if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
                      key2=key[i];
@@ -520,7 +535,8 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
 
                  }
 
-                   else if (monthSystem==mesFinalDB) {
+                   else if (monthSystem==mesFinalDB)
+                   {
 
 
                        if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
@@ -547,12 +563,14 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
                  }
 
        }
-       else if (yearSystem==anoInicialDB) {
-         if(monthSystem>mesInicialDB&&yearSystem<anoFinalDB){
-           key2=key[i];
-           this.setState({
-           keyProgramado:key2,
-           keyActiva:true,
+       else if (yearSystem==anoInicialDB)
+       {
+          if(monthSystem>mesInicialDB&&yearSystem<anoFinalDB)
+          {
+                key2=key[i];
+                this.setState({
+                keyProgramado:key2,
+                keyActiva:true,
 
            });
            this.algoritmProga();
@@ -560,13 +578,14 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
          }
          else if(monthSystem==mesInicialDB && monthSystem==mesFinalDB){
 
-             if(daySystem>diaInicialDB&&daySystem<diaFinalDB){
-               key2=key[i];
-               this.setState({
-               keyProgramado:key2,
-               keyActiva:true,
+             if(daySystem>diaInicialDB&&daySystem<diaFinalDB)
+              {
+                  key2=key[i];
+                  this.setState({
+                  keyProgramado:key2,
+                  keyActiva:true,
 
-               });
+                  });
                this.algoritmProga();
 
              }
@@ -740,6 +759,10 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
 
      }
      this.algoritmProga();
+   }
+     else{
+        this.algoritmProga();
+     }
    }
 
   ViewsGenerales(){
