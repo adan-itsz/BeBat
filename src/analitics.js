@@ -40,6 +40,7 @@ function getUltimoDiaMes(mes, ano){
           return 28;
   }
 }
+
 function datosAnio(viewsMes,viewsMesUsuario){
   var views=viewsMes;
   var viewVacio=[0];
@@ -102,6 +103,7 @@ function datosAnio(viewsMes,viewsMesUsuario){
   };
   return dataano;
 }
+
 function label(){
     var date1 = new Date();
   var labelsDias=[];
@@ -111,6 +113,7 @@ function label(){
   }
   return labelsDias
 }
+
 function adecuarArray(datos,arrayDias){
   var datosFinales=[];
   var aux;
@@ -229,10 +232,23 @@ const datasemana = {
   ]
 };
 
+const AddPropsToRoute = ( WrappedComponent , passedProps) =>{
+  return(
+    class Route extends Component {
+      render() {
+        let prop = passedProps;
+        return <WrappedComponent mes={prop} />
+      }
+    }
+  )
+}
+
 class dist extends Component{
   constructor(){
     super()
     ban=0;
+    var date = new Date();
+    var mm = date.getMonth()+1;
     this.state={
       hombres:0,
       mujeres:0,
@@ -241,9 +257,10 @@ class dist extends Component{
       ipad:0,
       ipod:0,
       value: 1,
-      meses:["Enero","Febrero","Marzo", "Abrir","Mayo","Junio","Julio","Agosto","Septiembre","Octubre", "Noviembre", "Diciembre"],
+      meses:["Enero","Febrero","Marzo", "Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre", "Noviembre", "Diciembre"],
       mesesBase:["01","02","03","04","05","06","07","08","09","10","11","12"],
-      mesActivo:"",
+      mesActivo:mm,
+      value:mm-1,
     }
 
   }
@@ -284,6 +301,7 @@ class dist extends Component{
       }
     )
   }
+
 
   obtenerDispositivos(){
     var user = firebase.auth().currentUser;
@@ -334,10 +352,9 @@ class dist extends Component{
         return(
           <div id="analitics">
             <div id="grafica">
-               <Route exact path="/AppWeb/analitics" component={datames1}/>
+               <Route exact path="/AppWeb/analitics" component={AddPropsToRoute(datames1,this.state.mesActivo)}/>
                <Route path="/AppWeb/analitics/año" component={dataano1}/>
                <Route path="/AppWeb/analitics/mes" component={datames1}/>
-               <Route path="/AppWeb/analitics/semana" component={datasemana1}/>
             </div>
             <h2>Filtrar por: </h2>
               <ul id="analitics-time">
@@ -359,7 +376,6 @@ class dist extends Component{
                     }
                   </DropDownMenu>
                 </li>
-                <li><Link to="/AppWeb/analitics/semana" className="time">Semana</Link></li>
               </ul>
             <div className={'my-pretty-chart-container'}>
               <Chart
@@ -542,9 +558,8 @@ class dataano1 extends Component{
    return (
      <div>
        <h2>Visitas</h2>
-       <Line data={datosAnio(this.state.valores,this.state.valoresUsuario)} width={500}
- height={300} />
-</div>
+       <Line data={datosAnio(this.state.valores,this.state.valoresUsuario)} width={500} height={300} />
+     </div>
    );
  }
 }
@@ -554,83 +569,112 @@ class datames1 extends Component{
 
     this.state={
       dias:[],
-      valores:[]
+      valores:[],
+      saludo: "hola",
     }
     ban=0;
-
   }
 
-componentWillMount(){
-  var date = new Date();
-  var h = this.addZero(date.getHours());
-  var m = this.addZero(date.getMinutes());
-  var s = this.addZero(date.getSeconds());
-  var hora = h + ":" + m + ":" + s;
+  componentWillMount(){
+    var date = new Date();
+    var h = this.addZero(date.getHours());
+    var m = this.addZero(date.getMinutes());
+    var s = this.addZero(date.getSeconds());
+    var hora = h + ":" + m + ":" + s;
 
-  var dd = date.getDate();
-  var mm = date.getMonth()+1;
-  var yy = date.getFullYear();
+    var dd = date.getDate();
+    var mm = this.props.mes;
+    var yy = date.getFullYear();
 
-  if(dd<10) {
-    dd = '0'+dd
-  }
-
-  if(mm<10) {
-    mm = '0'+mm
-  }
-
-  let self=this;
-  var user = firebase.auth().currentUser;
-  var inicio=0;
-  var bandera=false;
-  var remplazo=`${user.email}`.split('.').join('-');
-  var refDB=ref.child("Clientes/"+remplazo+"/historialViews"+"/"+yy+"/"+mm);
-  var refDBTiempoReal=ref.child("Clientes/"+remplazo+"/viewsDiaEnCurso");
-  var arrayValores=[];
-  var arrayDias=[];
-  var diaInicial;
-  var promise=new Promise(
-    function(resolve,reject){
-  refDB.on('value', snapshot=> {
-    snapshot.forEach(function(child){
-    if(!bandera){
-      inicio=child.val().dia;
-      bandera=true;
+    if(dd<10) {
+      dd = '0'+dd
     }
-    arrayValores=arrayValores.concat(child.val().visitasDia);
-    arrayDias=arrayDias.concat(child.val().dia);
-  })
-  });
-  refDBTiempoReal.on('value',datos=>{
-    var valu=datos.val().visitas;
-    var valDia=datos.val().dia;
 
-    resolve(
-      arrayValores=arrayValores.concat(valu),
-      arrayDias=arrayDias.concat(valDia),
-      diaInicial=inicio
-  );
-  });
-})//end promise
-promise.then(
-  function(){
-    self.setState({
-      valores:arrayValores,
-      dias:arrayDias,
-      diaInicio:diaInicial
-    })
-    self.usuariosRegistrados();
+    let self=this;
+    var user = firebase.auth().currentUser;
+    var inicio=0;
+    var bandera=false;
+    var remplazo=`${user.email}`.split('.').join('-');
+    var refDB=ref.child("Clientes/"+remplazo+"/historialViews"+"/"+yy+"/"+mm);
+    var refDBTiempoReal=ref.child("Clientes/"+remplazo+"/viewsDiaEnCurso");
+    var arrayValores=[];
+    var arrayDias=[];
+    var diaInicial;
+      var promise=new Promise(
+        function(resolve,reject){
+      refDB.on('value', snapshot=> {
+        if (snapshot.exists()){
+          console.log(snapshot.val());
+          snapshot.forEach(function(child){
+          if(!bandera){
+            inicio=child.val().dia;
+            bandera=true;
+          }
+          resolve(
+
+            arrayValores=child.exists() ? arrayValores.concat( child.val().visitasDia) :[] ,
+            arrayDias= child.exists() ? arrayDias.concat(child.val().dia) :[],
+          )
+        })
+        }
+        else{
+          resolve(
+            arrayValores=[]
+          )
+        }
+
+      });
+      })//end promise
+      promise.then(
+        function(){
+          self.getActualMonthData(refDBTiempoReal,arrayValores,arrayDias,diaInicial,inicio)
+        }
+      )
   }
-)
-}
 
-addZero(i) {
+  getActualMonthData(refDBTiempoReal,arrayValores,arrayDias,diaInicial,inicio){
+    let self = this;
+    var promise = new Promise(
+      function(resolve, reject){
+        refDBTiempoReal.on('value',datos=>{
+
+          var valu=datos.val().visitas;
+          var valDia=datos.val().dia;
+          var mesDiaActual=datos.val().mes;
+          let mesProp = self.props.mes;
+          if(mesDiaActual == mesProp){
+            resolve(
+              arrayValores=arrayValores.concat(valu),
+              arrayDias=arrayDias.concat(valDia),
+              diaInicial=inicio
+          );
+        }else{
+            resolve();
+        }
+
+        });
+      }
+    )
+    promise.then(
+      function(){
+        self.setState({
+          valores:arrayValores,
+          dias:arrayDias,
+          diaInicio:diaInicial
+        })
+        self.usuariosRegistrados();
+      }
+    )
+  }
+
+  addZero(i) {
   if (i < 10) {
     i = "0" + i;
   }
   return i;
 }
-usuariosRegistrados(){
+
+  usuariosRegistrados(){
   var date = new Date();
   var h = this.addZero(date.getHours());
   var m = this.addZero(date.getMinutes());
@@ -638,7 +682,7 @@ usuariosRegistrados(){
   var hora = h + ":" + m + ":" + s;
 
   var dd = date.getDate();
-  var mm = date.getMonth()+1;
+  var mm =  this.props.mes;
   var yy = date.getFullYear();
 
   if(dd<10) {
@@ -679,8 +723,8 @@ usuariosRegistrados(){
       arrayValoresUsuario=arrayValoresUsuario.concat(valu),
       arrayDiasUsuario=arrayDiasUsuario.concat(valDia),
       diaInicialUsuario=inicio
-  );
-  });
+    );
+    });
   })//end promise
   promise.then(
   function(){
@@ -695,26 +739,15 @@ usuariosRegistrados(){
 }
 
 
- render() {
+  render() {
    return (
      <div>
        <h2>Visitas</h2>
        <Line data={datosPorDia(this.state.diaInicio,this.state.valores, this.state.dias,  this.state.diaInicioUsuario,this.state.valoresUsuario,this.state.diasUsuario)} width={500}
- height={300} />
-</div>
-   );
- }
+     height={300} />
+    </div>
+     );
+   }
 }
-class datasemana1 extends Component{
 
- render() {
-   return (
-     <div>
-       <h2>Visitas</h2>
-       <Line data={datasemana} width={500}
- height={300} />
-</div>
-   );
- }
-}
 export default dist;

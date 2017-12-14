@@ -120,7 +120,7 @@ const googleLoginComponent = {
  }
 
 class Child extends Component {
-
+ //guarda los usuarios en un arreglo
   constructor({match}){
     super()
     this.state={
@@ -167,41 +167,45 @@ class Child extends Component {
                  }//fuction de promise.them
                )//promise/them nombre de clientes
   }
+
+  //Hace petición a la base de datos para obtener fecha y hora actual
   CheckUser(self,Keys){
-  for (var i = 0; i < Keys.length; i++) {
+    for (var i = 0; i < Keys.length; i++) {
 
-if(self.state.user==Keys[i]){
-   this.logo();
-    var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-    var self=this;
-    var offset;
-    var promise = new Promise(
-      function(resolve,reject){
-        offsetRef.on("value", snapshot =>{
-            resolve(
-              offset = snapshot.val(),
-            )
-        });
-      }
-    )
-    promise.then(
-      function(offset){
-        self.setState({
-          estadoffset:offset,
-        })
+    if(self.state.user==Keys[i]){
+       this.logo();
+        var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+        var self=this;
+        var offset;
+        var promise = new Promise(
+          function(resolve,reject){
+            offsetRef.on("value", snapshot =>{
+                resolve(
+                  offset = snapshot.val(),
+                )
+            });
+          }
+        )
+        promise.then(
+          function(offset){
+            self.setState({
+              estadoffset:offset,
+            })
 
-        self.SlidesProgramados();
-        self.ViewsGenerales()
+            self.SlidesProgramados();
+            self.ViewsGenerales()
 
-      }
-    )//promise.then tiempo
-   }//lave de if
-   else{
+          }
+        )//promise.then tiempo
+       }//lave de if
+       else{
 
-   }
+       }
 
-  } // llave del for
-}
+      } // llave del for
+  }
+
+  //Guarda en un state(arreglo) fecha inicial && fecha final, hora inicial && hora final desde la BD
   SlidesProgramados(){
             let self=this;
             var refDB=ref.child("Clientes/"+`${this.state.user}`+"/Programadas");// +"/Programadas"
@@ -236,6 +240,7 @@ if(self.state.user==Keys[i]){
           promise.then(
             function(){
               //Dias de la semana---------------------------------------------------
+              //Mete en un string los días en los que está programada la promo
                 var StringNSemana="";
                 var ArrayFgSemana=[];
                 if(ArraySemana!=undefined)
@@ -272,110 +277,109 @@ if(self.state.user==Keys[i]){
             }
           )
   }
+
   algoritmProga(){
+    //Obtiene datos del slide programado si hay alguna programada
     if(this.state.keyProgramado!=""){
-    var recibirArray;
-    var titulo;
-    var fecha;
-    var notas;
-    var ArraySemana;
-    let promoEspecial;
-    let self =this;
-    var p1=new Promise (
-      function(resolve, reject){
-    var refDB=ref.child("Clientes/"+`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
-    refDB.on('value', snapshot=> {
-      console.log(snapshot.val());
-        resolve(promoEspecial = snapshot.val().especial,
-                recibirArray=snapshot.val().historial,
-                titulo=snapshot.val().nombreSlide,
-                fecha =snapshot.val().fecha,
-                notas = snapshot.val().notas,
-                )
-      });
-    });
-    p1.then(
-      function(){
-
-        document.title=titulo;
-      var StringN="";
-      var ArrayFg=[];
-      for (var i = 0; i < recibirArray.length; i++) {
-              if(recibirArray[i] =='~'){
-                for (var j = i+1; j < recibirArray.length; j++) {
-                  if(recibirArray[j]!='~'){
-                    StringN += recibirArray.substring(j,j+1);
-                  }
-                  else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
-                    ArrayFg = ArrayFg.concat({original:StringN});
-
-                    StringN="";
-                  }
-                }
-                if(j==recibirArray.length){
-                  ArrayFg = ArrayFg.concat({original:StringN});
-                  break;
-                }
-              }
-            }
-            self.setState({
-              especial: promoEspecial,
-              arrayActual:ArrayFg,
+      var recibirArray;
+      var titulo;
+      var fecha;
+      var notas;
+      var ArraySemana;
+      let promoEspecial;
+      let self =this;
+      var p1=new Promise (
+        function(resolve, reject){
+          var refDB=ref.child("Clientes/"+`${self.state.user}`+"/Programadas/"+`${self.state.keyProgramado}`);
+          refDB.on('value', snapshot=> {
+            console.log(snapshot.val());
+              resolve(promoEspecial = snapshot.val().especial,
+                      recibirArray=snapshot.val().historial,
+                      titulo=snapshot.val().nombreSlide,
+                      fecha =snapshot.val().fecha,
+                      notas = snapshot.val().notas,
+                      )
             });
+          });
+      p1.then(
+        //Obtener la cadena de url de imagenes separadas por un ~ y mete en un array cada url de imagen
+        function(){
 
-      },
-    );
-
-
-
-  }
-  else{
-
-  var recibirArray;
-  var titulo;
-  let promoEspecial;
-  let self =this;
-
-      var refDB=ref.child("Clientes/"+this.state.user+"/SlideActual");
-      refDB.on('value', snapshot=> {
-        recibirArray=snapshot.val().slideActual;
-        titulo=snapshot.val().nombreSlide;
-        promoEspecial = snapshot.val().especial;
-        this.setState({
-          especial: promoEspecial,
-          slide: titulo,
-        })
-        document.title=titulo;
+          document.title=titulo;
         var StringN="";
         var ArrayFg=[];
         for (var i = 0; i < recibirArray.length; i++) {
-          if(recibirArray[i] =='~'){
-            for (var j = i+1; j < recibirArray.length; j++) {
-              if(recibirArray[j]!='~'){
-                StringN += recibirArray.substring(j,j+1);
+                if(recibirArray[i] =='~'){
+                  for (var j = i+1; j < recibirArray.length; j++) {
+                    if(recibirArray[j]!='~'){
+                      StringN += recibirArray.substring(j,j+1);
+                    }
+                    else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+                      ArrayFg = ArrayFg.concat({original:StringN});
+
+                      StringN="";
+                    }
+                  }
+                  if(j==recibirArray.length){
+                    ArrayFg = ArrayFg.concat({original:StringN});
+                    break;
+                  }
+                }
               }
-              else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
-                ArrayFg = ArrayFg.concat({original:StringN});
-                StringN="";
+              self.setState({
+                especial: promoEspecial,
+                arrayActual:ArrayFg,
+              });
+
+        },
+      );
+    }
+    //Si no hay una programada pone la promo default
+      else{
+
+        var recibirArray;
+        var titulo;
+        let promoEspecial;
+        let self =this;
+
+            var refDB=ref.child("Clientes/"+this.state.user+"/SlideActual");
+            refDB.on('value', snapshot=> {
+              recibirArray=snapshot.val().slideActual;
+              titulo=snapshot.val().nombreSlide;
+              promoEspecial = snapshot.val().especial;
+              this.setState({
+                especial: promoEspecial,
+                slide: titulo,
+              })
+              document.title=titulo;
+              var StringN="";
+              var ArrayFg=[];
+              for (var i = 0; i < recibirArray.length; i++) {
+                if(recibirArray[i] =='~'){
+                  for (var j = i+1; j < recibirArray.length; j++) {
+                    if(recibirArray[j]!='~'){
+                      StringN += recibirArray.substring(j,j+1);
+                    }
+                    else if (recibirArray[j]=='~'&&j!=0||j+1==recibirArray.length) {
+                      ArrayFg = ArrayFg.concat({original:StringN});
+                      StringN="";
+                    }
+                  }
+                  if(j==recibirArray.length){
+                    ArrayFg = ArrayFg.concat({original:StringN});
+                    break;
+                  }
+                }
               }
-            }
-            if(j==recibirArray.length){
-              ArrayFg = ArrayFg.concat({original:StringN});
-              break;
-            }
-          }
-        }
 
-        this.setState({
-          arrayActual:ArrayFg,
-        })
-      });
-}
-
-
-
+              this.setState({
+                arrayActual:ArrayFg,
+              })
+            });
+    }
   }
 
+  //Checa la hora actual y revisa si existe alguna programada
   checarHora(key2,HoraA,HoraI,HoraF,MinutoA,MinutoI,MinutoF){
     if(HoraA>HoraI &&HoraA<HoraF ){
       this.setState({
@@ -420,8 +424,8 @@ if(self.state.user==Keys[i]){
 
   }
 
-
-    CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
+  //Revisa que día y hora está programado el flyer y lo pone en el view con la programación correcta
+  CheckIfs(key,fechaInicialDB,fechaFinalDB,horaInicialDB,horaFinalDB){
 
       if(fechaInicialDB!=null||fechaInicialDB!=undefined){
 
@@ -449,24 +453,24 @@ if(self.state.user==Keys[i]){
         let horaFinaDB = horaFinalDB[i].split(":")[0];
         let minutoFinalDB = horaFinalDB[i].split(":")[1];
 //-------------------------------------------------------- empieza algoritmo que checa el lapso de programadas
-if(this.state.SemanaDB==""){
-  this.setState({
-  SemanaDB:WeekDay[dW]
+      if(this.state.SemanaDB==""){
+        this.setState({
+        SemanaDB:WeekDay[dW]
 
-  });
-}
-for (var i = 0; i < this.state.SemanaDB.length; i++) {
-      console.log(WeekDay[dW]+"="+this.state.SemanaDB)
-      if(WeekDay[dW]==this.state.SemanaDB||WeekDay[dW]==this.state.SemanaDB[i].original){
-        if(yearSystem>anoInicialDB&&yearSystem<anoFinalDB){
-          key2=key[i];
-          this.setState({
-          keyProgramado:key2,
-          keyActiva:true,
+        });
+      }
+      for (var i = 0; i < this.state.SemanaDB.length; i++) {
+            console.log(WeekDay[dW]+"="+this.state.SemanaDB)
+            if(WeekDay[dW]==this.state.SemanaDB||WeekDay[dW]==this.state.SemanaDB[i].original){
+              if(yearSystem>anoInicialDB&&yearSystem<anoFinalDB){
+                key2=key[i];
+                this.setState({
+                keyProgramado:key2,
+                keyActiva:true,
 
-          });
-          this.algoritmProga();
-        }
+                });
+                this.algoritmProga();
+              }
        else if (yearSystem==anoInicialDB&&yearSystem==anoFinalDB) {
 
                  if(monthSystem>mesInicialDB&& monthSystem < mesFinalDB){
@@ -764,7 +768,7 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
         this.algoritmProga();
      }
    }
-
+  //Obtiene views sin necesidad de registro
   ViewsGenerales(){
     var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
     var date=new Date(estimatedServerTimeMs);
@@ -772,8 +776,6 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
     var m = this.addZero(date.getMinutes());
     var s = this.addZero(date.getSeconds());
     var hora = h + ":" + m + ":" + s;
-
-
         var dd = date.getDate();
         var mm = date.getMonth()+1;
         var yy = date.getFullYear();
@@ -877,6 +879,7 @@ for (var i = 0; i < this.state.SemanaDB.length; i++) {
     /////////////////////
   }
 
+//Obtiene el nombre o tipo de dispositivo al que te estás conectando
 isMobile(){
     return (
         (navigator.userAgent.match(/Android/i)) ||
@@ -887,7 +890,7 @@ isMobile(){
     );
 }
 
-
+//pone el logo cargado por el usuario, si no hay muestra un logo por defecto
   logo(){
     var userDB = this.state.user;
     var self = this;
@@ -918,12 +921,15 @@ isMobile(){
     );
   }
 
+  //añade 0 a las fechas
   addZero(i) {
     if (i < 10) {
       i = "0" + i;
     }
     return i;
   }
+
+//Obtiene el numero de usuarios loggeados, los actualiza y sube a la BD
   usuariosLogeados(){
     var estimatedServerTimeMs = new Date().getTime() + this.state.estadoffset;
     var date=new Date(estimatedServerTimeMs);
@@ -1004,33 +1010,8 @@ isMobile(){
 
     }
 
-
-  onSuccess(response) {
-    this.setState({
-      loggedIn: true,
-    });
-    var sistema=this.isMobile();
-    var device=sistema[0];
-    var refUsuarios=ref.child("Clientes/"+`${this.state.user}`+"/usuarios");
-    var users=refUsuarios.push();
-    users.set({
-
-      nombre:response.profileObj.name,
-      id:response.profileObj.googleId,
-      email:response.profileObj.email,
-      promocion:this.state.slide,
-      horaEntrada: this.state.horaEntrada,
-      fechaEntrada: this.state.fechaEntrada,
-      dispositivo:device
-    });
-    scroll.scrollToBottom();
-    this.usuariosLogeados();
-  }
-
-  onSelect = (active,direction)=>{
-    console.log(`active=${active} && direction=${direction}`);
-  }
-
+  
+//Obtiene datos del usuario registrado por el API de FB
   handleResponse = (data) => {
     var self=this;
     var sistema=self.isMobile();
@@ -1124,16 +1105,6 @@ isMobile(){
                 </Button>
               </Login>
             </FacebookProvider>
-          </div>
-          <div id='google-button' style={socialButtonGoogle}>
-            <Google style={socialIcon}/>
-            <GoogleLogin
-              clientId="96640824865-fo9njpobpb72qq0qjpul344p8mdb82gf.apps.googleusercontent.com"
-              buttonText={"Ingresa con Google"}
-              onSuccess={this.onSuccess.bind(this)}
-              onFailure={this.onSuccess}
-              style={googleLoginComponent}
-            />
           </div>
         </div>
         <div>
