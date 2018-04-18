@@ -514,7 +514,7 @@ class Child extends Component {
                else if (monthSystem==mesInicialDB)
                {
 
-                   if(daySystem>diaInicialDB&&monthSystem<mesFinalDB){
+                   if(daySystem>diaInicialDB&&monthSystem<mesFinalDB||daySystem>=diaInicialDB&&monthSystem<mesFinalDB){
                      key2=key[i];
                      this.setState({
                      keyProgramado:key2,
@@ -524,6 +524,7 @@ class Child extends Component {
                      this.algoritmProga();
 
                    }
+
                    else if(daySystem==diaInicialDB&&daySystem==diaFinalDB) {
                      this.checarHora(key[i],hourSystem,horaIniciaDB,horaFinaDB,minuteSystem,minutosInicialDB,minutoFinalDB);
 
@@ -948,6 +949,7 @@ isMobile(){
     var valor;
     var dia;
     var mes;
+    var self = this;
     var ano;
     var refUsersRegistradosDiaActual=ref.child("Clientes/"+`${this.state.user}`+"/RegistradosViewsActual");
     var promise=new Promise(
@@ -1010,7 +1012,7 @@ isMobile(){
 
     }
 
-  
+
 //Obtiene datos del usuario registrado por el API de FB
   handleResponse = (data) => {
     var self=this;
@@ -1087,7 +1089,7 @@ isMobile(){
         <div id='view-buttons'>
           <h2 id='view-title'>
             ¡OBTÉN TU
-            <span id='view-title-exclusiva'> CUPÓN</span>
+            <span id='view-title-exclusiva'> Sticker</span>
 
             !
           </h2>

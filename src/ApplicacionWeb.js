@@ -4,6 +4,7 @@ import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 import PromoActiva from './promoActiva.js';
 import SubirPromo from './subirPromo.js';
 import HistorialPromos from './historial.js';
+import HistorialProgramadas from './historialProgramadas.js';
 import Analitics from './analitics.js';
 import './ApplicacionWeb.css';
 import Actual from 'react-icons/lib/fa/map-marker'
@@ -184,6 +185,7 @@ handleClose = () => {
            <li><Link to="/AppWeb"><span className="logoActual"><Actual size='25'/><p className='navOptions'>PROMOCION ACTUAL</p></span></Link></li>
            <li><Link to="/AppWeb/subir-promo"><span className="logoSubir"><Subir size='25'/><p className='navOptions'>SUBIR PROMOCION</p></span></Link></li>
            <li><Link to="/AppWeb/historial-promos"><span className="logoHistorial"><Calendar size='25'/><p className='navOptions'>HISTORIAL</p></span></Link></li>
+           <li><Link to="/AppWeb/historial-programadas"><span className="logoHistorial"><Calendar size='25'/><p className='navOptions'>HISTORIAL PROGRAMADAS</p></span></Link></li>
            <li><Link to="/AppWeb/analitics"><span className="logoAnalitics"><Anali size='25'/><p className='navOptions'>ANALITICS</p></span></Link></li>
          </ul>
          <div id='salirPromo'>
@@ -194,6 +196,7 @@ handleClose = () => {
         <Route exact path="/AppWeb" component={PromoActiva} />
         <Route path="/AppWeb/subir-promo" component={SubirPromo} />
         <Route path="/AppWeb/historial-promos" component={HistorialPromos} />
+        <Route path="/AppWeb/historial-programadas" component = {HistorialProgramadas}/>
         <Route path="/AppWeb/analitics" component={Analitics} />
           </div>
             </div>
