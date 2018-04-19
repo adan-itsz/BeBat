@@ -1,75 +1,256 @@
-import React, { Component,PropTypes } from 'react';
-import { Grid, Navbar, Jumbotron, Button } from 'react-bootstrap';
-import {  BrowserRouter as Router,  Route,  Link,Redirect,withRouter} from 'react-router-dom'
-import { browserHistory } from 'react-router';
-import './App.css';
-import SideBar from './nav.js';
-import Nosotros from './nosotros.js'
-import hablemos from './hablemos.png';
-import Login from './login.js';
-import Servicios from './servicios.js';
-import Registro from './registrarse.js'
-import Contacto from './contacto.js';
-import * as firebase from 'firebase';
-import ReactVideo from 'react.video';
-import Typing from 'react-typing-animation'
-import logo from './logobebatwhite.png'
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './grid.css';
+import './index.css';
+import mac from './maclaptop.png'
 
-const AnimatedTypingComponent = () => (
-  <Typing loop={true} className="type">
-    <span>BeBat</span>
-    <Typing.Reset count={1} delay={800} />
-    <span>Más Clientes.</span>
-    <Typing.Reset count={1} delay={800} />
-    <span>Más Alcance.</span>
-    <Typing.Reset count={1} delay={800} />
-  </Typing>
-);
+//icons
+import FaHeart from 'react-icons/lib/fa/heart';
+import FaPaperPlaneO from 'react-icons/lib/fa/paper-plane-o';
+import GoGift from 'react-icons/lib/go/gift';
+import GoLightBulb from 'react-icons/lib/go/light-bulb';
 
-  var ban=true;
-class App extends React.Component {
-    render() {
-        return (
-          <div id="portada">
-            <div id="encabezado">
-              <div className="container-fluid">
-                  <SideBar />
-                  {this.props.children}
-              </div>
+//icons social-media
+import FaFacebook from 'react-icons/lib/fa/facebook';
+import FaGooglePlus from 'react-icons/lib/fa/google-plus';
+import FaTwitter from 'react-icons/lib/fa/twitter';
 
-              <Link to="/AppWeb" id='ingresar' href="#myModal" >Ingresar</Link>
-              <div id="logobe">
-                 <img src={logo}/>
-              </div>
-            <AnimatedTypingComponent />
-            <div class="video-container">
-                 <video id="background-video" autoPlay loop muted>
-                        <source src="bebat-web-2.mp4" type="video/mp4; "/>
-                    </video>
-                </div>
+class Header extends Component{
+  render(){
+    return(
+      <div className="header-div">
+
+        <header>
+        <nav>
+          <div className="row">
+            <ul className="main-nav">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Nosotros</a></li>
+              <li><a href="#">¿Como funciona?</a></li>
+              <li><a href="#">Comenzar</a></li>
+            </ul>
           </div>
-          <div id="seccion-nosotros">
-              <Nosotros />
+        </nav>
+          <div className="hero-text-box">
+            <h1>Bebat</h1>
+            <a className="btn btn-full" href="#">Ingresar</a>
           </div>
-          <div id="seccion-funciona">
-            <Servicios/>
-          </div>
-          <div id="seccion-registro">
-            <Registro />
-          </div>
-          <div id="seccion-contacto">
-            <Contacto />
-          </div>
-        </div>
-
-
-
-        );
-    }
+        </header>
+      </div>
+    )
+  }
 }
 
-App.propTypes = {
-    children: PropTypes.object.isRequired
-};
+class SectionWhy extends Component{
+  render(){
+    return(
+      <div className="section-why">
+        <section>
+          <div className="row">
+            <h2>¿Por qué usar BeBat?</h2>
+            <p className="long-copy">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Praesent dictum sit amet purus a posuere.
+              Fusce sollicitudin tellus et pulvinar congue.
+              Proin sed viverra nisl. Proin tincidunt dui ac maximus vestibulum.
+            </p>
+            </div>
+            <div className="row">
+              <div className="col span_1_of_2 box">
+                <FaHeart />
+                <h3>Crea experiencias unicas.</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
+                </p>
+              </div>
+              <div className="col span_2_of_2 box">
+                <FaPaperPlaneO/>
+                <h3>Envía información relevante.</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
+                </p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col span_1_of_2 box">
+                <GoGift/>
+                <h3>Premialos.</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
+                </p>
+              </div>
+              <div className="col span_2_of_2 box">
+                <GoLightBulb/>
+                <h3>Aprende de ellos.</h3>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
+                </p>
+              </div>
+            </div>
+        </section>
+      </div>
+    )
+  }
+}
+
+class PhysicalWeb extends Component {
+  render(){
+    return(
+      <div className="parallax">
+        <section className="web-info">
+          <h3>Physical Web</h3>
+          <p>La Web física es un enfoque abierto para permitir interacciones rápidas y fluidas con objetos físicos y ubicaciones.</p>
+          <a href="#">Quiero saber más</a>
+        </section>
+      </div>
+    )
+  }
+}
+
+class Analytics extends Component{
+  render(){
+    return(
+      <div>
+        <section className="section-steps">
+          <div className="row">
+            <h2>¡Analytics en tiempo real!</h2>
+          </div>
+          <div className="row">
+            <div className="col span_1_of_2 steps-box">
+              <img src={mac} alt="bebat web app on Mac" className="app-screen"/>
+            </div>
+            <div className="col span_2_of_2 steps-box">
+              <div className="works-step">
+                <div>ɱ</div>
+                <p>Lorem ipsum men jusls ipsun alesum demakilo.Lorem ipsum men jusls ipsun alesum demakilo.</p>
+              </div>
+              <div className="works-step">
+                <div>ɮ</div>
+                <p>Lorem ipsum men jusls ipsun alesum demakilo.Lorem ipsum men jusls ipsun alesum demakilo.</p>
+              </div>
+              <div className="works-step">
+                <div>ɲ</div>
+                <p>Lorem ipsum men jusls ipsun alesum demakilo.Lorem ipsum men jusls ipsun alesum demakilo.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
+}
+
+class Contact extends Component {
+  render(){
+    return(
+      <div>
+        <section className="section-form">
+          <div className="row">
+            <h2>Contactanos</h2>
+          </div>
+          <div className="row">
+            <form method="post" action="#" className="contact-form">
+              <div className="row">
+                <div className="col span_1_of_3">
+                  <label for="nombre">Nombre:</label>
+                </div>
+                <div className="col span_2_of_3">
+                  <input type="text" name="nombre" id="nombre" placeholder="Ex. Jorge Perez Lopez" required/>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col span_1_of_3">
+                  <label for="email">Email:</label>
+                </div>
+                <div className="col span_2_of_3">
+                  <input type="email" name="email" id="email" placeholder="Ex. Jperez@bebat.com" required/>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col span_1_of_3">
+                  <label for="find-us">¿Como nos encontraste?</label>
+                </div>
+                <div className="col span_2_of_3">
+                  <select name="find-us" id="find-us">
+                    <option value="amigos" selected>Amigos</option>
+                    <option value="search">Motor de busqueda(Google, Yahoo, etc.)</option>
+                    <option value="ad">Anuncio</option>
+                    <option value="social">Redes sociales</option>
+                    <option value="other">Otro</option>
+                  </select>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col span_1_of_3">
+                  <label for="message">Escribenos</label>
+                </div>
+                <div className="col span_2_of_3">
+                  <textarea name="message" placeholder="Su mensaje"/>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col span_1_of_3">
+                  <label>&nbsp;</label>
+                </div>
+                <div className="col span_2_of_3">
+                  <input type="submit" name="news" value="Enviar"/>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    )
+  }
+}
+
+class Footer extends Component {
+  render(){
+    return(
+      <div>
+        <footer className="clearfix">
+          <div className="row">
+            <div className="col span_1_of_2">
+              <ul className="footer-nav">
+                <li><a href="#">| Home |</a></li>
+                <li><a href="#">| Nosotros</a></li>
+                <li><a href="#">| ¿Como funciona?</a></li>
+                <li><a href="#">| Comenzar |</a></li>
+              </ul>
+            </div>
+            <div className="col span_2_of_2">
+              <ul className="social-links">
+                <li><a href="#"><FaFacebook/></a></li>
+                <li><a href="#"><FaTwitter/></a></li>
+                <li><a href="#"><FaGooglePlus/></a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="row">
+            <p>
+              Copyright &copy; 2018 by BeBat. Todos los derechos reservados.
+            </p>
+          </div>
+        </footer>
+      </div>
+    )
+  }
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Header/>
+        <SectionWhy />
+        <PhysicalWeb/>
+        <Analytics />
+        <Contact/>
+        <Footer/>
+
+      </div>
+    );
+  }
+}
 
 export default App;

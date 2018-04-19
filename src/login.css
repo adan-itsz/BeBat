@@ -16,9 +16,6 @@
     background-color: #F0EEEE;
 }
 
-.row {
-    padding: 20px 0px;
-}
 .close{
   color: #F5F5FA;
 }
@@ -52,11 +49,6 @@ input {
     border: none;
 }
 
-h2 {
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #ABABAB;
-}
 
 .btn {
     border-radius: 2px;

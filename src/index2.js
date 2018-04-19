@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
-import Registro from './registrarse.js'
 import App from './App'
 import AppWeb from './AppWeb'
-import Nosotros from './nosotros.js'
 import Login from './login'
 import View from './View.js'
 
 import * as firebase from 'firebase';
-import './login.css';
+
 
 
 
@@ -41,7 +39,7 @@ export default class App2 extends Component {
     loading: true,
   }
   componentDidMount () {
-  
+
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user && firebase.auth().currentUser.emailVerified) {
         this.setState({
