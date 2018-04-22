@@ -33,7 +33,7 @@ class Header extends Component{
         </nav>
           <div className="hero-text-box">
             <h1>Bebat</h1>
-            <a className="btn btn-full" href="#">Ingresar</a>
+            <a className="btn btn-full" href="/AppWeb">Ingresar</a>
           </div>
         </header>
       </div>
@@ -58,15 +58,15 @@ class SectionWhy extends Component{
             <div className="row">
               <div className="col span_1_of_2 box">
                 <FaHeart />
-                <h3>Crea experiencias unicas.</h3>
-                <p>
+                <h3>Crea experiencias únicas.</h3>
+                <p className="long-copy">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
                 </p>
               </div>
               <div className="col span_2_of_2 box">
                 <FaPaperPlaneO/>
                 <h3>Envía información relevante.</h3>
-                <p>
+                <p className="long-copy">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
                 </p>
               </div>
@@ -74,8 +74,8 @@ class SectionWhy extends Component{
             <div className="row">
               <div className="col span_1_of_2 box">
                 <GoGift/>
-                <h3>Premialos.</h3>
-                <p>
+                <h3>Prémialos.</h3>
+                <p className="long-copy">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent dictum sit amet purus a posuere.
                 </p>
               </div>
@@ -146,7 +146,7 @@ class Contact extends Component {
       <div>
         <section className="section-form">
           <div className="row">
-            <h2>Contactanos</h2>
+            <h2>Contáctanos</h2>
           </div>
           <div className="row">
             <form method="post" action="#" className="contact-form">
