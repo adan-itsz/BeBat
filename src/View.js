@@ -1088,8 +1088,8 @@ isMobile(){
           onImageLoad={this.handleImageLoad}/>
         <div id='view-buttons'>
           <h2 id='view-title'>
-            ¡OBTÉN TU
-            <span id='view-title-exclusiva'> Sticker</span>
+            ¡CONOCE MIS
+            <span id='view-title-exclusiva'> PROPUESTAS</span>
 
             !
           </h2>
